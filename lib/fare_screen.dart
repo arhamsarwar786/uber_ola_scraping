@@ -89,9 +89,9 @@ class _FareScreenState extends State<FareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(      
       appBar: AppBar(title: Text("Fare Details"),centerTitle: true, ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        fetchFare();
-      },),
+      // floatingActionButton: FloatingActionButton(onPressed: (){
+      //   fetchFare();
+      // },),
       body: isFound ? Center(child: CircularProgressIndicator.adaptive()) : 
       SingleChildScrollView(
         child: Column(
