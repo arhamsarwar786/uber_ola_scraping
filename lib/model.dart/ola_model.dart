@@ -32,41 +32,41 @@ class Data {
     Data({
         this.nextCallAfter,
         this.p2P,
-        this.fareApiParams,
+     
     });
 
     int? nextCallAfter;
     P2P? p2P;
-    FareApiParams? fareApiParams;
+    // FareApiParams? fareApiParams;
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         nextCallAfter: json["nextCallAfter"],
         p2P: P2P.fromJson(json["p2p"]),
-        fareApiParams: FareApiParams.fromJson(json["fareAPIParams"]),
+        // fareApiParams: FareApiParams.fromJson(json["fareAPIParams"]),
     );
 
     Map<String, dynamic> toJson() => {
         "nextCallAfter": nextCallAfter,
         "p2p": p2P!.toJson(),
-        "fareAPIParams": fareApiParams!.toJson(),
+        // "fareAPIParams": fareApiParams!.toJson(),
     };
 }
 
-class FareApiParams {
-    FareApiParams({
-        this.pickupZoneId,
-    });
+// class FareApiParams {
+//     FareApiParams({
+//         this.pickupZoneId,
+//     });
 
-    int? pickupZoneId;
+//     int? pickupZoneId;
 
-    factory FareApiParams.fromJson(Map<String, dynamic> json) => FareApiParams(
-        pickupZoneId: json["pickupZoneId"],
-    );
+//     factory FareApiParams.fromJson(Map<String, dynamic> json) => FareApiParams(
+//         pickupZoneId:   json["pickupZoneId"] ?? null,
+//     );
 
-    Map<String, dynamic> toJson() => {
-        "pickupZoneId": pickupZoneId,
-    };
-}
+//     Map<String, dynamic> toJson() => {
+//         "pickupZoneId": pickupZoneId,
+//     };
+// }
 
 class P2P {
     P2P({
@@ -95,7 +95,7 @@ class Category {
         this.canRideNow,
         this.canRideLater,
         this.needDropLocation,
-        this.zonalPointIds,
+        // this.zonalPointIds,
         this.eta,
     });
 
@@ -104,7 +104,7 @@ class Category {
     bool? canRideNow;
     bool? canRideLater;
     bool? needDropLocation;
-    List<int>? zonalPointIds;
+    // List<int>? zonalPointIds;
     Eta? eta;
 
     factory Category.fromJson(Map<String, dynamic> json) => Category(
@@ -113,7 +113,7 @@ class Category {
         canRideNow: json["canRideNow"],
         canRideLater: json["canRideLater"],
         needDropLocation: json["needDropLocation"],
-        zonalPointIds: List<int>.from(json["zonalPointIds"].map((x) => x)),
+        // zonalPointIds: List<int>.from(json["zonalPointIds"].map((x) => x)),
         eta: Eta.fromJson(json["eta"]),
     );
 
@@ -123,7 +123,7 @@ class Category {
         "canRideNow": canRideNow,
         "canRideLater": canRideLater,
         "needDropLocation": needDropLocation,
-        "zonalPointIds": List<dynamic>.from(zonalPointIds!.map((x) => x)),
+        // "zonalPointIds": List<dynamic>.from(zonalPointIds!.map((x) => x)),
         "eta": eta!.toJson(),
     };
 }

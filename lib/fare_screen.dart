@@ -40,18 +40,21 @@ class _FareScreenState extends State<FareScreen> {
   var uberData = jsonDecode(res.body);
   var olaData = jsonDecode(res1.body);
   var olaDataFare = jsonDecode(res2.body);
-  print(uberData);
     if(uberData['data'] != null){
     data = FareModel.fromJson(uberData);
     }
   
-    if(olaData['data'] != null){
+    if(olaData['error'] == null){
+      print(olaData);
     data1 = OlaModel.fromJson(olaData);
+    print(data1);
     }
-    if(olaDataFare['data'] != null){
+    if(olaDataFare['error'] == null){
     data2 = olaDataFare;
     }
 
+  print(olaData);
+  print(olaDataFare);
    
     } catch (e) {
       print(e);
