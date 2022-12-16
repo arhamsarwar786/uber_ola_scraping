@@ -52,12 +52,13 @@ class _FareScreenState extends State<FareScreen> {
     data2 = olaDataFare;
     }
 
-    setState(() {
-      isFound = false;
-    });
+   
     } catch (e) {
       print(e);
     }
+     setState(() {
+      isFound = false;
+    });
 
   
   }
@@ -73,16 +74,21 @@ class _FareScreenState extends State<FareScreen> {
   fareSpliter(fare){
     var farePrice =  fare.toString().split("â¹");
     print(farePrice);
+    if(farePrice.length > 1){
     return farePrice[1];
+    }else{
+      farePrice =  farePrice[0].split('PKRÂ');
+    return  (farePrice.length > 1) ?farePrice[1] : farePrice[0];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(      
-      appBar: AppBar(title: Text("Uber Fare"),centerTitle: true, ),
-      // floatingActionButton: FloatingActionButton(onPressed: (){
-      //   fetchFare();
-      // },),
+      appBar: AppBar(title: Text("Fare Details"),centerTitle: true, ),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        fetchFare();
+      },),
       body: isFound ? Center(child: CircularProgressIndicator.adaptive()) : 
       SingleChildScrollView(
         child: Column(
