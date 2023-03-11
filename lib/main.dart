@@ -3,6 +3,7 @@ import 'package:uber_scrape/example.dart';
 import 'package:uber_scrape/fare_screen.dart';
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/search_screen.dart';
+import 'package:uber_scrape/showcards_screen.dart';
 import 'package:uber_scrape/splash_screen.dart';
 
 void main() {
@@ -16,11 +17,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.purple
-      ),
-    // home: SearchScreen("demox"),
-    home: SplashScreen(),
+      theme: ThemeData(fontFamily: 'TiltNeon', primarySwatch: Colors.purple),
+      // home: SearchScreen("demox"),
+      home: SplashScreen(),
     );
   }
 }

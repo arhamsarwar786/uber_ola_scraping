@@ -10,11 +10,10 @@ import 'package:uber_scrape/search_screen.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/utils.dart';
 import 'package:uber_scrape/widgets.dart';
+import 'package:icon_forest/icon_forest.dart';
 
-
-  
-  final pickUpController = TextEditingController();
-  final destinationController = TextEditingController();
+final pickUpController = TextEditingController();
+final destinationController = TextEditingController();
 
 // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
@@ -49,39 +48,38 @@ class _MapView extends State<MapView> {
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: Container(
-                      color: Color(0xff757575),
+                      color: const Color(0xff757575),
                       child: Container(
-                        padding: EdgeInsets.all(20.0),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(20.0),
-                                topRight: const Radius.circular(20.0))),
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0))),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
                               specify['stationName'],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   // color: PaletteBlue.hvdblue,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16),
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(specify['stationAddress']),
                             Text(specify['stationZIP'] +
                                 ' ' +
                                 specify['stationCity']),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             ElevatedButton(
-                                child: Text(
+                                child: const Text(
                                   'Navigeer naar locatie',
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
-                                
                                 onPressed: () {
                                   // MapUtils.openMap(
                                   //     specify['stationLocation'].latitude,
@@ -96,7 +94,7 @@ class _MapView extends State<MapView> {
       },
       position: LatLng(specify['stationLocation'].latitude,
           specify['stationLocation'].longitude),
-      infoWindow: InfoWindow(),
+      infoWindow: const InfoWindow(),
       // icon: BitmapDescriptor.fromBytes(markerHvD),
     );
     setState(() {
@@ -121,39 +119,38 @@ class _MapView extends State<MapView> {
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: Container(
-                      color: Color(0xff757575),
+                      color: const Color(0xff757575),
                       child: Container(
-                        padding: EdgeInsets.all(20.0),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(20.0),
-                                topRight: const Radius.circular(20.0))),
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0))),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
                               specify['stationName'],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   // color: PaletteBlue.hvdblue,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16),
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(specify['stationAddress']),
                             Text(specify['stationZIP'] +
                                 ' ' +
                                 specify['stationCity']),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             ElevatedButton(
-                                child: Text(
+                                child: const Text(
                                   'Navigeer naar locatie',
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
-                               
                                 onPressed: () {
                                   // MapUtils.openMap(
                                   //     specify['stationLocation'].latitude,
@@ -168,7 +165,7 @@ class _MapView extends State<MapView> {
       },
       position: LatLng(specify['stationLocation'].latitude,
           specify['stationLocation'].longitude),
-      infoWindow: InfoWindow(),
+      infoWindow: const InfoWindow(),
       // icon: BitmapDescriptor.fromBytes(markerTotal),
     );
     setState(() {
@@ -176,133 +173,175 @@ class _MapView extends State<MapView> {
     });
   }
 
-
-
 // Below function initiates all previous functions on the page. This happens when the user navigates to the page.
 
   void initState() {
-   
     super.initState();
-      getCurrentLocation();
-    
-    
+    getCurrentLocation();
   }
 
-  getCurrentLocation()async{
-   var   location =  await fetchLocation();
-   if(location  == null){
-      
-     setState(() {
-        currentLocation = LatLng(37.8199286, -122.4782551);
+  getCurrentLocation() async {
+    var location = await fetchLocation();
+    if (location == null) {
+      setState(() {
+        currentLocation = const LatLng(37.8199286, -122.4782551);
         _isLocationGranted = true;
       });
-      mapController!.moveCamera(CameraUpdate.newLatLng(const LatLng(37.8199286, -122.4782551))) as CameraPosition;
-   }else{
+      mapController!.moveCamera(
+              CameraUpdate.newLatLng(const LatLng(37.8199286, -122.4782551)))
+          as CameraPosition;
+    } else {
       setState(() {
         currentLocation = location;
         _isLocationGranted = true;
       });
-      mapController!.moveCamera(CameraUpdate.newLatLng(LatLng(currentLocation.latitude, currentLocation.longitude))) as CameraPosition;
-   }
-
+      mapController!.moveCamera(CameraUpdate.newLatLng(
+              LatLng(currentLocation.latitude, currentLocation.longitude)))
+          as CameraPosition;
+    }
   }
 
   CameraPosition _initialCameraPosition =
-      CameraPosition(target: const LatLng(51.9244201, 4.4777325), zoom: 12);
-
+      const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 12);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Stack(
-          children: <Widget>[
-            GoogleMap(
-              onMapCreated: onMapCreated,
-              markers: Set<Marker>.of(markers.values),
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                new Factory<OneSequenceGestureRecognizer>(
-                  () => new EagerGestureRecognizer(),
-                ),
-              ].toSet(),
-              mapToolbarEnabled: false,
-              zoomGesturesEnabled: true,
-              zoomControlsEnabled: false,
-              scrollGesturesEnabled: true,
-              myLocationEnabled: _isLocationGranted,
-              myLocationButtonEnabled: true,
-              initialCameraPosition: _initialCameraPosition,
-            ),
-            Positioned(
-              bottom: 0,
-              child: locationPicker(context,size))
-            ,
-          ],
-        ),
-      )
-   ;
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            onMapCreated: onMapCreated,
+            markers: Set<Marker>.of(markers.values),
+            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+              new Factory<OneSequenceGestureRecognizer>(
+                () => new EagerGestureRecognizer(),
+              ),
+            ].toSet(),
+            mapToolbarEnabled: false,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: false,
+            scrollGesturesEnabled: true,
+            myLocationEnabled: _isLocationGranted,
+            myLocationButtonEnabled: true,
+            initialCameraPosition: _initialCameraPosition,
+          ),
+          Positioned(bottom: 0, child: locationPicker(context, size)),
+        ],
+      ),
+    );
   }
 
-  locationPicker(context,size){
+  locationPicker(context, size) {
     return Container(
       height: 230,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
       color: Colors.white,
       width: size.width,
-      child: Column(children: [
-        InkWell(
-          onTap: (){
-            handlePressButton(context,'pickUp');
-            // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
-          },
-          child: TextField(
-            controller: pickUpController,
-            enabled: false,
-            decoration: InputDecoration(
-              hintText: "Pick Up",
-              border: OutlineInputBorder(
-                
-              )
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              handlePressButton(context, 'pickUp');
+              // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
+            },
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(7, 15, 15, 0),
+              child: TextField(
+                style: const TextStyle(fontSize: 16),
+                controller: pickUpController,
+                enabled: false,
+                decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.accessibility_new,
+                      color: Colors.black,
+                    ),
+                    hintText: "Pick Up",
+                    border: InputBorder.none),
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-         InkWell(
-          onTap: (){
-            // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Destination') ));    
-            handlePressButton(context,'destination');        
-          },
-           child: TextField(
-            controller: destinationController,
-            enabled: false,
-            decoration: InputDecoration(
-              hintText: "Destination",
-              border: OutlineInputBorder(
-                
-              )
+          Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: SizedBox(
+                  height: 20,
+                  child: VerticalDivider(
+                    color: Colors.black,
+                    thickness: 4,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.83,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 0.5,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          InkWell(
+            onTap: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Destination') ));
+              handlePressButton(context, 'destination');
+            },
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(7, 0, 15, 0),
+              child: TextField(
+                style: const TextStyle(fontSize: 16),
+                controller: destinationController,
+                enabled: false,
+                decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.assistant_direction_rounded,
+                      color: Colors.red,
+                    ),
+                    hintText: "Destination",
+                    border: InputBorder.none),
+              ),
             ),
-                 ),
-         ),
-           SizedBox(
-          height: 10,
-        ),
-
-         ElevatedButton(onPressed: (){
-
-          if(GlobalState.pickUpLatLng == null){
-            snackBar(context, "Please! Enter PickUp Address");
-          }else 
-          if(GlobalState.destinationLatLng == null){
-            snackBar(context, "Please! Enter Destination Address");
-          }else{
-            // snackBar(context, 'HIT');
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> FareScreen(pickUp: GlobalState.pickUpLatLng, destination: GlobalState.destinationLatLng ) ));
-          }
-
-         }, child: Text("Check Fare"))
-      ],),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          ElevatedButton.icon(
+            icon: const Icon(Icons.car_repair_outlined),
+            onPressed: () {
+              if (GlobalState.pickUpLatLng == null) {
+                snackBar(context, "Please! Enter PickUp Address");
+              } else if (GlobalState.destinationLatLng == null) {
+                snackBar(context, "Please! Enter Destination Address");
+              } else {
+                // snackBar(context, 'HIT');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FareScreen(
+                            pickUp: GlobalState.pickUpLatLng,
+                            destination: GlobalState.destinationLatLng)));
+              }
+            },
+            // style: ElevatedButton.styleFrom(
+            //   primary: Colors.black, // Background color
+            // ),
+            label: const Text(
+              "Check Drive",
+              // style: TextStyle(fontSize: 15),
+            ),
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ))),
+          ),
+        ],
+      ),
     );
   }
 
@@ -310,4 +349,3 @@ class _MapView extends State<MapView> {
     mapController = controller;
   }
 }
-
