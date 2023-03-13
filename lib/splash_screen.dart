@@ -4,9 +4,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:uber_scrape/map_screen.dart';
 
-
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SplashScreenState createState() => _SplashScreenState();
 }
 
@@ -15,16 +17,14 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> animation;
   late AnimationController controller;
   late Animation colorAnimation;
- 
+
   @override
   void initState() {
     super.initState();
-   
-    Timer(Duration(seconds: 3), () {
+
+    Timer(const Duration(seconds: 3), () {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) =>  MapView() ));
-      
-      
+          .pushReplacement(MaterialPageRoute(builder: (_) => const MapView()));
     });
     super.initState();
     controller =
@@ -38,14 +38,12 @@ class _SplashScreenState extends State<SplashScreen>
     controller.forward();
   }
 
-
   @override
   void dispose() {
     controller.dispose();
     super.dispose();
   }
 
- 
   @override
   Widget build(BuildContext context) {
     return SafeArea(

@@ -17,7 +17,7 @@ class ShowCards extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MapView()),
+                  MaterialPageRoute(builder: (context) => const MapView()),
                 );
               }),
           title: const Padding(
@@ -144,7 +144,6 @@ class ShowCards extends StatelessWidget {
                   ),
                 ),
               ),
-            
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(

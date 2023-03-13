@@ -1,16 +1,16 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
 
+import 'dart:convert';
 import "package:flutter/material.dart";
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:uber_scrape/fare_model.dart';
 import 'package:uber_scrape/model.dart/ola_model.dart';
 import 'package:uber_scrape/utils/credentails.dart';
-import 'package:uber_scrape/utils/utils.dart';
 
 class FareScreen extends StatefulWidget {
   final LatLng? pickUp, destination;
-  const FareScreen({this.pickUp, this.destination});
+  const FareScreen({super.key, this.pickUp, this.destination});
 
   @override
   State<FareScreen> createState() => _FareScreenState();
@@ -26,6 +26,7 @@ class _FareScreenState extends State<FareScreen> {
 
   FareModel? data;
   OlaModel? data1;
+  // ignore: prefer_typing_uninitialized_variables
   var data2;
   bool isFound = false;
 
@@ -47,7 +48,8 @@ class _FareScreenState extends State<FareScreen> {
           Uri.parse(olaURLFare(
               pickUp: widget.pickUp, destination: widget.destination)),
           headers: olaHeader());
-          print(res2.body.toString()+"teishjadkas");
+      // ignore: prefer_interpolation_to_compose_strings
+      print(res2.body.toString() + "teishjadkas");
       var uberData = jsonDecode(res.body);
       var olaData = jsonDecode(res1.body);
       var olaDataFare = jsonDecode(res2.body);
@@ -76,6 +78,7 @@ class _FareScreenState extends State<FareScreen> {
 
   olaFareCalculator(id) {
     var fare = "";
+    // ignore: prefer_interpolation_to_compose_strings
     print(data2.toString() + "testing");
     if (data2['data']['p2p']['categories'][id] != null) {
       fare = data2['data']['p2p']['categories'][id]['price'];
@@ -87,6 +90,7 @@ class _FareScreenState extends State<FareScreen> {
     var farePrice = fare.toString().split("â¹");
     print(farePrice);
     if (farePrice.length > 1) {
+      // ignore: prefer_interpolation_to_compose_strings
       print(farePrice[1].toString() + "arham here");
       return farePrice[1];
     } else {
@@ -112,8 +116,13 @@ class _FareScreenState extends State<FareScreen> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                     SizedBox(height: 20,),
-                          Text("Uber Rides",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Uber Rides",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
                   data == null
                       ? const Center(
                           child: Text("No Ride Found for UBER"),
@@ -299,8 +308,13 @@ class _FareScreenState extends State<FareScreen> {
                             //     ),
                             //   ));
                           }),
-                          SizedBox(height: 30,),
-                          Text("OLA Rides",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "OLA Rides",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
                   data1 == null
                       ? const Center(
                           child: Text("No Ride Found for OLA"),
@@ -313,7 +327,7 @@ class _FareScreenState extends State<FareScreen> {
                             Category tier =
                                 data1!.data!.p2P!.categories![index];
 
-                              return  Padding(
+                            return Padding(
                               padding: const EdgeInsets.fromLTRB(5, 10, 10, 0),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -348,7 +362,8 @@ class _FareScreenState extends State<FareScreen> {
                                           alignment: Alignment.center,
                                           decoration: const BoxDecoration(
                                             image: DecorationImage(
-                                              image: AssetImage("assets/images/olaLogo.png"),
+                                              image: AssetImage(
+                                                  "assets/images/olaLogo.png"),
                                               // image: SvgPicture.asset(
                                               //     'assets/images/olacars.svg'),
                                               fit: BoxFit.cover,
@@ -370,7 +385,8 @@ class _FareScreenState extends State<FareScreen> {
                                               Container(
                                                 decoration:
                                                     const BoxDecoration(),
-                                                child: Text("${tier.displayName}",
+                                                child: Text(
+                                                  "${tier.displayName}",
                                                   style: const TextStyle(
                                                       fontSize: 17,
                                                       fontWeight:
@@ -433,7 +449,7 @@ class _FareScreenState extends State<FareScreen> {
                                       child: Container(
                                         alignment: Alignment.topLeft,
                                         child: Text(
-                                         "${olaFareCalculator(tier.id)}",
+                                          "${olaFareCalculator(tier.id)}",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15),
@@ -444,7 +460,7 @@ class _FareScreenState extends State<FareScreen> {
                                 ),
                               ),
                             );
-                          
+
                             // return Card(
                             //     child: ListTile(
                             //   trailing:

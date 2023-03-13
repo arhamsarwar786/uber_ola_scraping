@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'dart:typed_data';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:uber_scrape/fare_screen.dart';
 import 'package:uber_scrape/search_handler.dart';
-import 'package:uber_scrape/search_screen.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/utils.dart';
 import 'package:uber_scrape/widgets.dart';
-import 'package:icon_forest/icon_forest.dart';
 
 final pickUpController = TextEditingController();
 final destinationController = TextEditingController();
@@ -18,13 +14,17 @@ final destinationController = TextEditingController();
 // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
 class MapView extends StatefulWidget {
+  const MapView({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _MapView createState() => _MapView();
 }
 
 class _MapView extends State<MapView> {
   bool _isLocationGranted = false;
 
+  // ignore: prefer_typing_uninitialized_variables
   var currentLocation;
 
   GoogleMapController? mapController;
@@ -175,6 +175,7 @@ class _MapView extends State<MapView> {
 
 // Below function initiates all previous functions on the page. This happens when the user navigates to the page.
 
+  @override
   void initState() {
     super.initState();
     getCurrentLocation();
@@ -201,7 +202,7 @@ class _MapView extends State<MapView> {
     }
   }
 
-  CameraPosition _initialCameraPosition =
+  final CameraPosition _initialCameraPosition =
       const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 12);
 
   @override
@@ -213,9 +214,10 @@ class _MapView extends State<MapView> {
           GoogleMap(
             onMapCreated: onMapCreated,
             markers: Set<Marker>.of(markers.values),
+            // ignore: prefer_collection_literals
             gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-              new Factory<OneSequenceGestureRecognizer>(
-                () => new EagerGestureRecognizer(),
+              Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer(),
               ),
             ].toSet(),
             mapToolbarEnabled: false,
@@ -234,8 +236,8 @@ class _MapView extends State<MapView> {
 
   locationPicker(context, size) {
     return Container(
-      height: 230,
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+      height: 190,
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       color: Colors.white,
       width: size.width,
       child: Column(
@@ -246,7 +248,7 @@ class _MapView extends State<MapView> {
               // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
             },
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(7, 15, 15, 0),
+              padding: const EdgeInsets.fromLTRB(7, 10, 15, 0),
               child: TextField(
                 style: const TextStyle(fontSize: 16),
                 controller: pickUpController,
@@ -264,12 +266,12 @@ class _MapView extends State<MapView> {
           Row(
             children: [
               const Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
                 child: SizedBox(
                   height: 20,
                   child: VerticalDivider(
-                    color: Colors.black,
-                    thickness: 4,
+                    color: Colors.grey,
+                    thickness: 2.5,
                   ),
                 ),
               ),
@@ -300,7 +302,7 @@ class _MapView extends State<MapView> {
                 enabled: false,
                 decoration: const InputDecoration(
                     icon: Icon(
-                      Icons.assistant_direction_rounded,
+                      Icons.fmd_good_sharp,
                       color: Colors.red,
                     ),
                     hintText: "Destination",
@@ -308,38 +310,138 @@ class _MapView extends State<MapView> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 25,
+          // const SizedBox(
+          //   height: 15,
+          // ),
+          const Spacer(),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    color: Colors.purple[700],
+                    child: const Icon(
+                      Icons.home_sharp,
+                      size: 30.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  width: 110,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(15, 10, 0, 7.5),
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/images/ola_icon_full.png',
+                          ),
+                          radius: 15,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Ola",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  width: 110,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(15, 10, 0, 7.5),
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/images/uber_icon_full.png',
+                          ),
+                          radius: 15,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Uber",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          ElevatedButton.icon(
-            icon: const Icon(Icons.car_repair_outlined),
-            onPressed: () {
-              if (GlobalState.pickUpLatLng == null) {
-                snackBar(context, "Please! Enter PickUp Address");
-              } else if (GlobalState.destinationLatLng == null) {
-                snackBar(context, "Please! Enter Destination Address");
-              } else {
-                // snackBar(context, 'HIT');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FareScreen(
-                            pickUp: GlobalState.pickUpLatLng,
-                            destination: GlobalState.destinationLatLng)));
-              }
-            },
-            // style: ElevatedButton.styleFrom(
-            //   primary: Colors.black, // Background color
-            // ),
-            label: const Text(
-              "Check Drive",
-              // style: TextStyle(fontSize: 15),
-            ),
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ))),
-          ),
+
+          // ElevatedButton.icon(
+          //   icon: const Icon(Icons.car_repair_outlined),
+          //   onPressed: () {
+          //     if (GlobalState.pickUpLatLng == null) {
+          //       snackBar(context, "Please! Enter PickUp Address");
+          //     } else if (GlobalState.destinationLatLng == null) {
+          //       snackBar(context, "Please! Enter Destination Address");
+          //     } else {
+          //       // snackBar(context, 'HIT');
+          //       Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => FareScreen(
+          //                   pickUp: GlobalState.pickUpLatLng,
+          //                   destination: GlobalState.destinationLatLng)));
+          //     }
+          //   },
+          //   // style: ElevatedButton.styleFrom(
+          //   //   primary: Colors.black, // Background color
+          //   // ),
+          //   label: const Text(
+          //     "Check Drive",
+          //     // style: TextStyle(fontSize: 15),
+          //   ),
+          //   style: ButtonStyle(
+          //       shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.all(Radius.circular(10)),
+          //   ))),
+          // ),
         ],
       ),
     );
