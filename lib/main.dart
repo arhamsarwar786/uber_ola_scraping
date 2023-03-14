@@ -5,7 +5,6 @@ import 'package:uber_scrape/example.dart';
 import 'package:uber_scrape/fare_screen.dart';
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/splash_screen.dart';
-import 'package:uber_scrape/bottom_sheet.dart';
 import 'package:uber_scrape/uber_webview.dart';
 // import 'package:uber_scrape/webView.dart';
 
