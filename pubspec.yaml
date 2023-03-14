@@ -43,7 +43,7 @@ dependencies:
   flutter_google_places_hoc081098: ^1.1.0
   uuid:
   icon_forest:
-  sliding_up_panel:
+  webview_flutter: ^2.0.13
 
 dev_dependencies:
   flutter_test:

@@ -1,26 +1,27 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uber_scrape/fare_screen.dart';
 import 'package:uber_scrape/search_handler.dart';
+import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/utils.dart';
+import 'package:uber_scrape/widgets.dart';
 
 final pickUpController = TextEditingController();
 final destinationController = TextEditingController();
 
 // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
-class CustomBottomSheet extends StatefulWidget {
-  const CustomBottomSheet({super.key});
+class DynamicBottomSheet extends StatefulWidget {
+  const DynamicBottomSheet({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _CustomBottomSheet createState() => _CustomBottomSheet();
+  _DynamicBottomSheet createState() => _DynamicBottomSheet();
 }
 
-class _CustomBottomSheet extends State<CustomBottomSheet> {
+class _DynamicBottomSheet extends State<DynamicBottomSheet> {
   bool _isLocationGranted = false;
 
   // ignore: prefer_typing_uninitialized_variables
@@ -239,7 +240,6 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
               ),
             ),
           ),
-          // Spacer(),
           Row(
             children: [
               const Padding(
@@ -287,7 +287,6 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 24, 8, 24),
             child: Row(
@@ -298,11 +297,12 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                     width: 70,
                     height: 45,
                     decoration: BoxDecoration(
+                      // color: Colors.amber,
                       image: const DecorationImage(
                         image: AssetImage('assets/images/bike.png'),
                         fit: BoxFit.fill,
                       ),
-                      color: Colors.white,
+                      // color: Colors.purple,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
@@ -410,11 +410,9 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
               ],
             ),
           ),
-
           const SizedBox(
             height: 10,
           ),
-
           Column(
             children: [
               Row(
@@ -422,8 +420,6 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                   InkWell(
                     onTap: () {},
                     child: Container(
-                      // width: 110,
-                      // height: 60,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                       ),
@@ -461,7 +457,7 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                           width: 190,
                           height: 40,
                           decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 181, 183, 184),
+                            color: Color.fromARGB(255, 218, 210, 231),
                             borderRadius: BorderRadius.all(Radius.circular(13)),
                           ),
                           child: Row(
@@ -477,7 +473,8 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                               const Icon(
                                 Icons.logout_rounded,
                                 size: 18,
-                              )
+                                color: Color.fromARGB(255, 137, 92, 146),
+                              ),
                             ],
                           ),
                         ),
@@ -491,8 +488,6 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                   InkWell(
                     onTap: () {},
                     child: Container(
-                      // width: 110,
-                      // height: 60,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                       ),
@@ -530,7 +525,7 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                           width: 190,
                           height: 40,
                           decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 182, 181, 181),
+                            color: Color.fromARGB(255, 218, 210, 231),
                             borderRadius: BorderRadius.all(Radius.circular(13)),
                           ),
                           child: Row(
@@ -540,14 +535,14 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                               const Text(
                                 "Login to see prices ",
                                 style: TextStyle(
-                                  fontSize: 17,
-                                  color: Color.fromARGB(255, 137, 92, 146)),
-                                
+                                    fontSize: 17,
+                                    color: Color.fromARGB(255, 137, 92, 146)),
                               ),
                               const Icon(
                                 Icons.logout_rounded,
                                 size: 18,
-                              )
+                                color: Color.fromARGB(255, 137, 92, 146),
+                              ),
                             ],
                           ),
                         ),
@@ -561,8 +556,6 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                   InkWell(
                     onTap: () {},
                     child: Container(
-                      // width: 110,
-                      // height: 60,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                       ),
@@ -604,7 +597,7 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                           width: 190,
                           height: 40,
                           decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 182, 181, 181),
+                            color: Color.fromARGB(255, 218, 210, 231),
                             borderRadius: BorderRadius.all(Radius.circular(13)),
                           ),
                           child: Row(
@@ -613,16 +606,15 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
                             children: [
                               const Text(
                                 "Login to see prices ",
-                                
                                 style: TextStyle(
-                                  fontSize: 17,
-                                  color: Color.fromARGB(255, 137, 92, 146)),
-                                ),
-                              
+                                    fontSize: 17,
+                                    color: Color.fromARGB(255, 137, 92, 146)),
+                              ),
                               const Icon(
                                 Icons.logout_rounded,
                                 size: 18,
-                              )
+                                color: Color.fromARGB(255, 137, 92, 146),
+                              ),
                             ],
                           ),
                         ),
@@ -633,7 +625,6 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
               ),
             ],
           ),
-
           const Divider(
             height: 32.5,
             thickness: 0.5,
@@ -641,11 +632,9 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
             endIndent: 0,
             color: Colors.black,
           ),
-
           const SizedBox(
             height: 25,
           ),
-
           Column(
             children: [
               Container(
@@ -664,9 +653,7 @@ class _CustomBottomSheet extends State<CustomBottomSheet> {
               ),
             ],
           ),
-
           const Spacer(),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
