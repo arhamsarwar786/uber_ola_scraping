@@ -5,11 +5,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber_scrape/fare_screen.dart';
 import 'package:uber_scrape/search_handler.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
+import 'package:uber_scrape/utils/panel_widget.dart';
 import 'package:uber_scrape/utils/utils.dart';
 import 'package:uber_scrape/widgets.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 final pickUpController = TextEditingController();
 final destinationController = TextEditingController();
+
+List cars = [
+  {'id': 0, 'name': 'Select a Ride', 'price': 0.0},
+  {'id': 1, 'name': 'Uber Go', 'price': 230.0},
+  {'id': 2, 'name': 'Go Sedan', 'price': 300.0},
+  {'id': 3, 'name': 'Uber XL', 'price': 500.0},
+  {'id': 4, 'name': 'Uber Auto', 'price': 140.0},
+];
 
 // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
@@ -23,6 +33,9 @@ class MapView extends StatefulWidget {
 
 class _MapView extends State<MapView> {
   bool _isLocationGranted = false;
+  bool click = true;
+  bool click1 = false;
+  bool click2 = false;
 
   // ignore: prefer_typing_uninitialized_variables
   var currentLocation;
@@ -207,30 +220,55 @@ class _MapView extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.225;
+    final panelHeightOpen = MediaQuery.of(context).size.height * 1.0;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-            onMapCreated: onMapCreated,
-            markers: Set<Marker>.of(markers.values),
-            // ignore: prefer_collection_literals
-            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-              Factory<OneSequenceGestureRecognizer>(
-                () => EagerGestureRecognizer(),
-              ),
-            ].toSet(),
-            mapToolbarEnabled: false,
-            zoomGesturesEnabled: true,
-            zoomControlsEnabled: false,
-            scrollGesturesEnabled: true,
-            myLocationEnabled: _isLocationGranted,
-            myLocationButtonEnabled: true,
-            initialCameraPosition: _initialCameraPosition,
-          ),
-          Positioned(bottom: 0, child: locationPicker(context, size)),
-        ],
+      body: SlidingUpPanel(
+        minHeight: panelHeightClosed,
+        maxHeight: panelHeightOpen,
+        body: GoogleMap(
+          onMapCreated: onMapCreated,
+          markers: Set<Marker>.of(markers.values),
+          // ignore: prefer_collection_literals
+          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+            Factory<OneSequenceGestureRecognizer>(
+              () => EagerGestureRecognizer(),
+            ),
+          ].toSet(),
+          mapToolbarEnabled: false,
+          zoomGesturesEnabled: true,
+          zoomControlsEnabled: false,
+          scrollGesturesEnabled: true,
+          myLocationEnabled: _isLocationGranted,
+          myLocationButtonEnabled: true,
+          initialCameraPosition: _initialCameraPosition,
+        ),
+        panelBuilder: (controller) => PanelWidget(
+          controller: controller,
+        ),
+        // body: GoogleMap(
+        //   onMapCreated: onMapCreated,
+        //   markers: Set<Marker>.of(markers.values),
+        //   // ignore: prefer_collection_literals
+        //   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+        //     Factory<OneSequenceGestureRecognizer>(
+        //       () => EagerGestureRecognizer(),
+        //     ),
+        //   ].toSet(),
+        //   mapToolbarEnabled: false,
+        //   zoomGesturesEnabled: true,
+        //   zoomControlsEnabled: false,
+        //   scrollGesturesEnabled: true,
+        //   myLocationEnabled: _isLocationGranted,
+        //   myLocationButtonEnabled: true,
+        //   initialCameraPosition: _initialCameraPosition,
+        // ),
       ),
+    );
+    Positioned(
+      bottom: 0,
+      child: locationPicker(context, size),
     );
   }
 
@@ -242,109 +280,151 @@ class _MapView extends State<MapView> {
       width: size.width,
       child: Column(
         children: [
-          InkWell(
-            onTap: () {
-              handlePressButton(context, 'pickUp');
-              // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
-            },
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(7, 10, 15, 0),
-              child: TextField(
-                style: const TextStyle(fontSize: 16),
-                controller: pickUpController,
-                enabled: false,
-                decoration: const InputDecoration(
-                    icon: Icon(
-                      Icons.accessibility_new,
-                      color: Colors.black,
-                    ),
-                    hintText: "Pick Up",
-                    border: InputBorder.none),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              const Padding(
-                padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
-                child: SizedBox(
-                  height: 20,
-                  child: VerticalDivider(
-                    color: Colors.grey,
-                    thickness: 2.5,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.83,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 0.5,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          InkWell(
-            onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Destination') ));
-              handlePressButton(context, 'destination');
-            },
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(7, 0, 15, 0),
-              child: TextField(
-                style: const TextStyle(fontSize: 16),
-                controller: destinationController,
-                enabled: false,
-                decoration: const InputDecoration(
-                    icon: Icon(
-                      Icons.fmd_good_sharp,
-                      color: Colors.red,
-                    ),
-                    hintText: "Destination",
-                    border: InputBorder.none),
-              ),
-            ),
-          ),
-          // const SizedBox(
-          //   height: 15,
+          // InkWell(
+          //   onTap: () {
+          //     handlePressButton(context, 'pickUp');
+          //     // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.fromLTRB(7, 10, 15, 0),
+          //     child: TextField(
+          //       style: const TextStyle(fontSize: 16),
+          //       controller: pickUpController,
+          //       enabled: false,
+          //       decoration: const InputDecoration(
+          //           icon: Icon(
+          //             Icons.accessibility_new,
+          //             color: Colors.black,
+          //           ),
+          //           hintText: "Pick Up",
+          //           border: InputBorder.none),
+          //     ),
+          //   ),
           // ),
-          const Spacer(),
+          // Row(
+          //   children: [
+          //     const Padding(
+          //       padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
+          //       child: SizedBox(
+          //         height: 20,
+          //         child: VerticalDivider(
+          //           color: Colors.grey,
+          //           thickness: 2.5,
+          //         ),
+          //       ),
+          //     ),
+          //     Padding(
+          //       padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+          //       child: Container(
+          //         width: MediaQuery.of(context).size.width * 0.83,
+          //         decoration: BoxDecoration(
+          //           border: Border.all(
+          //             width: 0.5,
+          //             color: Colors.grey,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // InkWell(
+          //   onTap: () {
+          //     // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Destination') ));
+          //     handlePressButton(context, 'destination');
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.fromLTRB(7, 0, 15, 0),
+          //     child: TextField(
+          //       style: const TextStyle(fontSize: 16),
+          //       controller: destinationController,
+          //       enabled: false,
+          //       decoration: const InputDecoration(
+          //           icon: Icon(
+          //             Icons.fmd_good_sharp,
+          //             color: Colors.red,
+          //           ),
+          //           hintText: "Destination",
+          //           border: InputBorder.none),
+          //     ),
+          //   ),
+          // ),
+          // // const SizedBox(
+          // //   height: 15,
+          // // ),
+          // const Spacer(),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MapView()),
+                    );
+
+                    if (click2 != click) {
+                      click = !click;
+                    } else if (click1 != click) {
+                      click = !click;
+                    }
+                  });
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(0.0),
                   child: Container(
-                    width: 60,
-                    height: 60,
-                    color: Colors.purple[700],
-                    child: const Icon(
-                      Icons.home_sharp,
-                      size: 30.0,
-                      color: Colors.white,
-                    ),
-                  ),
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: (click == false)
+                            ? Colors.white
+                            : Colors.purple[900],
+                        borderRadius: BorderRadius.circular(0),
+                        border: Border.all(
+                          width: 1,
+                          color: (click == false)
+                              ? Colors.grey
+                              : Colors.purple.shade900,
+                        ),
+                      ),
+
+                      // color: Colors.purple[900],
+                      child: Icon(
+                        (click == false) ? Icons.home_sharp : Icons.home_sharp,
+                        size: 35,
+                        color: (click == false) ? Colors.black : Colors.white,
+                      )
+                      // child:  const Icon(
+                      //   Icons.home_sharp,
+                      //   size: 30.0,
+                      //   color: Colors.white,
+                      // ),
+                      ),
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    if (click1 != click) {
+                      click1 = !click1;
+                    } else if (click1 != click2) {
+                      click1 = !click1;
+                    }
+                  });
+                },
                 child: Container(
                   width: 110,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color:
+                        (click1 == false) ? Colors.white : Colors.purple[900],
                     borderRadius: BorderRadius.circular(3),
                     border: Border.all(
                       width: 1,
-                      color: Colors.grey,
+                      color: (click1 == false)
+                          ? Colors.grey
+                          : Colors.purple.shade900,
                     ),
                   ),
                   child: Row(
@@ -360,12 +440,16 @@ class _MapView extends State<MapView> {
                           radius: 15,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Ola",
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
+                              color: (click1 == false)
+                                  ? Colors.black
+                                  : Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -373,16 +457,27 @@ class _MapView extends State<MapView> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    if (click2 != click) {
+                      click2 = !click2;
+                    } else if (click2 != click1) {
+                      click2 = !click2;
+                    }
+                  });
+                },
                 child: Container(
                   width: 110,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color:
+                        (click2 == false) ? Colors.white : Colors.purple[900],
                     borderRadius: BorderRadius.circular(3),
                     border: Border.all(
                       width: 1,
-                      color: Colors.grey,
+                      color: (click2 == false)
+                          ? Colors.grey
+                          : Colors.purple.shade900,
                     ),
                   ),
                   child: Row(
@@ -398,12 +493,16 @@ class _MapView extends State<MapView> {
                           radius: 15,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Uber",
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
+                              color: (click2 == false)
+                                  ? Colors.black
+                                  : Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
