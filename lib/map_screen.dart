@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber_scrape/fare_screen.dart';
+import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/search_handler.dart';
+import 'package:uber_scrape/uber_webview.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/panel_widget.dart';
 import 'package:uber_scrape/utils/utils.dart';
@@ -223,52 +225,207 @@ class _MapView extends State<MapView> {
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.225;
     final panelHeightOpen = MediaQuery.of(context).size.height * 1.0;
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SlidingUpPanel(
-        minHeight: panelHeightClosed,
-        maxHeight: panelHeightOpen,
-        body: GoogleMap(
-          onMapCreated: onMapCreated,
-          markers: Set<Marker>.of(markers.values),
-          // ignore: prefer_collection_literals
-          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-            Factory<OneSequenceGestureRecognizer>(
-              () => EagerGestureRecognizer(),
-            ),
-          ].toSet(),
-          mapToolbarEnabled: false,
-          zoomGesturesEnabled: true,
-          zoomControlsEnabled: false,
-          scrollGesturesEnabled: true,
-          myLocationEnabled: _isLocationGranted,
-          myLocationButtonEnabled: true,
-          initialCameraPosition: _initialCameraPosition,
+    return SafeArea(
+      child: Scaffold(
+        body: SlidingUpPanel(
+          minHeight: panelHeightClosed,
+          maxHeight: panelHeightOpen,
+          body: GoogleMap(
+            onMapCreated: onMapCreated,
+            markers: Set<Marker>.of(markers.values),
+            // ignore: prefer_collection_literals
+            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+              Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer(),
+              ),
+            ].toSet(),
+            mapToolbarEnabled: false,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: false,
+            scrollGesturesEnabled: true,
+            myLocationEnabled: _isLocationGranted,
+            myLocationButtonEnabled: true,
+            initialCameraPosition: _initialCameraPosition,
+          ),
+          panelBuilder: (controller) => PanelWidget(
+            controller: controller,
+          ),
         ),
-        panelBuilder: (controller) => PanelWidget(
-          controller: controller,
+        // ignore: avoid_unnecessary_containers
+        bottomNavigationBar: Container(
+          color: Colors.white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MapView()),
+                    );
+
+                    if (click2 != click) {
+                      click = !click;
+                    } else if (click1 != click) {
+                      click = !click;
+                    }
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: (click == false)
+                            ? Colors.white
+                            : Colors.purple[900],
+                        borderRadius: BorderRadius.circular(0),
+                        border: Border.all(
+                          width: 1,
+                          color: (click == false)
+                              ? Colors.grey
+                              : Colors.purple.shade900,
+                        ),
+                      ),
+
+                      // color: Colors.purple[900],
+                      child: Icon(
+                        (click == false) ? Icons.home_sharp : Icons.home_sharp,
+                        size: 35,
+                        color: (click == false) ? Colors.black : Colors.white,
+                      )
+                      // child:  const Icon(
+                      //   Icons.home_sharp,
+                      //   size: 30.0,
+                      //   color: Colors.white,
+                      // ),
+                      ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const olaWebView()),
+                    );
+
+                    // if (click1 != click) {
+                    //   click1 = !click1;
+                    // } else if (click1 != click2) {
+                    //   click1 = !click1;
+                    // }
+                  });
+                },
+                child: Container(
+                  width: 110,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color:
+                        (click1 == false) ? Colors.white : Colors.purple[900],
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                      width: 1,
+                      color: (click1 == false)
+                          ? Colors.grey
+                          : Colors.purple.shade900,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(15, 10, 0, 7.5),
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/images/ola_icon_full.png',
+                          ),
+                          radius: 15,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Ola",
+                          style: TextStyle(
+                              color: (click1 == false)
+                                  ? Colors.black
+                                  : Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const uberWebView()),
+                    );
+
+                    // if (click2 != click) {
+                    //   click2 = !click2;
+                    // } else if (click2 != click1) {
+                    //   click2 = !click2;
+                    // }
+                  });
+                },
+                child: Container(
+                  width: 110,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color:
+                        (click2 == false) ? Colors.white : Colors.purple[900],
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                      width: 1,
+                      color: (click2 == false)
+                          ? Colors.grey
+                          : Colors.purple.shade900,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(15, 10, 0, 7.5),
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/images/uber_icon_full.png',
+                          ),
+                          radius: 15,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Uber",
+                          style: TextStyle(
+                              color: (click2 == false)
+                                  ? Colors.black
+                                  : Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        // body: GoogleMap(
-        //   onMapCreated: onMapCreated,
-        //   markers: Set<Marker>.of(markers.values),
-        //   // ignore: prefer_collection_literals
-        //   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-        //     Factory<OneSequenceGestureRecognizer>(
-        //       () => EagerGestureRecognizer(),
-        //     ),
-        //   ].toSet(),
-        //   mapToolbarEnabled: false,
-        //   zoomGesturesEnabled: true,
-        //   zoomControlsEnabled: false,
-        //   scrollGesturesEnabled: true,
-        //   myLocationEnabled: _isLocationGranted,
-        //   myLocationButtonEnabled: true,
-        //   initialCameraPosition: _initialCameraPosition,
-        // ),
       ),
-    );
-    Positioned(
-      bottom: 0,
-      child: locationPicker(context, size),
     );
   }
 

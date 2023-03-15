@@ -26,17 +26,16 @@ class uberWebViewState extends State<uberWebView> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: Container(
+      floatingActionButton: SizedBox(
         height: 40,
         width: 40,
         child: FittedBox(
           child: FloatingActionButton(
             backgroundColor: Colors.black,
             focusColor: Colors.white,
-            child: Image(
+            child: const Image(
                 fit: BoxFit.contain,
-                image:
-                    AssetImage("asset/images/uber_logo-removebg-preview.png")),
+                image: AssetImage("assets/images/uber_icon_full.png")),
             onPressed: () {
               _controller.reload();
             },

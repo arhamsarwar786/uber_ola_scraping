@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       // home: SearchScreen("demox"),
       // ignore: prefer_const_constructors
       // home: MapView(),
-      home: MapView(),
+      home: const MapView(),
     );
   }
 }

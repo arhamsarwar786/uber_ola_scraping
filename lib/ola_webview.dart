@@ -26,17 +26,19 @@ class olaWebViewState extends State<olaWebView> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: Container(
+      floatingActionButton: SizedBox(
         height: 40,
         width: 40,
         child: FittedBox(
           child: FloatingActionButton(
             backgroundColor: Colors.white,
             focusColor: Colors.white,
-            child: Image(
-                fit: BoxFit.contain,
-                image:
-                    AssetImage("asset/images/images_ola-removebg-preview.png")),
+            child: const CircleAvatar(
+              backgroundImage: AssetImage(
+                'assets/images/ola_icon_full.png',
+              ),
+              radius: 27,
+            ),
             onPressed: () {
               _controller.reload();
             },
