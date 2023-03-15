@@ -562,6 +562,8 @@ class _MapView extends State<MapView> {
               ),
               InkWell(
                 onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => olaWebView())));
                   setState(() {
                     if (click1 != click) {
                       click1 = !click1;
