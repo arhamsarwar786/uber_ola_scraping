@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber_scrape/fare_screen.dart';
+import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/search_handler.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/panel_widget.dart';
@@ -405,6 +406,8 @@ class _MapView extends State<MapView> {
               ),
               InkWell(
                 onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => olaWebView())));
                   setState(() {
                     if (click1 != click) {
                       click1 = !click1;
