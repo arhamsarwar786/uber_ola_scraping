@@ -8,6 +8,8 @@ import 'package:uber_scrape/splash_screen.dart';
 // import 'package:uber_scrape/bottom_sheet.dart';
 import 'package:uber_scrape/uber_webview.dart';
 // import 'package:uber_scrape/webView.dart';
+import 'package:uber_scrape/utils/color_constants.dart';
+
 
 void main() {
   runApp(const MyApp());
