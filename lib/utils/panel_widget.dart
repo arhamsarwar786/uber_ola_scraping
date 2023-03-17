@@ -15,6 +15,7 @@ import '../map_screen.dart';
 // import 'package:uber_scrape/utils/gloablState.dart';
 // import 'package:uber_scrape/utils/utils.dart';
 // import 'package:uber_scrape/widgets.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 Widget buildDragHandle() => GestureDetector(
   // onTap: togglePanel,
@@ -74,6 +75,7 @@ class _PanelWidgetState extends State<PanelWidget> {
     "assets/images/big_car_icon.png"
   ];
 
+  late final WebViewController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -343,11 +345,26 @@ class _PanelWidgetState extends State<PanelWidget> {
                               child: InkWell(
 
                                   onTap: () {
-                                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const olaWebView()),
-                    );
+
+                                    showDialog(
+                                      context: context,
+                                     builder: (BuildContext context){
+                                      return AlertDialog(
+                                        title: const Text("Popup Titile"),
+                                        content: const Text("Data to display"),
+                                        actions: [
+                                          ElevatedButton(onPressed: (){
+                                            Navigator.of(context).pop();
+                                          } , child: const Text("Close"),),
+                                        ],
+                                      );
+                                    });
+
+                    //                 Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const olaWebView()),
+                    // );
                                   },
                           
                                 child: Row(
@@ -424,11 +441,50 @@ class _PanelWidgetState extends State<PanelWidget> {
                               ),
                               child: InkWell(
                                 onTap: (() {
-                                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const uberWebView()),
-                    );
+
+                                  showDialog(
+                                      context: context,
+                                     builder: (BuildContext context){
+                                      return AlertDialog(
+                                        content: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              // Row(
+                                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              //   // ignore: prefer_const_literals_to_create_immutables
+                                              //   children: [
+                                              //     const Text("Uber login" , style: TextStyle(
+                                              //       fontWeight: FontWeight.bold,
+                                              //       fontSize: 22
+                                              //     ),),
+                                              //      InkWell(
+                                              //       onTap: (() {
+                                              //         Navigator.of(context).pop();
+                                              //       }),
+                                              //       child: const Icon(Icons.close,)),
+                                              //   ],
+                                              // ),
+                                              WebView(
+                                                  initialUrl:
+                                                      'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
+                                                  javascriptMode: JavascriptMode.unrestricted,
+                                                  onWebViewCreated: (WebViewController controller) {
+                                                    _controller = controller;
+                                                  },
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                        
+                                        
+                                      );
+                                    });
+
+                    //               Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const uberWebView()),
+                    // );
                                 }),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -455,83 +511,83 @@ class _PanelWidgetState extends State<PanelWidget> {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            // ignore: prefer_const_literals_to_create_immutables
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 15, 0, 0),
-                                child: Container(
-                                  width: 35,
-                                  height: 35,
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/rapido.png'),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(11, 10, 0, 0),
-                                child: Text(
-                                  "Rapido",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 190,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                color: Color.fromARGB(255, 218, 210, 231),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  const Text(
-                                    "Login to see prices ",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        color:
-                                            Color.fromARGB(255, 137, 92, 146)),
-                                  ),
-                                  const Icon(
-                                    Icons.logout_rounded,
-                                    size: 18,
-                                    color: Color.fromARGB(255, 137, 92, 146),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                //   Row(
+                //     children: [
+                //       InkWell(
+                //         onTap: () {},
+                //         child: Container(
+                //           decoration: const BoxDecoration(
+                //             color: Colors.white,
+                //           ),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             // ignore: prefer_const_literals_to_create_immutables
+                //             children: [
+                //               Padding(
+                //                 padding:
+                //                     const EdgeInsets.fromLTRB(16, 15, 0, 0),
+                //                 child: Container(
+                //                   width: 35,
+                //                   height: 35,
+                //                   decoration: const BoxDecoration(
+                //                     image: DecorationImage(
+                //                       image: AssetImage(
+                //                           'assets/images/rapido.png'),
+                //                       fit: BoxFit.fill,
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //               const Padding(
+                //                 padding: EdgeInsets.fromLTRB(11, 10, 0, 0),
+                //                 child: Text(
+                //                   "Rapido",
+                //                   style: TextStyle(
+                //                       fontSize: 17,
+                //                       fontWeight: FontWeight.bold),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       const Spacer(),
+                //       Padding(
+                //         padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                //         child: Row(
+                //           children: [
+                //             Container(
+                //               width: 190,
+                //               height: 40,
+                //               decoration: const BoxDecoration(
+                //                 color: Color.fromARGB(255, 218, 210, 231),
+                //                 borderRadius:
+                //                     BorderRadius.all(Radius.circular(13)),
+                //               ),
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 // ignore: prefer_const_literals_to_create_immutables
+                //                 children: [
+                //                   const Text(
+                //                     "Login to see prices ",
+                //                     style: TextStyle(
+                //                         fontSize: 17,
+                //                         color:
+                //                             Color.fromARGB(255, 137, 92, 146)),
+                //                   ),
+                //                   const Icon(
+                //                     Icons.logout_rounded,
+                //                     size: 18,
+                //                     color: Color.fromARGB(255, 137, 92, 146),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
                 ],
               ),
               const Divider(
