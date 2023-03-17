@@ -74,549 +74,535 @@ class _PanelWidgetState extends State<PanelWidget> {
     "assets/images/small_car_icon.png",
     "assets/images/big_car_icon.png"
   ];
+ final person = [
+    "Mini","Mini",
+    "uber go",
 
+  ];
+  final sub = [
+    "Affordable",
+    "Every day",
+    "Every day",
+
+  ];
+  final image = [
+    "assets/images/download (4).jpg",
+    "assets/images/download.jpg",
+    "assets/images/download.jpg",
+  ];
   late final WebViewController _controller;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 15),
-        buildDragHandle(),
-        Container(
-          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-          color: Colors.white,
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  handlePressButton(context, 'pickUp');
-                  // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(7, 10, 15, 0),
-                  child: TextField(
-                    style: const TextStyle(fontSize: 16),
-                    controller: pickUpController,
-                    enabled: false,
-                    decoration: const InputDecoration(
-                        icon: Icon(
-                          Icons.accessibility_new,
-                          color: Colors.black,
-                        ),
-                        hintText: "Pick Up",
-                        border: InputBorder.none),
-                  ),
-                ),
-              ),
-              Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
-                    child: SizedBox(
-                      height: 20,
-                      child: VerticalDivider(
-                        color: Colors.grey,
-                        thickness: 2.5,
-                      ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          const SizedBox(height: 15),
+          buildDragHandle(),
+          Container(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            color: Colors.white,
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    handlePressButton(context, 'pickUp');
+                    // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(7, 10, 15, 0),
+                    child: TextField(
+                      style: const TextStyle(fontSize: 16),
+                      controller: pickUpController,
+                      enabled: false,
+                      decoration: const InputDecoration(
+                          icon: Icon(
+                            Icons.accessibility_new,
+                            color: Colors.black,
+                          ),
+                          hintText: "Pick Up",
+                          border: InputBorder.none),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.83,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 0.5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              InkWell(
-                onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Destination') ));
-                  handlePressButton(context, 'destination');
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(7, 0, 15, 0),
-                  child: TextField(
-                    style: const TextStyle(fontSize: 16),
-                    controller: destinationController,
-                    enabled: false,
-                    decoration: const InputDecoration(
-                        icon: Icon(
-                          Icons.fmd_good_sharp,
-                          color: Colors.red,
-                        ),
-                        hintText: "Destination",
-                        border: InputBorder.none),
-                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 24, 8, 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Row(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                           _selectedContainer = 1;
-                        });
-                      },
-                      child: Container(
-                        width: 70,
-                        height: 45,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: _selectedContainer == 1 ? MyColors.fareIconsColor : Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: .5,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 0.05,
-                          ),
-                          borderRadius: BorderRadius.circular(17.5),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
+                      child: SizedBox(
+                        height: 20,
+                        child: VerticalDivider(
+                          color: Colors.grey,
+                          thickness: 2.5,
                         ),
-                        child: Image.asset('assets/images/bike_icon.png', fit: BoxFit.fill,),
                       ),
-                      
                     ),
-                    InkWell(
-                       onTap: () {
-                        setState(() {
-                          _selectedContainer = 2;
-                        });
-                      },
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                       child: Container(
-                        width: 70,
-                        height: 45,
-                        padding: const EdgeInsets.all(9),
+                        width: MediaQuery.of(context).size.width * 0.83,
                         decoration: BoxDecoration(
-                          color: _selectedContainer == 2 ? MyColors.fareIconsColor : Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: .5,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
                           border: Border.all(
+                            width: 0.5,
                             color: Colors.grey,
-                            width: 0.05,
                           ),
-                          borderRadius: BorderRadius.circular(17.5),
                         ),
-                        child: Image.asset("assets/images/autorikshaw_icon.png",fit: BoxFit.fill,),
-
-                        
                       ),
-                     
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          _selectedContainer = 3;
-                        });
-                      },
-                      child: Container(
-                        width: 70,
-                        height: 45,
-                        padding: const EdgeInsets.all(0),
-                        decoration: BoxDecoration(
-                          color: _selectedContainer == 3 ? MyColors.fareIconsColor : Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: .5,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 0.05,
-                          ),
-                          borderRadius: BorderRadius.circular(17.5),
-                        ),
-                        child: Image.asset('assets/images/small_car_icon.png', fit: BoxFit.fill,),
-                      ),
-                      
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          _selectedContainer = 4;
-                        });
-                      },
-                      child: Container(
-                        width: 70,
-                        height: 45,
-                        padding: const EdgeInsets.all(0),
-                        decoration: BoxDecoration(
-                          color: _selectedContainer == 4 ? MyColors.fareIconsColor : Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: .5,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 0.05,
-                          ),
-                          borderRadius: BorderRadius.circular(17.5),
-                        ),
-                        child: Image.asset('assets/images/big_car_icon.png', fit: BoxFit.fill,),
-                      ),
-                      
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Column(
-                children: [
-                  Row(
+                InkWell(
+                  onTap: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Destination') ));
+                    handlePressButton(context, 'destination');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(7, 0, 15, 0),
+                    child: TextField(
+                      style: const TextStyle(fontSize: 16),
+                      controller: destinationController,
+                      enabled: false,
+                      decoration: const InputDecoration(
+                          icon: Icon(
+                            Icons.fmd_good_sharp,
+                            color: Colors.red,
+                          ),
+                          hintText: "Destination",
+                          border: InputBorder.none),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 24, 8, 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                             _selectedContainer = 1;
+                          });
+                        },
                         child: Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            // ignore: prefer_const_literals_to_create_immutables
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(15, 10, 0, 7.5),
-                                child: CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                    'assets/images/ola_icon_full.png',
-                                  ),
-                                  radius: 15,
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
-                                child: Text(
-                                  "Ola",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                          width: 70,
+                          height: 45,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: _selectedContainer == 1 ? MyColors.fareIconsColor : Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: .5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
                               ),
                             ],
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 0.05,
+                            ),
+                            borderRadius: BorderRadius.circular(17.5),
                           ),
+                          child: Image.asset('assets/images/bike_icon.png', fit: BoxFit.fill,),
                         ),
+                        
                       ),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 190,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                color: Color.fromARGB(255, 218, 210, 231),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13)),
+                      InkWell(
+                         onTap: () {
+                          setState(() {
+                            _selectedContainer = 2;
+                          });
+                        },
+                        child: Container(
+                          width: 70,
+                          height: 45,
+                          padding: const EdgeInsets.all(9),
+                          decoration: BoxDecoration(
+                            color: _selectedContainer == 2 ? MyColors.fareIconsColor : Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: .5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
                               ),
-                              child: InkWell(
-
-                                  onTap: () {
-
-                                    showDialog(
-                                      context: context,
-                                     builder: (BuildContext context){
-                                      return AlertDialog(
-                                        title: const Text("Popup Titile"),
-                                        content: const Text("Data to display"),
-                                        actions: [
-                                          ElevatedButton(onPressed: (){
-                                            Navigator.of(context).pop();
-                                          } , child: const Text("Close"),),
-                                        ],
-                                      );
-                                    });
-
-                    //                 Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const olaWebView()),
-                    // );
-                                  },
+                            ],
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 0.05,
+                            ),
+                            borderRadius: BorderRadius.circular(17.5),
+                          ),
+                          child: Image.asset("assets/images/autorikshaw_icon.png",fit: BoxFit.fill,),
+    
                           
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: [
-                                    const Text(
-                                      "Login to see prices ",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          color:
-                                              Color.fromARGB(255, 137, 92, 146)),
-                                    ),
-                                    const Icon(
-                                      Icons.logout_rounded,
-                                      size: 18,
-                                      color: Color.fromARGB(255, 137, 92, 146),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
                         ),
+                       
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _selectedContainer = 3;
+                          });
+                        },
+                        child: Container(
+                          width: 70,
+                          height: 45,
+                          padding: const EdgeInsets.all(0),
+                          decoration: BoxDecoration(
+                            color: _selectedContainer == 3 ? MyColors.fareIconsColor : Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: .5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 0.05,
+                            ),
+                            borderRadius: BorderRadius.circular(17.5),
+                          ),
+                          child: Image.asset('assets/images/small_car_icon.png', fit: BoxFit.fill,),
+                        ),
+                        
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _selectedContainer = 4;
+                          });
+                        },
+                        child: Container(
+                          width: 70,
+                          height: 45,
+                          padding: const EdgeInsets.all(0),
+                          decoration: BoxDecoration(
+                            color: _selectedContainer == 4 ? MyColors.fareIconsColor : Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: .5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 0.05,
+                            ),
+                            borderRadius: BorderRadius.circular(17.5),
+                          ),
+                          child: Image.asset('assets/images/big_car_icon.png', fit: BoxFit.fill,),
+                        ),
+                        
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            // ignore: prefer_const_literals_to_create_immutables
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(15, 15, 0, 7.5),
-                                child: CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                    'assets/images/uber_icon_full.png',
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              // ignore: prefer_const_literals_to_create_immutables
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 10, 0, 7.5),
+                                  child: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                      'assets/images/ola_icon_full.png',
+                                    ),
+                                    radius: 15,
                                   ),
-                                  radius: 17,
                                 ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(11, 10, 0, 0),
-                                child: Text(
-                                  "Uber",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
+                                  child: Text(
+                                    "Ola",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 190,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromARGB(255, 218, 210, 231),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(13)),
+                                ),
+                                child: InkWell(
+    
+                                    onTap: () {
+    
+                                      showDialog(
+                                        context: context,
+                                       builder: (BuildContext context){
+                                        return AlertDialog(
+                                          title: const Text("Popup Titile"),
+                                          content: const Text("Data to display"),
+                                          actions: [
+                                            ElevatedButton(onPressed: (){
+                                              Navigator.of(context).pop();
+                                            } , child: const Text("Close"),),
+                                          ],
+                                        );
+                                      });
+    
+                      //                 Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const olaWebView()),
+                      // );
+                                    },
+                            
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    children: [
+                                      const Text(
+                                        "Login to see prices ",
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color:
+                                                Color.fromARGB(255, 137, 92, 146)),
+                                      ),
+                                      const Icon(
+                                        Icons.logout_rounded,
+                                        size: 18,
+                                        color: Color.fromARGB(255, 137, 92, 146),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 190,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                color: Color.fromARGB(255, 218, 210, 231),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13)),
-                              ),
-                              child: InkWell(
-                                onTap: (() {
-
-                                  showDialog(
-                                      context: context,
-                                     builder: (BuildContext context){
-                                      return AlertDialog(
-                                        content: SingleChildScrollView(
-                                          child: Column(
-                                            children: [
-                                              // Row(
-                                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              //   // ignore: prefer_const_literals_to_create_immutables
-                                              //   children: [
-                                              //     const Text("Uber login" , style: TextStyle(
-                                              //       fontWeight: FontWeight.bold,
-                                              //       fontSize: 22
-                                              //     ),),
-                                              //      InkWell(
-                                              //       onTap: (() {
-                                              //         Navigator.of(context).pop();
-                                              //       }),
-                                              //       child: const Icon(Icons.close,)),
-                                              //   ],
-                                              // ),
-                                              WebView(
-                                                  initialUrl:
-                                                      'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
-                                                  javascriptMode: JavascriptMode.unrestricted,
-                                                  onWebViewCreated: (WebViewController controller) {
-                                                    _controller = controller;
-                                                  },
-                                                ),
-                                            ],
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              // ignore: prefer_const_literals_to_create_immutables
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 15, 0, 7.5),
+                                  child: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                      'assets/images/uber_icon_full.png',
+                                    ),
+                                    radius: 17,
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(11, 10, 0, 0),
+                                  child: Text(
+                                    "Uber",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 190,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromARGB(255, 218, 210, 231),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(13)),
+                                ),
+                                child: InkWell(
+                                  onTap: (() {
+    
+                                    showDialog(
+                                        context: context,
+                                       builder: (BuildContext context){
+                                        return AlertDialog(
+                                          content: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                // Row(
+                                                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                //   // ignore: prefer_const_literals_to_create_immutables
+                                                //   children: [
+                                                //     const Text("Uber login" , style: TextStyle(
+                                                //       fontWeight: FontWeight.bold,
+                                                //       fontSize: 22
+                                                //     ),),
+                                                //      InkWell(
+                                                //       onTap: (() {
+                                                //         Navigator.of(context).pop();
+                                                //       }),
+                                                //       child: const Icon(Icons.close,)),
+                                                //   ],
+                                                // ),
+                                                WebView(
+                                                    initialUrl:
+                                                        'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
+                                                    javascriptMode: JavascriptMode.unrestricted,
+                                                    onWebViewCreated: (WebViewController controller) {
+                                                      _controller = controller;
+                                                    },
+                                                  ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        
-                                        
-                                      );
-                                    });
-
-                    //               Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const uberWebView()),
-                    // );
-                                }),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: [
-                                    const Text(
-                                      "Login to see prices ",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          color:
-                                              Color.fromARGB(255, 137, 92, 146)),
-                                    ),
-                                    const Icon(
-                                      Icons.logout_rounded,
-                                      size: 18,
-                                      color: Color.fromARGB(255, 137, 92, 146),
-                                    ),
-                                  ],
+                                          
+                                          
+                                        );
+                                      });
+    
+                      //               Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const uberWebView()),
+                      // );
+                                  }),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    children: [
+                                      const Text(
+                                        "Login to see prices ",
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color:
+                                                Color.fromARGB(255, 137, 92, 146)),
+                                      ),
+                                      const Icon(
+                                        Icons.logout_rounded,
+                                        size: 18,
+                                        color: Color.fromARGB(255, 137, 92, 146),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                //   Row(
-                //     children: [
-                //       InkWell(
-                //         onTap: () {},
-                //         child: Container(
-                //           decoration: const BoxDecoration(
-                //             color: Colors.white,
-                //           ),
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.start,
-                //             // ignore: prefer_const_literals_to_create_immutables
-                //             children: [
-                //               Padding(
-                //                 padding:
-                //                     const EdgeInsets.fromLTRB(16, 15, 0, 0),
-                //                 child: Container(
-                //                   width: 35,
-                //                   height: 35,
-                //                   decoration: const BoxDecoration(
-                //                     image: DecorationImage(
-                //                       image: AssetImage(
-                //                           'assets/images/rapido.png'),
-                //                       fit: BoxFit.fill,
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //               const Padding(
-                //                 padding: EdgeInsets.fromLTRB(11, 10, 0, 0),
-                //                 child: Text(
-                //                   "Rapido",
-                //                   style: TextStyle(
-                //                       fontSize: 17,
-                //                       fontWeight: FontWeight.bold),
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //       const Spacer(),
-                //       Padding(
-                //         padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                //         child: Row(
-                //           children: [
-                //             Container(
-                //               width: 190,
-                //               height: 40,
-                //               decoration: const BoxDecoration(
-                //                 color: Color.fromARGB(255, 218, 210, 231),
-                //                 borderRadius:
-                //                     BorderRadius.all(Radius.circular(13)),
-                //               ),
-                //               child: Row(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 // ignore: prefer_const_literals_to_create_immutables
-                //                 children: [
-                //                   const Text(
-                //                     "Login to see prices ",
-                //                     style: TextStyle(
-                //                         fontSize: 17,
-                //                         color:
-                //                             Color.fromARGB(255, 137, 92, 146)),
-                //                   ),
-                //                   const Icon(
-                //                     Icons.logout_rounded,
-                //                     size: 18,
-                //                     color: Color.fromARGB(255, 137, 92, 146),
-                //                   ),
-                //                 ],
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                ],
-              ),
-              const Divider(
-                height: 32.5,
-                thickness: 0.5,
-                indent: 0,
-                endIndent: 0,
-                color: Colors.black,
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Column(
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 75,
-                    child: Image.asset(imagesList[_selectedContainer-1]),
-                  ),
-                  // ignore: avoid_unnecessary_containers
-                  Container(
-                    child: const Text("No options available for now..."),
-                  ),
-                ],
-              ),
-            ],
+                      ],
+                    ),
+                 
+                  ],
+                ),
+                const Divider(
+                  height: 32.5,
+                  thickness: 0.5,
+                  indent: 0,
+                  endIndent: 0,
+                  color: Colors.black,
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      height: 75,
+                      child: Image.asset(imagesList[_selectedContainer-1]),
+                    ),
+                    // ignore: avoid_unnecessary_containers
+                    Container(
+                      child: const Text("No options available for now..."),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+    
+             ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: person.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 2),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(image[index]),
+                      radius: 30,
+                    ),
+                    // Icon(Icons.person),
+                    trailing: Padding(
+                      padding: const EdgeInsets.only(top: 5, right: 12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "PKR216.00",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          
+                        ],
+                      ),
+                    ),
+                    title: Text(
+                      person[index],
+                    ),
+      
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Text(sub[index]),
+                    ),
+                  ),
+                );
+              },
+              
+            )]),
     );
+   
+      
+    
   }
 }
