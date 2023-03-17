@@ -9,6 +9,7 @@ import 'package:uber_scrape/splash_screen.dart';
 import 'package:uber_scrape/uber_webview.dart';
 // import 'package:uber_scrape/webView.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
+import 'package:uber_scrape/utils/root_screen.dart';
 
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       // home: SearchScreen("demox"),
       // ignore: prefer_const_constructors
       // home: MapView(),
-      home: const MapView(),
+      home:  const RootScreen(),
     );
   }
 }

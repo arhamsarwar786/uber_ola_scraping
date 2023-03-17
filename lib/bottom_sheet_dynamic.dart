@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
+// import 'package:flutter/foundation.dart';
+// import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uber_scrape/fare_screen.dart';
+import 'package:uber_scrape/map_screen.dart';
+// import 'package:uber_scrape/fare_screen.dart';
 import 'package:uber_scrape/search_handler.dart';
 import 'package:uber_scrape/search_screen.dart';
-import 'package:uber_scrape/utils/gloablState.dart';
+// import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/utils.dart';
-import 'package:uber_scrape/widgets.dart';
+// import 'package:uber_scrape/widgets.dart';
 
-final pickUpController = TextEditingController();
-final destinationController = TextEditingController();
+// final pickUpController = TextEditingController();
+// final destinationController = TextEditingController();
 
 // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
@@ -23,6 +24,7 @@ class DynamicBottomSheet extends StatefulWidget {
 }
 
 class _DynamicBottomSheet extends State<DynamicBottomSheet> {
+  // ignore: unused_field
   bool _isLocationGranted = false;
 
   // ignore: prefer_typing_uninitialized_variables
@@ -203,6 +205,7 @@ class _DynamicBottomSheet extends State<DynamicBottomSheet> {
     }
   }
 
+  // ignore: unused_field
   final CameraPosition _initialCameraPosition =
       const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 12);
 
@@ -321,6 +324,7 @@ class _DynamicBottomSheet extends State<DynamicBottomSheet> {
                     ),
                   ),
                   onTap: () {
+                    // ignore: avoid_print
                     print("Container is Tapped");
                   },
                 ),

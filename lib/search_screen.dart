@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uber_scrape/utils/color_constants.dart';
+// import 'package:uber_scrape/utils/color_constants.dart';
 
 class SearchScreen extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables

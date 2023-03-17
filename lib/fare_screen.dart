@@ -116,10 +116,10 @@ class _FareScreenState extends State<FareScreen> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text(
+                  const Text(
                     "Uber Rides",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
@@ -259,7 +259,7 @@ class _FareScreenState extends State<FareScreen> {
                                         alignment: Alignment.topLeft,
                                         child: Text(
                                           "${tier.currencyCode} ${fareSpliter(tier.fare)}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15),
                                         ),
@@ -308,10 +308,10 @@ class _FareScreenState extends State<FareScreen> {
                             //     ),
                             //   ));
                           }),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Text(
+                  const Text(
                     "OLA Rides",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
@@ -450,7 +450,7 @@ class _FareScreenState extends State<FareScreen> {
                                         alignment: Alignment.topLeft,
                                         child: Text(
                                           "${olaFareCalculator(tier.id)}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15),
                                         ),

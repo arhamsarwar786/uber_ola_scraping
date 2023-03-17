@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uber_scrape/fare_screen.dart';
-import 'package:uber_scrape/ola_webview.dart';
-import 'package:uber_scrape/search_handler.dart';
-import 'package:uber_scrape/uber_webview.dart';
-import 'package:uber_scrape/utils/gloablState.dart';
+// import 'package:uber_scrape/fare_screen.dart';
+// import 'package:uber_scrape/ola_webview.dart';
+// import 'package:uber_scrape/search_handler.dart';
+// import 'package:uber_scrape/uber_webview.dart';
+// import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/panel_widget.dart';
 import 'package:uber_scrape/utils/utils.dart';
-import 'package:uber_scrape/widgets.dart';
+// import 'package:uber_scrape/widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 final pickUpController = TextEditingController();
@@ -41,6 +41,10 @@ class _MapView extends State<MapView> {
   var currentLocation;
 
   GoogleMapController? mapController;
+  GoogleMapController? _controller;
+  void _onMapCreated(GoogleMapController controller) {
+    _controller = controller;
+  }
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
@@ -230,183 +234,71 @@ class _MapView extends State<MapView> {
           controller: panelController,
           minHeight: panelHeightClosed,
           maxHeight: panelHeightOpen,
-          body: GoogleMap(
-            onMapCreated: onMapCreated,
-            markers: Set<Marker>.of(markers.values),
-            // ignore: prefer_collection_literals
-            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-              Factory<OneSequenceGestureRecognizer>(
-                () => EagerGestureRecognizer(),
+          body: Column(
+            children: [
+              Expanded(
+                child: GoogleMap(
+                  onMapCreated: onMapCreated, 
+                  markers: Set<Marker>.of(markers.values),
+                  // ignore: prefer_collection_literals
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  ].toSet(),
+                  
+                  mapToolbarEnabled: true,
+                  zoomGesturesEnabled: true,
+                  zoomControlsEnabled: true,
+                  scrollGesturesEnabled: true,
+                  myLocationEnabled: _isLocationGranted,
+                  myLocationButtonEnabled: true,
+                  initialCameraPosition: _initialCameraPosition,
+                ),
               ),
-            ].toSet(),
-            mapToolbarEnabled: false,
-            zoomGesturesEnabled: true,
-            zoomControlsEnabled: false,
-            scrollGesturesEnabled: true,
-            myLocationEnabled: _isLocationGranted,
-            myLocationButtonEnabled: true,
-            initialCameraPosition: _initialCameraPosition,
+              Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    if (_controller != null) {
+                      _controller!.animateCamera(
+                        CameraUpdate.zoomIn(),
+                      );
+                    }
+                  },
+                  child: const Icon(Icons.add),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_controller != null) {
+                      _controller!.animateCamera(
+                        CameraUpdate.zoomOut(),
+                      );
+                    }
+                  },
+                  child: const Icon(Icons.remove),
+                ),
+              ],
+            ),
           ),
+            ],
+          ),
+          
           panelBuilder: (controller) => PanelWidget(
             controller: controller,
             panelController: panelController,
           ),
         ),
-        // ignore: avoid_unnecessary_containers
-        bottomNavigationBar: Container(
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MapView()),
-                    );
-                    activeContainerIndex = 0;
-                    
-                  });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: activeContainerIndex == 0 ? Colors.grey : Colors.purple,
-                        borderRadius: BorderRadius.circular(0),
-                        border: Border.all(
-                          width: 1,
-                          color: activeContainerIndex == 0 ? Colors.grey : Colors.purple,
-                        ),
-                      ),
 
-                      // color: Colors.purple[900],
-                      child: Icon(
-                        activeContainerIndex == 0 ? Icons.home_sharp : Icons.home_sharp,
-                        size: 35,
-                        color: activeContainerIndex == 0 ? Colors.black : Colors.white,
-                      )
-                      // child:  const Icon(
-                      //   Icons.home_sharp,
-                      //   size: 30.0,
-                      //   color: Colors.white,
-                      // ),
-                      ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const olaWebView()),
-                    );
-                    activeContainerIndex = 1;
-                    
-                  });
-                },
-                child: Container(
-                  width: 110,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color:
-                        activeContainerIndex == 1 ? Colors.purple : Colors.white,
-                    borderRadius: BorderRadius.circular(3),
-                    border: Border.all(
-                      width: 1,
-                      color: activeContainerIndex == 1 ? Colors.purple : Colors.grey,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(15, 10, 0, 7.5),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage(
-                            'assets/images/ola_icon_full.png',
-                          ),
-                          radius: 15,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Ola",
-                          style: TextStyle(
-                              color: activeContainerIndex == 1
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const uberWebView()),
-                    );
-                  activeContainerIndex = 2;
-                   
-                  });
-                },
-                child: Container(
-                  width: 110,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color:
-                        activeContainerIndex == 2 ? Colors.purple : Colors.white,
-                    borderRadius: BorderRadius.circular(3),
-                    border: Border.all(
-                      width: 1,
-                      color: activeContainerIndex == 2 ? Colors.purple : Colors.grey,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(15, 10, 0, 7.5),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage(
-                            'assets/images/uber_icon_full.png',
-                          ),
-                          radius: 15,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Uber",
-                          style: TextStyle(
-                              color: activeContainerIndex == 2
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+        
+
+        // ignore: avoid_unnecessary_containers
+       ),
     );
   }
 
