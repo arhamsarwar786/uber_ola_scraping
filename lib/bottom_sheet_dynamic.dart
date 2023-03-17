@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber_scrape/fare_screen.dart';
 import 'package:uber_scrape/search_handler.dart';
+import 'package:uber_scrape/search_screen.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/utils.dart';
 import 'package:uber_scrape/widgets.dart';
@@ -222,7 +223,7 @@ class _DynamicBottomSheet extends State<DynamicBottomSheet> {
           InkWell(
             onTap: () {
               handlePressButton(context, 'pickUp');
-              // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
+              Navigator.push(context, MaterialPageRoute(builder: (_)=> const SearchScreen('Pick Up') ));
             },
             child: Padding(
               padding: const EdgeInsets.fromLTRB(7, 10, 15, 0),

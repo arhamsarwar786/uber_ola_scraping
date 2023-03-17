@@ -15,13 +15,12 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          // _handlePressButton(context);
-        }),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text(widget.title)),
+        // floatingActionButton: FloatingActionButton(onPressed: () {
+        //   // _handlePressButton(context);
+        // },
+        // ),
+        // appBar: AppBar(
+        //   title: Text(widget.title)),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

@@ -15,6 +15,6 @@ class MyColors {
   static Color darkScaffoldBackgroundColor = hexToColor('#2F2E2E');
   static Color secondaryAppColor = Colors.white;
   static Color secondaryDarkAppColor = Colors.white;
-  static Color fareIconsColor = const Color.fromARGB(255, 137, 92, 146);
+  static Color fareIconsColor = const Color.fromARGB(255, 218, 210, 231);
   
 }
