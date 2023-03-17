@@ -59,10 +59,18 @@ class PanelWidget extends StatefulWidget {
 class _PanelWidgetState extends State<PanelWidget> {
 
   int _selectedContainer = 1;
-  final String data1 = 'Data for container 1';
-  final String data2 = 'Data for container 2';
-  final String data3 = 'Data for container 3';
-  final String data4 = 'Data for container 4';
+  // final String data1 = "assets/images/bike_icon.png";
+  // final String data2 = "assets/images/autorikshaw_icon.png";
+  // final String data3 = "assets/images/small_car_icon.png";
+  // final String data4 = "assets/images/big_car_icon.png";
+
+
+  var imagesList = [
+    "assets/images/bike_icon.png",
+    "assets/images/autorikshaw_icon.png",
+    "assets/images/small_car_icon.png",
+    "assets/images/big_car_icon.png"
+  ];
 
   // ignore: prefer_typing_uninitialized_variables
 //   var currentLocation;
@@ -716,11 +724,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                   SizedBox(
                     width: 100,
                     height: 75,
-                    child: Image.asset( _selectedContainer == 1
-                  ? data1
-                  : _selectedContainer == 2
-                      ? data2
-                      : _selectedContainer == 3 ? data3 : data4,),
+                    child: Image.asset(imagesList[_selectedContainer-1]),
                   ),
                   // ignore: avoid_unnecessary_containers
                   Container(
