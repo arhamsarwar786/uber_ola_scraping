@@ -13,7 +13,7 @@ class uberWebView extends StatefulWidget {
 
 class uberWebViewState extends State<uberWebView> {
   late final WebViewController _controller;
-  final Uri _url1 = Uri.parse('https://m.uber.com/ul/');
+  final Uri _url1 = Uri.parse('https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D');
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +52,13 @@ class uberWebViewState extends State<uberWebView> {
             child: FloatingActionButton(
               backgroundColor: Colors.black,
               focusColor: Colors.white,
+              onPressed: _launchUber,
               child: const CircleAvatar(
                 backgroundImage: AssetImage(
                   'assets/images/uber_icon_full.png',
                 ),
                 radius: 27,
               ),
-              onPressed: _launchUber,
             ),
           ),
         ),

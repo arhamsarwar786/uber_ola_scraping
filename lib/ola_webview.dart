@@ -13,7 +13,7 @@ class olaWebView extends StatefulWidget {
 
 class olaWebViewState extends State<olaWebView> {
   late final WebViewController _controller;
-  final Uri _url = Uri.parse('https://olawebcdn.com/assets/ola-universal-link.html?');
+  final Uri _url = Uri.parse('https://book.olacabs.com/?serviceType=p2p&utm_source=widget_on_olacabs&drop_lat=25.8498572&drop_lng=85.6666046&drop_name=Tajpur%2C%20Bihar%2C%20India&lat=18.9224864&lng=72.8340377&pickup_name=WRCM%20XPX%2C%20Apollo%20Bandar%2C%20Colaba%2C%20Mumbai%2C%20Maharashtra%20400001%2C%20India&pickup=');
 
   @override
   Widget build(BuildContext context) {
@@ -51,21 +51,13 @@ class olaWebViewState extends State<olaWebView> {
             child: FloatingActionButton(
               backgroundColor: Colors.white,
               focusColor: Colors.white,
+              onPressed: _launchUrl ,
               child: const CircleAvatar(
                 backgroundImage: AssetImage(
                   'assets/images/ola_icon_full.png',
                 ),
                 radius: 27,
               ),
-              onPressed: _launchUrl ,
-            //   onPressed: () async {
-            //   const deepLink = 'https://m.uber.com/ul/?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d';
-            //   if (await canLaunchUrl(deepLink)) {
-            //     await launchUrl(deepLink);
-            //   } else {
-            //     throw 'Could not launch $deepLink';
-            //   }
-            // },
             ),
           ),
         ),
