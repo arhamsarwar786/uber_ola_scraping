@@ -226,7 +226,7 @@ class _MapView extends State<MapView> {
   @override
   Widget build(BuildContext context) {
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.225;
-    final panelHeightOpen = MediaQuery.of(context).size.height * 1.0;
+    final panelHeightOpen = MediaQuery.of(context).size.height;
     // Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
