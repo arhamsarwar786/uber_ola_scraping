@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter/gestures.dart';
@@ -16,29 +18,9 @@ import '../map_screen.dart';
 // import 'package:uber_scrape/utils/utils.dart';
 // import 'package:uber_scrape/widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-Widget buildDragHandle() => GestureDetector(
-  // onTap: togglePanel,
-  child:   Center(
-  
-        child: Container(
-  
-          height: 5,
-  
-          width: 100,
-  
-          decoration: BoxDecoration(
-  
-            color: Colors.grey,
-  
-            borderRadius: BorderRadius.circular(10),
-  
-          ),
-  
-        ),
-  
-      ),
-);
+
 
 // void togglePanel() => PanelController.isPanelOpen ? panelController.close() : panelController.open();
 
@@ -91,11 +73,12 @@ class _PanelWidgetState extends State<PanelWidget> {
     "assets/images/download.jpg",
   ];
   late final WebViewController _controller;
+  
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
+      // physics: const NeverScrollableScrollPhysics(),
       child: Column(
         children: [
           const SizedBox(height: 15),
@@ -237,7 +220,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                             borderRadius: BorderRadius.circular(17.5),
                           ),
                           child: Image.asset("assets/images/autorikshaw_icon.png",fit: BoxFit.fill,),
-    
+      
                           
                         ),
                        
@@ -360,23 +343,27 @@ class _PanelWidgetState extends State<PanelWidget> {
                                       BorderRadius.all(Radius.circular(13)),
                                 ),
                                 child: InkWell(
-    
+      
                                     onTap: () {
-    
+      
                                       showDialog(
                                         context: context,
                                        builder: (BuildContext context){
-                                        return AlertDialog(
-                                          title: const Text("Popup Titile"),
-                                          content: const Text("Data to display"),
-                                          actions: [
-                                            ElevatedButton(onPressed: (){
-                                              Navigator.of(context).pop();
-                                            } , child: const Text("Close"),),
-                                          ],
+                                        return const AlertDialog(
+                                         content: SizedBox(
+                                          width: double.maxFinite,
+                                          height: double.maxFinite,
+                                          child: WebviewScaffold(
+                                            url: 'https://book.olacabs.com/?serviceType=p2p&utm_source=widget_on_olacabs&drop_lat=25.8498572&drop_lng=85.6666046&drop_name=Tajpur%2C%20Bihar%2C%20India&lat=18.9224864&lng=72.8340377&pickup_name=WRCM%20XPX%2C%20Apollo%20Bandar%2C%20Colaba%2C%20Mumbai%2C%20Maharashtra%20400001%2C%20India&pickup=',
+                                            withZoom: false,
+                                          withLocalStorage: true,
+                                          ),
+
+                                         ),
+                                          
                                         );
                                       });
-    
+      
                       //                 Navigator.push(
                       //   context,
                       //   MaterialPageRoute(
@@ -458,45 +445,24 @@ class _PanelWidgetState extends State<PanelWidget> {
                                 ),
                                 child: InkWell(
                                   onTap: (() {
-    
+      
                                     showDialog(
                                         context: context,
                                        builder: (BuildContext context){
-                                        return AlertDialog(
-                                          content: SingleChildScrollView(
-                                            child: Column(
-                                              children: [
-                                                // Row(
-                                                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                //   // ignore: prefer_const_literals_to_create_immutables
-                                                //   children: [
-                                                //     const Text("Uber login" , style: TextStyle(
-                                                //       fontWeight: FontWeight.bold,
-                                                //       fontSize: 22
-                                                //     ),),
-                                                //      InkWell(
-                                                //       onTap: (() {
-                                                //         Navigator.of(context).pop();
-                                                //       }),
-                                                //       child: const Icon(Icons.close,)),
-                                                //   ],
-                                                // ),
-                                                WebView(
-                                                    initialUrl:
-                                                        'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
-                                                    javascriptMode: JavascriptMode.unrestricted,
-                                                    onWebViewCreated: (WebViewController controller) {
-                                                      _controller = controller;
-                                                    },
-                                                  ),
-                                              ],
-                                            ),
-                                          ),
-                                          
+                                        return const AlertDialog(
+                                         content: SizedBox(
+                                          width: double.maxFinite,
+                                          height: double.maxFinite,
+                                          child: WebviewScaffold(
+                                            url: 'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
+                                            withZoom: false,
+                                          withLocalStorage: true,),
+
+                                         ),
                                           
                                         );
                                       });
-    
+      
                       //               Navigator.push(
                       //   context,
                       //   MaterialPageRoute(
@@ -557,9 +523,11 @@ class _PanelWidgetState extends State<PanelWidget> {
               ],
             ),
           ),
-    
+      
              ListView.builder(
               shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              primary: false,
               padding: EdgeInsets.zero,
               itemCount: person.length,
               itemBuilder: (context, index) {
@@ -576,8 +544,9 @@ class _PanelWidgetState extends State<PanelWidget> {
                       padding: const EdgeInsets.only(top: 5, right: 12),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Text(
+                          const Text(
                             "PKR216.00",
                             style: TextStyle(
                               color: Colors.black,
@@ -590,7 +559,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                     title: Text(
                       person[index],
                     ),
-      
+               
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Text(sub[index]),
@@ -599,10 +568,32 @@ class _PanelWidgetState extends State<PanelWidget> {
                 );
               },
               
-            )]),
+                 )]),
     );
    
       
     
   }
+  Widget buildDragHandle() => GestureDetector(
+  // /
+  child:   Center(
+  
+        child: Container(
+  
+          height: 5,
+  
+          width: 100,
+  
+          decoration: BoxDecoration(
+  
+            color: Colors.grey,
+  
+            borderRadius: BorderRadius.circular(10),
+  
+          ),
+  
+        ),
+  
+      ),
+);
 }
