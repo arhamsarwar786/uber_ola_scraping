@@ -76,19 +76,19 @@ class _PanelWidgetState extends State<PanelWidget> {
   ];
  final person = [
     "Mini","Mini",
-    "uber go",
+    "uber go","uber go"
 
   ];
   final sub = [
     "Affordable",
     "Every day",
-    "Every day",
+    "Every day","Every day"
 
   ];
   final image = [
-    "assets/images/download (4).jpg",
-    "assets/images/download.jpg",
-    "assets/images/download.jpg",
+    "assets/images/uber_icon_full.png",
+    "assets/images/uber_icon_full.png",
+    "assets/images/uber_icon_full.png","assets/images/uber_icon_full.png"
   ];
   late final WebViewController _controller;
 
@@ -558,51 +558,62 @@ class _PanelWidgetState extends State<PanelWidget> {
             ),
           ),
     
-             ListView.builder(
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              itemCount: person.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 2),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(image[index]),
-                      radius: 30,
-                    ),
-                    // Icon(Icons.person),
-                    trailing: Padding(
-                      padding: const EdgeInsets.only(top: 5, right: 12),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "PKR216.00",
-                            style: TextStyle(
-                              color: Colors.black,
+             SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+               child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: person.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 2),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage(image[index]),
+                        radius: 30,
+                      ),
+                      // Icon(Icons.person),
+                      trailing: Padding(
+                        padding: const EdgeInsets.only(top: 5, right: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "PKR216.00",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                          
-                        ],
+                            
+                          ],
+                        ),
+                      ),
+                      title: Text(
+                        person[index],
+                      ),
+                                     
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(sub[index]),
                       ),
                     ),
-                    title: Text(
-                      person[index],
-                    ),
-      
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Text(sub[index]),
-                    ),
-                  ),
-                );
-              },
-              
-            )]),
+                  );
+                },
+                
+                         ),
+             )]),
     );
    
       
     
   }
 }
+
+
+
+
+// Deeplink Uber and Ola (redirect)
+// Bottom Sheet Slide issue
+// webview html find 
+// alert box inside webview

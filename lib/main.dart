@@ -11,6 +11,8 @@ import 'package:uber_scrape/uber_webview.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/root_screen.dart';
 
+import 'html_view.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +28,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'TiltNeon', primarySwatch: Colors.purple),
       // home: SearchScreen("demox"),
       // ignore: prefer_const_constructors
-      // home: MapView(),
-      home:  const RootScreen(),
+       home: MapView(),
+      // home:  const RootScreen(),
+      // home:  WebViewExample(),
+
     );
   }
 }
