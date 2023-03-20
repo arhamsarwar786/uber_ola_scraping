@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'TiltNeon', primarySwatch: Colors.purple),
       // home: SearchScreen("demox"),
       // ignore: prefer_const_constructors
-       home: MapView(),
-      // home:  const RootScreen(),
-      // home:  WebViewExample(),
+      // home: MapView(),
+      home:  const RootScreen(),
+    //  home:  WebViewExample(),
 
     );
   }

@@ -2,6 +2,8 @@ import "package:flutter/material.dart";
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/uber_webview.dart';
+import 'package:store_redirect/store_redirect.dart';
+
 
 class RootScreen extends StatefulWidget {
    const RootScreen({super.key});
@@ -24,6 +26,7 @@ class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body: screenList[activeContainerIndex],
         bottomNavigationBar: Container(
           color: Colors.white,

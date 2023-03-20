@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class uberWebView extends StatefulWidget {
@@ -40,6 +41,7 @@ class uberWebViewState extends State<uberWebView> {
                 radius: 27,
               ),
               onPressed: () {
+                   StoreRedirect.redirect(androidAppId:'com.ubercab&hl');
                 _controller.reload();
               },
             ),
