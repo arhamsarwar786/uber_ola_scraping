@@ -66,6 +66,7 @@ class _PanelWidgetState extends State<PanelWidget> {
     "assets/images/uber_icon_full.png",
     "assets/images/uber_icon_full.png","assets/images/uber_icon_full.png"
   ];
+  // ignore: unused_field
   late final WebViewController _controller;
 
   @override
