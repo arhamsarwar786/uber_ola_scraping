@@ -65,6 +65,7 @@ class _PanelWidgetState extends State<PanelWidget> {
     "assets/images/download.jpg",
     "assets/images/download.jpg",
   ];
+  // ignore: unused_field
   late final WebViewController _controller;
 
   @override
