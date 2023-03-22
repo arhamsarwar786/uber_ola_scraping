@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, avoid_print, prefer_collection_literals
+// ignore_for_file: camel_case_types, avoid_print, prefer_collection_literals, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:store_redirect/store_redirect.dart';
@@ -14,7 +14,7 @@ class uberWebView extends StatefulWidget {
 
 class uberWebViewState extends State<uberWebView> {
   late final WebViewController _controller;
-  final Uri _url1 = Uri.parse('https://m.uber.com/ul/');
+  // final Uri _url1 = Uri.parse('https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D');
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +53,44 @@ class uberWebViewState extends State<uberWebView> {
             child: FloatingActionButton(
               backgroundColor: Colors.black,
               focusColor: Colors.white,
+              
+              // onPressed: () async {
+              //   String deepLink = 'https://m.uber.com/ul/?client_id=<CLIENT_ID>';
+              //   if(await canLaunch(deepLink)){
+              //     await launch(deepLink);
+              //   }
+              //   else{
+              //     await launch('https://m.uber.com/?client_id=<CLIENT_ID>');
+              //   }
+              // },
+              
+              
+              onPressed: () async {
+                const deepLink = 'uber://?action=setPickup&pickup=my_location';
+                if(await canLaunch(deepLink)){
+                  await launch(deepLink);
+                }
+                else{
+                  const fallbackUrl = 'uber://?action=setPickup&pickup=my_location';
+                  if(await canLaunch(fallbackUrl)){
+                    await launch(fallbackUrl);
+                  }
+                  else{
+                    throw 'Could not launch $deepLink';
+                  }
+                }
+              },
+              // onPressed: _launchUber,
               child: const CircleAvatar(
                 backgroundImage: AssetImage(
                   'assets/images/uber_icon_full.png',
                 ),
                 radius: 27,
               ),
-              onPressed: () {
-                   StoreRedirect.redirect(androidAppId:'com.ubercab&hl');
-                _controller.reload();
-              },
+              // onPressed: () {
+              //      StoreRedirect.redirect(androidAppId:'com.ubercab&hl');
+              //   _controller.reload();
+              // },
             ),
           ),
         ),
@@ -78,14 +106,6 @@ class uberWebViewState extends State<uberWebView> {
           },
        );
     }
-    Future<void> _launchUber() async {
-  if (await canLaunchUrl(_url1)) {
-    await launchUrl(_url1);
-  } 
-  else {
-    throw "Could not launch Uber app.";
-  }
-}
 }
 
 
