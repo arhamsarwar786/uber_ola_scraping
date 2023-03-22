@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uber_scrape/polygon.dart';
 // import 'package:uber_scrape/fare_screen.dart';
 // import 'package:uber_scrape/ola_webview.dart';
 // import 'package:uber_scrape/search_handler.dart';
@@ -22,6 +23,21 @@ List cars = [
   {'id': 3, 'name': 'Uber XL', 'price': 500.0},
   {'id': 4, 'name': 'Uber Auto', 'price': 140.0},
 ];
+// List<LatLng> polygonLatLngs = [  LatLng(37.785419, -122.404164),  LatLng(37.787810, -122.403866),  LatLng(37.789327, -122.408751),  LatLng(37.787080, -122.410427),  LatLng(37.785419, -122.404164)];
+// Polygon polygon = Polygon(
+//   polygonId: PolygonId('myPolygon'),
+//   points: polygonLatLngs,
+//   strokeWidth: 2,
+//   strokeColor: Colors.red,
+//   fillColor: Colors.transparent,
+// );
+// Set<Polygon> myPolygons = Set<Polygon>();
+ //Polygons.add(polygon);
+// GoogleMap(
+//   polygons: myPolygons,
+//   initialCameraPosition: CameraPosition(target: LatLng(37.78825, -122.4324), zoom: 12),
+// );
+
 
 // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
@@ -76,6 +92,8 @@ class _MapView extends State<MapView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                           // MyMap(),
+                            //TestMapPolyline(),
                             Text(
                               specify['stationName'],
                               style: const TextStyle(
@@ -173,6 +191,7 @@ class _MapView extends State<MapView> {
                                   //     specify['stationLocation'].latitude,
                                   //     specify['stationLocation'].longitude);
                                 }),
+                                
                           ],
                         ),
                       ),
@@ -191,6 +210,7 @@ class _MapView extends State<MapView> {
   }
 
 // Below function initiates all previous functions on the page. This happens when the user navigates to the page.
+  Set<Polygon> _polygons = {};
 
   @override
   void initState() {
@@ -225,6 +245,26 @@ class _MapView extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
+      final LatLngBounds bounds = LatLngBounds(
+      southwest: const LatLng(37.785419, -122.404164),
+      northeast: const LatLng(37.789327, -122.403866),
+    );
+    final Polygon polygon = Polygon(
+      polygonId: const PolygonId('myPolygon'),
+      points: <LatLng>[
+        const LatLng(37.785419, -122.404164),
+        const LatLng(37.787810, -122.403866),
+        const LatLng(37.789327, -122.408751),
+        const LatLng(37.787080, -122.410427),
+        const LatLng(37.785419, -122.404164),
+      ],
+      strokeWidth: 2,
+      strokeColor: Colors.blue,
+      fillColor: Colors.red,
+    );
+
+    _polygons.add(polygon);
+
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.225;
     final panelHeightOpen = MediaQuery.of(context).size.height;
     // Size size = MediaQuery.of(context).size;
@@ -236,8 +276,21 @@ class _MapView extends State<MapView> {
           maxHeight: panelHeightOpen,
           body: Column(
             children: [
+             
               Expanded(
                 child: GoogleMap(
+rotateGesturesEnabled:true,
+      
+               
+
+   
+                   minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                 polygons: _polygons,
+                initialCameraPosition: CameraPosition(
+              
+          target: LatLng(37.785419, -122.404164),
+          zoom: 14,
+                ),
                   onMapCreated: onMapCreated, 
                   markers: Set<Marker>.of(markers.values),
                   // ignore: prefer_collection_literals
@@ -253,7 +306,7 @@ class _MapView extends State<MapView> {
                   scrollGesturesEnabled: true,
                   myLocationEnabled: _isLocationGranted,
                   myLocationButtonEnabled: true,
-                  initialCameraPosition: _initialCameraPosition,
+                  //initialCameraPosition: _initialCameraPosition,
                 ),
               ),
               Padding(
@@ -262,6 +315,7 @@ class _MapView extends State<MapView> {
               // mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                 
                 ElevatedButton(
                   onPressed: () {
                     if (_controller != null) {
@@ -282,7 +336,8 @@ class _MapView extends State<MapView> {
                     }
                   },
                   child: const Icon(Icons.remove),
-                ),
+                ),//map3333
+              
               ],
             ),
           ),
