@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:uber_scrape/map_screen.dart';
+import 'package:uber_scrape/ola_webview.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => const MapView()));
+          .pushReplacement(MaterialPageRoute(builder: (_) =>   olaWebView()));//mapView--replace
     });
     super.initState();
     controller =

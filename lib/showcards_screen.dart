@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uber_scrape/map_screen.dart';
+import 'package:uber_scrape/ola_webview.dart';
 
 class ShowCards extends StatelessWidget {
   const ShowCards({super.key});
@@ -17,7 +18,7 @@ class ShowCards extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MapView()),
+                  MaterialPageRoute(builder: (context) =>olaWebView() ),//MapView--replace
                 );
               }),
           title: const Padding(
