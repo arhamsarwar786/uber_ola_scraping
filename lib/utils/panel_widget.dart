@@ -52,7 +52,7 @@ class _PanelWidgetState extends State<PanelWidget> {
   ];
  final person = [
     "Mini","Mini",
-    "uber go","uber go"
+    "Uber Go","Uber Go"
 
   ];
   final sub = [
@@ -556,7 +556,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                 contentPadding: EdgeInsets.zero,
                 leading: CircleAvatar(
                   backgroundImage: AssetImage(image[index]),
-                  radius: 30,
+                  radius: 20,
                 ),
                 // Icon(Icons.person),
                 trailing: Padding(
@@ -578,10 +578,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                   person[index],
                 ),
 
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Text(sub[index]),
-                ),
+                subtitle: Text(sub[index]),
               ),
             );
           },

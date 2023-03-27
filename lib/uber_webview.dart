@@ -1,92 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: camel_case_types, avoid_print, prefer_collection_literals, deprecated_member_use, avoid_types_as_parameter_names, must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:store_redirect/store_redirect.dart';
+// import 'package:store_redirect/store_redirect.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
-
-// class uberWebView extends StatefulWidget {
-//   const uberWebView({super.key});
-
-
-//   @override
-//   uberWebViewState createState() => uberWebViewState();
-// }
-
-// class uberWebViewState extends State<uberWebView> {
-//   late WebViewController _controller;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         body: WebView(
-//            initialUrl:'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
-//           javascriptMode: JavascriptMode.unrestricted,
-//           onWebViewCreated: (WebViewController webViewController) {
-//           _controller = webViewController;
-//           _loadHtmlFromAssets();
-//         },
-//         // onPageFinished: (String url) async {
-//         //   String html = await _controller.evaluateJavascript('document.documentElement.outerHTML');
-//         //   log(html.toString());
-//         // },
-//         ),
-        
-//         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-//         floatingActionButton: SizedBox(
-//           height: 40,
-//           width: 40,
-//           child: FittedBox(
-//             child: FloatingActionButton(
-//               backgroundColor: Colors.black,
-//               focusColor: Colors.white,
-//               onPressed: () async {
-//                 const deepLink = 'uber://?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
-//                 if(await canLaunch(deepLink)){
-//                   await launch(deepLink);
-//                 }
-//                 else{
-//                   const fallbackUrl = 'uber://?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
-//                   if(await canLaunch(fallbackUrl)){
-//                     await launch(fallbackUrl);
-//                   }
-//                   else{
-//                     throw 'Could not launch $deepLink';
-//                   }
-//                 }
-//               },
-//               child: const CircleAvatar(
-//                 backgroundImage: AssetImage(
-//                   'assets/images/uber_icon_full.png',
-//                 ),
-//                 radius: 27,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//   _loadHtmlFromAssets() async {
-//     String fileText = await rootBundle.loadString('assets/html/help.html');
-//     _controller.loadUrl( Uri.dataFromString(
-//         fileText,
-//         mimeType: 'text/html',
-//         encoding: Encoding.getByName('utf-8')
-//     ).toString());
-//   }
-// }
-
-
-
 
 class uberWebView extends StatefulWidget {
   const uberWebView({Key? key}) : super(key: key);
@@ -96,8 +19,8 @@ class uberWebView extends StatefulWidget {
 }
 
 class uberWebViewState extends State<uberWebView> {
-  late WebViewController _controller;
-  String _htmlCode = '';
+   late WebViewController _controller;
+  late String _htmlCode ;
 
   @override
   Widget build(BuildContext context) {
@@ -105,36 +28,28 @@ class uberWebViewState extends State<uberWebView> {
       child: Scaffold(
         body: WebView(
            initialUrl:
-              'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
+              'https://m.uber.com/looking?drop%5B0%5D=%7B%22latitude%22%3A31.59379109999999%2C%22longitude%22%3A74.3506828%2C%22addressLine1%22%3A%22Scheme%20No.%202%22%2C%22addressLine2%22%3A%22Scheme%20No%202%2C%20Lahore%2C%20Punjab%22%2C%22id%22%3A%22ChIJdxhx-RobGTkR5v1Lii-g5CU%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&pickup=%7B%22latitude%22%3A31.53229169999999%2C%22longitude%22%3A74.3528196%2C%22addressLine1%22%3A%22Jail%20Road%22%2C%22addressLine2%22%3A%22Jail%20Rd%2C%20Block%20H%20Gulberg%202%2C%20Lahore%2C%20Punjab%22%2C%22id%22%3A%22EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&vehicle=10285',
           javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (controller) {
+          onWebViewCreated: (WebViewController controller) async {
           _controller = controller;
-        },
-          onPageFinished: (String url) async {
-          String html = await _controller.evaluateJavascript('document.documentElement.outerHTML');
+
+          // Get the HTML code of the initial page
+          String htmlCode = await _controller.evaluateJavascript('document.documentElement.outerHTML');
+          log(htmlCode.toString());
+
           setState(() {
-            _htmlCode = html;
+            _htmlCode = htmlCode;
           });
-          log(_htmlCode.toString());
-        },
-        navigationDelegate: (NavigationRequest request) async {
-          
-          // Clear the HTML code when navigating to a new page
-          setState(() {
-            _htmlCode = '';
-          });
-          // log(_htmlCode.toString());
-          return NavigationDecision.navigate;
         },
         ),
         
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: SizedBox(
-          height: 40,
-          width: 40,
+          height: 45,
+          width: 45,
           child: FittedBox(
             child: FloatingActionButton(
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.white,
               focusColor: Colors.white,
               onPressed: () async {
                 const deepLink = 'uber://?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
@@ -155,7 +70,7 @@ class uberWebViewState extends State<uberWebView> {
                 backgroundImage: AssetImage(
                   'assets/images/uber_icon_full.png',
                 ),
-                radius: 27,
+                radius: 26,
               ),
               // onPressed: () {
               //      StoreRedirect.redirect(androidAppId:'com.ubercab&hl');
@@ -168,6 +83,88 @@ class uberWebViewState extends State<uberWebView> {
     );
   }
 }
+
+
+// class uberWebView extends StatefulWidget {
+//   const uberWebView({Key? key}) : super(key: key);
+
+//   @override
+//   uberWebViewState createState() => uberWebViewState();
+// }
+
+// class uberWebViewState extends State<uberWebView> {
+//   late WebViewController _controller;
+//   String _htmlCode = '';
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//         body: WebView(
+//            initialUrl:
+//               'https://m.uber.com/looking?drop%5B0%5D=%7B%22latitude%22%3A31.59379109999999%2C%22longitude%22%3A74.3506828%2C%22addressLine1%22%3A%22Scheme%20No.%202%22%2C%22addressLine2%22%3A%22Scheme%20No%202%2C%20Lahore%2C%20Punjab%22%2C%22id%22%3A%22ChIJdxhx-RobGTkR5v1Lii-g5CU%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&pickup=%7B%22latitude%22%3A31.53229169999999%2C%22longitude%22%3A74.3528196%2C%22addressLine1%22%3A%22Jail%20Road%22%2C%22addressLine2%22%3A%22Jail%20Rd%2C%20Block%20H%20Gulberg%202%2C%20Lahore%2C%20Punjab%22%2C%22id%22%3A%22EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&vehicle=10285',
+//           javascriptMode: JavascriptMode.unrestricted,
+//           onWebViewCreated: (controller) {
+//           _controller = controller;
+//         },
+//           onPageFinished: (String url) async {
+//           String html = await _controller.evaluateJavascript('document.documentElement.outerHTML');
+//           setState(() {
+//             _htmlCode = html;
+//           });
+//           log(_htmlCode.toString());
+//         },
+//         navigationDelegate: (NavigationRequest request) async {
+          
+//           // Clear the HTML code when navigating to a new page
+//           setState(() {
+//             _htmlCode = '';
+//           });
+//           // log(_htmlCode.toString());
+//           return NavigationDecision.navigate;
+//         },
+//         ),
+        
+//         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+//         floatingActionButton: SizedBox(
+//           height: 45,
+//           width: 45,
+//           child: FittedBox(
+//             child: FloatingActionButton(
+//               backgroundColor: Colors.white,
+//               focusColor: Colors.white,
+//               onPressed: () async {
+//                 const deepLink = 'uber://?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
+//                 if(await canLaunch(deepLink)){
+//                   await launch(deepLink);
+//                 }
+//                 else{
+//                   const fallbackUrl = 'uber://?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
+//                   if(await canLaunch(fallbackUrl)){
+//                     await launch(fallbackUrl);
+//                   }
+//                   else{
+//                     throw 'Could not launch $deepLink';
+//                   }
+//                 }
+//               },
+//               child: const CircleAvatar(
+//                 backgroundImage: AssetImage(
+//                   'assets/images/uber_icon_full.png',
+//                 ),
+//                 radius: 26,
+//               ),
+//               // onPressed: () {
+//               //      StoreRedirect.redirect(androidAppId:'com.ubercab&hl');
+//               //   _controller.reload();
+//               // },
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 

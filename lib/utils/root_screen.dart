@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/uber_webview.dart';
-import 'package:store_redirect/store_redirect.dart';
+// import 'package:store_redirect/store_redirect.dart';
 
 
 class RootScreen extends StatefulWidget {

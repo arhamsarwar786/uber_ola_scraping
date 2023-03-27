@@ -46,8 +46,8 @@ class olaWebViewState extends State<olaWebView> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: SizedBox(
-          height: 40,
-          width: 40,
+          height: 45,
+          width: 45,
           child: FittedBox(
             child: FloatingActionButton(
               backgroundColor: Colors.white,
@@ -72,7 +72,7 @@ class olaWebViewState extends State<olaWebView> {
                 backgroundImage: AssetImage(
                   'assets/images/ola_icon_full.png',
                 ),
-                radius: 27,
+                radius: 26,
               ),
               // onPressed: () {
               //    StoreRedirect.redirect(androidAppId:'com.olacabs.customer&hl');

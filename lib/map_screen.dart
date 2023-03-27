@@ -1,8 +1,10 @@
+// ignore_for_file: unused_local_variable, unused_field
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uber_scrape/polygon.dart';
+// import 'package:uber_scrape/polygon.dart';
 // import 'package:uber_scrape/fare_screen.dart';
 // import 'package:uber_scrape/ola_webview.dart';
 // import 'package:uber_scrape/search_handler.dart';
@@ -249,14 +251,14 @@ class _MapView extends State<MapView> {
       southwest: const LatLng(37.785419, -122.404164),
       northeast: const LatLng(37.789327, -122.403866),
     );
-    final Polygon polygon = Polygon(
-      polygonId: const PolygonId('myPolygon'),
+    const Polygon polygon = Polygon(
+      polygonId: PolygonId('myPolygon'),
       points: <LatLng>[
-        const LatLng(37.785419, -122.404164),
-        const LatLng(37.787810, -122.403866),
-        const LatLng(37.789327, -122.408751),
-        const LatLng(37.787080, -122.410427),
-        const LatLng(37.785419, -122.404164),
+        LatLng(37.785419, -122.404164),
+        LatLng(37.787810, -122.403866),
+        LatLng(37.789327, -122.408751),
+        LatLng(37.787080, -122.410427),
+        LatLng(37.785419, -122.404164),
       ],
       strokeWidth: 2,
       strokeColor: Colors.blue,
@@ -279,14 +281,10 @@ class _MapView extends State<MapView> {
              
               Expanded(
                 child: GoogleMap(
-rotateGesturesEnabled:true,
-      
-               
-
-   
-                   minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+  rotateGesturesEnabled:true,
+     minMaxZoomPreference: MinMaxZoomPreference.unbounded,
                  polygons: _polygons,
-                initialCameraPosition: CameraPosition(
+                initialCameraPosition: const CameraPosition(
               
           target: LatLng(37.785419, -122.404164),
           zoom: 14,
