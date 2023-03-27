@@ -33,13 +33,13 @@ class _Map_polygonState extends State<Map_polygon> {
   Completer<GoogleMapController>_controller=Completer();
   static final CameraPosition _KGooglePlex= CameraPosition(target:LatLng(31.567286334227802, 74.32516146459717),zoom: 14);
  Set<Polygon> _polygone=HashSet<Polygon>();
- Set<Polyline>_polyline={};
+  final Set<Polyline>_polyline={};
   List<LatLng> points=[
     LatLng(31.528298548992247, 74.32748116149881),
     // LatLng(32.19690071242614, 74.188635025401),
-    LatLng( 31.730390542227273, 74.26903477884957),
-    LatLng( 31.730390542227273, 74.26903477884957),
-    LatLng( 31.808776780069152, 74.25306532295872),
+    LatLng( 31.582794501125193, 74.41669823993631),
+    LatLng( 31.582341264884725, 74.39770747945322),
+    //LatLng( 31.808776780069152, 74.25306532295872),
 
     LatLng(31.528298548992247, 74.32748116149881),
 
@@ -78,7 +78,7 @@ _marker.add(
 );setState(() {
   
 });      
-    _polyline.add(Polyline(polylineId: PolylineId('6'),points: points,color: Colors.orange,width: 4));
+    _polyline.add(Polyline(polylineId: PolylineId('6'),points: points,width: 4));
     }
     _marker.addAll(_list);
    _polygone.add(Polygon(polygonId:PolygonId('3'),points:latlng,
