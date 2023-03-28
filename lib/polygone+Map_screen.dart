@@ -3,6 +3,7 @@ import 'dart:collection';
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
  import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -70,6 +71,8 @@ class _Map_polygonState extends State<Map_polygon> {
   // 
   
  ];
+   PolylinePoints polylinePoints = PolylinePoints();
+   String googleApiKey="AIzaSyD_ZepSs1bwVc2FCNJmb41hNkE60fU7GWU";
  final panelController = PanelController();
 //  late List<LatLng> routeCoords;
 //   GoogleMapPolyline googleMapPolyline =
@@ -94,7 +97,63 @@ class _Map_polygonState extends State<Map_polygon> {
 //             origin: '55 Kingston Ave, Brooklyn, NY 11213, USA',
 //             destination: '178 Broadway, Brooklyn, NY 11211, USA',
 //             mode: RouteMode.driving);
-//   }
+// 
+//LatLng startLocation=const LatLng(20,50);
+LatLng startLocation=const LatLng(20,50);
+String locationTitleFrom='Search location';
+String locationTitleTo='Search location';
+PointLatLng locationTo=const PointLatLng(0,0);
+PointLatLng locationFrom=const PointLatLng(0,0);
+double distance =0.0;
+
+// double calculateDistance(lat1,lon1,lat2,lon2){
+// var p=0.017453292519943295;
+// var a=0.5-
+//  cos((lat2-lat1)*p)/2+
+// cos(lat*p)*cos(lat2*p)*(1-cos((lon2-lon1)*p))/2;
+// return 12742 * asin(sqrt(a));}
+
+
+// addPolyLine(List<LatLng>polylineCoordinates){
+// PolylineId id=PolylineId("poly");
+// Polyline polyline =Polyline(
+// polylineId:id,
+// color:Colors.deepPurpleAccent,
+// points:polylineCoordinates,
+// width:4,);
+// polylines[id]=polyline;
+// setState((){});}
+
+// getDirections()async{
+// List<LatLng> polylineCoordinates=[];
+
+// PolylineResult result =await polylinePoints.getRouteBetweenCoordinates(
+// googleApiKey,
+// PointLatLng(startLocation.latitude,startLocation.longitude),
+// PointLatLng(endLocation.latitude,endLocation.longitude),
+// );
+
+// if(result.points.isNotEmpty){
+// result.points.forEach((PointLatLng point){
+// polylineCoordinates.add(LatLng(point.latitude,point.longitude));
+// });
+// }
+// else{
+// print(result.errorMessage);}
+
+// double totalDistance=0;
+// for(var i=0;i<polylineCoordinates.length-1;i++){
+// totalDistance+=calculateDistance(
+// polylineCoordinates[i].latitude,
+// polylineCoordinates[i].longitude,
+// polylineCoordinates[i+1].latitude,
+// polylineCoordinates[i+1].longitude,)
+// }
+// print(totalDistance);
+// setState((){
+// distance=totalDistance;});
+// addPolyline(polylineCoordinates);
+// }  }
   @override
   void initState(){
     super.initState();
