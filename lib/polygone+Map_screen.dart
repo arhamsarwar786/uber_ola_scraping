@@ -3,7 +3,9 @@ import 'dart:collection';
 
 
 import 'package:flutter/material.dart';
+
  import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uber_scrape/utils/panel_widget.dart';
 import 'package:uber_scrape/utils/utils.dart';
 // import 'package:uber_scrape/widgets.dart';
@@ -55,7 +57,7 @@ class _Map_polygonState extends State<Map_polygon> {
 
   ];
  List<Marker> _marker=[];
- List<Marker> _list=const[
+  final List<Marker> _list=[
   Marker(markerId: MarkerId('1'),position: LatLng(31.567286334227802, 74.32516146459717), 
   infoWindow:InfoWindow(title: "My position") 
   ), Marker(markerId: MarkerId('2'),position: LatLng(31.58009804133426, 74.35629683972273),
@@ -69,6 +71,30 @@ class _Map_polygonState extends State<Map_polygon> {
   
  ];
  final panelController = PanelController();
+//  late List<LatLng> routeCoords;
+//   GoogleMapPolyline googleMapPolyline =
+//       new GoogleMapPolyline(apiKey: "yourkeyhere");
+
+//   getsomePoints() async {
+//     var permissions =
+//         await Permission.getPermissionsStatus([PermissionName.Location]);
+//     if (permissions[0].permissionStatus == PermissionStatus.notAgain) {
+//       var askpermissions =
+//           await Permission.requestPermissions([PermissionName.Location]);
+//     } else {
+//       routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
+//           origin: LatLng(40.6782, -73.9442),
+//           destination: LatLng(40.6944, -73.9212),
+//           mode: RouteMode.driving);
+//     }
+//   }
+
+//   getaddressPoints() async {
+//     routeCoords = await googleMapPolyline.getPolylineCoordinatesWithAddress(
+//             origin: '55 Kingston Ave, Brooklyn, NY 11213, USA',
+//             destination: '178 Broadway, Brooklyn, NY 11211, USA',
+//             mode: RouteMode.driving);
+//   }
   @override
   void initState(){
     super.initState();
@@ -78,7 +104,12 @@ _marker.add(
 );setState(() {
   
 });      
-    _polyline.add(Polyline(polylineId: PolylineId('6'),points: points,width: 4));
+    _polyline.add(Polyline(polylineId: PolylineId('6'),points: points,visible: true,
+          
+          width: 4,
+          color: Colors.blue,
+          startCap: Cap.roundCap,
+          endCap: Cap.buttCap));
     }
     _marker.addAll(_list);
    _polygone.add(Polygon(polygonId:PolygonId('3'),points:latlng,
