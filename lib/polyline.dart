@@ -3,9 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:google_maps_flutter_tutorial/model/polyline_response.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:uber_scrape/utils/utils.dart';
+
+import 'model/polyline_response.dart';
 
 class PolylineScreen extends StatefulWidget {
   const PolylineScreen({Key? key}) : super(key: key);
@@ -22,7 +24,7 @@ class _PolylineScreenState extends State<PolylineScreen> {
   String totalDistance = "";
   String totalTime = "";
 
-  String apiKey = "Your-api-key-here";
+  String apiKey = kGoogleApiKey;
 
   LatLng origin = const LatLng(31.51110801, 74.2774796);
   LatLng destination = const LatLng(31.5525789, 74.2813495);
