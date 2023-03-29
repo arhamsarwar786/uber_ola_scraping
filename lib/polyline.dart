@@ -91,8 +91,8 @@ class _PolylineScreenState extends State<PolylineScreen> {
 
   Set<Polyline> polylinePoints = {};
   List<LatLng> points = [
-    LatLng(31.524786861840163, 74.35219574474192),
-    LatLng(31.567313817608433, 74.32524731423007),
+    LatLng(31.567423512473322, 74.32512929704535),
+    LatLng(31.53232941929845, 74.3528337150464),
   ];
 
   @override
@@ -138,6 +138,7 @@ class _PolylineScreenState extends State<PolylineScreen> {
 
 //
         ),
+        
       ]),
       panelBuilder: (controller) => PanelWidget(
         controller: controller,
@@ -145,19 +146,19 @@ class _PolylineScreenState extends State<PolylineScreen> {
       ),
     )));
 
-    Container(
-      margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(20),
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("Total Distance: " + totalDistance),
-          Text("Total Time: " + totalTime),
-        ],
-      ),
-    );
+    // Container(
+    //   margin: const EdgeInsets.all(20),
+    //   padding: const EdgeInsets.all(20),
+    //   color: Colors.white,
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     mainAxisSize: MainAxisSize.min,
+    //     children: [
+    //       Text("Total Distance: " + totalDistance),
+    //       Text("Total Time: " + totalTime),
+    //     ],
+    //   ),
+    // );
   }
 
   void drawPolyline() async {
