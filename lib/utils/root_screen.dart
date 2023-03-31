@@ -42,6 +42,7 @@ DateTime? currentBackPressTime;
 onWillPop: ()async{
 
    return await showDialog(
+  
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -98,6 +99,26 @@ onWillPop: ()async{
                     setState(() {
                       
                       activeContainerIndex = 0;
+                      //here i am starting the use of animation
+                     Navigator.push(
+              context,
+              PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 500),
+                pageBuilder: (context, animation, secondaryAnimation) => olaWebView(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  var begin = Offset(0.0, 1.0);
+                  var end = Offset.zero;
+                  var curve = Curves.ease;
+
+                  var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                  var offsetAnimation = animation.drive(tween);
+
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  );
+                },
+              ),);
                       
                     });
                   },
