@@ -64,7 +64,8 @@ class _PanelWidgetState extends State<PanelWidget> {
   final image = [
     "assets/images/uber_icon_full.png",
     "assets/images/uber_icon_full.png",
-    "assets/images/uber_icon_full.png","assets/images/uber_icon_full.png"
+    "assets/images/uber_icon_full.png",
+    "assets/images/uber_icon_full.png"
   ];
   // ignore: unused_field
   late final WebViewController _controller;
@@ -385,12 +386,6 @@ class _PanelWidgetState extends State<PanelWidget> {
                                           ),
                                         );
                                       });
-
-                                  //                 Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => const olaWebView()),
-                                  // );
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -483,12 +478,6 @@ class _PanelWidgetState extends State<PanelWidget> {
                                           ),
                                         );
                                       });
-
-                                  //               Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => const uberWebView()),
-                                  // );
                                 }),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -601,11 +590,3 @@ class _PanelWidgetState extends State<PanelWidget> {
         ),
       );
 }
-
-
-
-
-// Deeplink Uber and Ola (redirect)
-// Bottom Sheet Slide issue
-// webview html find 
-// alert box inside webview

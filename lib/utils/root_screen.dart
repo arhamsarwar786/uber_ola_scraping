@@ -15,8 +15,8 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   List screenList = [
     const MapView(),
-    const olaWebView(),
-     uberWebView()
+     olaWebView(),
+      uberWebView(),
   ];
 
   int activeContainerIndex = 0;

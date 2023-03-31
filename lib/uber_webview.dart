@@ -1,77 +1,156 @@
-// ignore_for_file: camel_case_types, deprecated_member_use, unused_field, avoid_print
+// ignore_for_file: camel_case_types, deprecated_member_use, unused_field, avoid_print, prefer_collection_literals, library_private_types_in_public_api, unnecessary_null_comparison
 
-// import 'dart:async';
-// import 'dart:convert';
-// import 'dart:developer' as developer;
-// import 'dart:developer';
-
-// import 'package:flutter/material.dart';
-// import 'package:uber_scrape/const.dart';
-// // import 'package:store_redirect/store_redirect.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
-// // import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-// import 'package:url_launcher/url_launcher.dart';
-// // import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
-
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-
 class uberWebView extends StatefulWidget {
+  const uberWebView({Key? key}) : super(key: key);
+
   @override
   _uberWebViewState createState() => _uberWebViewState();
 }
 
 class _uberWebViewState extends State<uberWebView> {
-  final String initialUrl = 'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';
+  final String initialUrl =
+      'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';
   late WebViewController _webViewController;
   String _htmlContent = '';
+
+  Timer? _timer;
 
   void _updateHtmlContent(String newHtmlContent) {
     setState(() {
       _htmlContent = newHtmlContent;
+      _htmlContent = _htmlContent.replaceAll("\\u003C", "<");
+      if (_htmlContent != "" || _htmlContent != null) {
+        GlobalState.uberHTML = _htmlContent;
+      }
     });
     log('Updated HTML content: $_htmlContent'.toString());
   }
 
+  Future<String> _getHtmlContent() async {
+    final String content =
+        await _webViewController.evaluateJavascript('document.body.innerHTML');
+    return content;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
+      final String content = await _getHtmlContent();
+      _updateHtmlContent(content);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('WebView Demo'),
-      ),
-      body: WebView(
-        initialUrl: initialUrl,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          _webViewController = webViewController;
-        },
-        onPageFinished: (String url) async {
-          final String content =
-              await _webViewController.evaluateJavascript('document.body.innerHTML');
-          _updateHtmlContent(content);
-        },
-        javascriptChannels: Set.from([
-          JavascriptChannel(
-              name: 'internalChannel',
-              onMessageReceived: (JavascriptMessage message) {
-                _updateHtmlContent(message.message);
-              }),
-        ]),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final String content =
-              await _webViewController.evaluateJavascript('document.body.innerHTML');
-          _updateHtmlContent(content);
-        },
-        child: Icon(Icons.refresh),
+    return SafeArea(
+      child: Scaffold(
+        body: WebView(
+          initialUrl: initialUrl,
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            _webViewController = webViewController;
+          },
+          onPageFinished: (String url) async {
+            final String content = await _getHtmlContent();
+            _updateHtmlContent(content);
+          },
+          javascriptChannels: Set.from([
+            JavascriptChannel(
+                name: 'internalChannel',
+                onMessageReceived: (JavascriptMessage message) {
+                  _updateHtmlContent(message.message);
+                }),
+          ]),
+        ),
       ),
     );
   }
 }
+
+
+
+
+
+
+
+
+// import 'dart:developer';
+// import 'package:flutter/material.dart';
+// import 'package:uber_scrape/utils/gloablState.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
+
+
+// class uberWebView extends StatefulWidget {
+//   const uberWebView({super.key});
+
+//   @override
+//   _uberWebViewState createState() => _uberWebViewState();
+// }
+
+// class _uberWebViewState extends State<uberWebView> {
+//   final String initialUrl = 'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';
+//   late WebViewController _webViewController;
+//   String _htmlContent = '';
+
+//   void _updateHtmlContent(String newHtmlContent) {
+//     setState(() {
+//       _htmlContent = newHtmlContent;
+//       _htmlContent = _htmlContent.replaceAll("\\u003C", "<");
+//       if (_htmlContent != "" || _htmlContent != null ) {
+//         GlobalState.uberHTML = _htmlContent;
+//       }
+//     });
+//     log('Updated HTML content: $_htmlContent'.toString());
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//         body: WebView(
+//           initialUrl: initialUrl,
+//           javascriptMode: JavascriptMode.unrestricted,
+//           onWebViewCreated: (WebViewController webViewController) {
+//             _webViewController = webViewController;
+//           },
+//           onPageFinished: (String url) async {
+//             final String content =
+//                 await _webViewController.evaluateJavascript('document');
+//             _updateHtmlContent(content);
+//           },
+//           javascriptChannels: Set.from([
+//             JavascriptChannel(
+//                 name: 'internalChannel',
+//                 onMessageReceived: (JavascriptMessage message) {
+//                   _updateHtmlContent(message.message);
+//                 }),
+//           ]),
+//         ),
+//         floatingActionButton: FloatingActionButton(
+//           onPressed: () async {
+//             final String content =
+//                 await _webViewController.evaluateJavascript('document.body.innerHTML');
+//             _updateHtmlContent(content);
+//           },
+//           child: const Icon(Icons.refresh),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 
