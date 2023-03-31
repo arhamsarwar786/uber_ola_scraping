@@ -30,7 +30,8 @@ class PolylineScreen extends StatefulWidget {
 }
 
 class _PolylineScreenState extends State<PolylineScreen> {
-  bool _isLocationGranted = false;
+   bool _isLocationGranted = false;
+ 
   var currentLocation;
   GoogleMapController? mapController;
 

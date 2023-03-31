@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import "package:flutter/material.dart";
 import 'package:uber_scrape/map_screen.dart';
@@ -8,11 +9,12 @@ import 'package:uber_scrape/uber_webview.dart';
 import 'package:store_redirect/store_redirect.dart';
 
 import '../polygone+Map_screen.dart';
+import '../willPop.dart';
  
 
 
 class RootScreen extends StatefulWidget {
-   const RootScreen({super.key});
+   const RootScreen({super.key,});
 
   @override
   State<RootScreen> createState() => _RootScreenState();
@@ -33,47 +35,55 @@ class _RootScreenState extends State<RootScreen> {
   Widget build(BuildContext context) {
 
 DateTime? currentBackPressTime;
-  Future<bool> _onBackPressed() async {
-    final now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Press back again to exit')),
-      );
-      return false;
-    }
-    return true;
-  }
+ 
 
     return WillPopScope(
-        onWillPop: _onBackPressed,
-// onWillPop: ()async{
+  //  onWillPop: showExitPopup(context),     
+onWillPop: ()async{
 
-//   final value =await showDialog<bool>(context: context, builder: (context){
-//     return AlertDialog(
-//       title:const Text("Alert"),
-//       content: const Text("Do you want to exit"),
-//       actions: [
-//         ElevatedButton(onPressed: ()=>
-//         Navigator.of(context).pop(),
+   return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            height: 160,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment:CrossAxisAlignment.center,
+              children: [
+                Text("Exit Cab Compare?"),
+                SizedBox(height: 20),
+                InkWell(
+                  onTap:(){
+                    print("Yes selected");
+                        exit(0);
+                        
+                    
+                  } ,
+                  child: Container(
+                    width: 70,
+                    height: 40,
+                    // color: Colors.green,
+                    decoration: BoxDecoration(color:Colors.purple[400],borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Center(child: Text("Exit"))),
+                ),
 
-//          child: const Text("No"),),
-//           ElevatedButton(onPressed: ()=>
-//         Navigator.of(context).pop(),
+                SizedBox(height: 20),
+                InkWell(
+                  onTap: (){
+                    print("No selected");
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cancel")),
 
-//          child: const Text("Exit"),),
-         
-//       ],
-//     );
-//   });
-//   if(value !=null){
-//     return Future.value(value);
-//   }
-//   else{
-//     return Future.value(false);
-//   }
-// },
+           
+              ],
+            ),
+          ),
+        );
+      }); 
+  
+},
 
       child: Scaffold(
         
@@ -160,7 +170,7 @@ DateTime? currentBackPressTime;
                                 color: activeContainerIndex == 1
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 17,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -209,7 +219,7 @@ DateTime? currentBackPressTime;
                                 color: activeContainerIndex == 2
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 17,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
