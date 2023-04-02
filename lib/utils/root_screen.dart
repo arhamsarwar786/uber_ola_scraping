@@ -46,8 +46,12 @@ onWillPop: ()async{
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+        //  shape: BoxShape.rectangle,
+                shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
           content: Container(
             height: 160,
+         
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment:CrossAxisAlignment.center,
@@ -75,7 +79,7 @@ onWillPop: ()async{
                     print("No selected");
                     Navigator.of(context).pop();
                   },
-                  child: Text("Cancel")),
+                  child: Text("Cancel",style:TextStyle(color:Colors.white))),
 
            
               ],
