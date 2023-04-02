@@ -20,7 +20,11 @@ class RootScreen extends StatefulWidget {
   State<RootScreen> createState() => _RootScreenState();
 }
 
-class _RootScreenState extends State<RootScreen> {
+
+
+class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
+   late AnimationController _animationController;
+  late Animation<double> _animation;
   List screenList = [
  const PolylineScreen(),
     const olaWebView(),
@@ -30,8 +34,25 @@ class _RootScreenState extends State<RootScreen> {
   int activeContainerIndex = 0;
 
   List selectedScreenIndex = [0,1,2];
+ get index =>activeContainerIndex;
 
   @override
+  void initState() {
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds:3 ),value: 3);
+    _animation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+  }
+  
+  void _onItemTapped(int index) {
+    if (activeContainerIndex != index) {
+      setState(() {
+        activeContainerIndex = index;
+      });
+      _animationController.forward(from: 3);
+    }
+  }
   Widget build(BuildContext context) {
 
 DateTime? currentBackPressTime;
@@ -79,7 +100,12 @@ onWillPop: ()async{
                     print("No selected");
                     Navigator.of(context).pop();
                   },
-                  child: Text("Cancel",style:TextStyle(color:Colors.white))),
+                  child: Container(
+                     width: 70,
+                    height: 40,
+                    // color: Colors.green,
+                    decoration: BoxDecoration(color:Colors.white12,borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Center(child: Text("Cancel",style:TextStyle(color:Colors.black))))),
 
            
               ],
@@ -92,38 +118,25 @@ onWillPop: ()async{
 
       child: Scaffold(
         
-        body: screenList[activeContainerIndex],
+        body:   FadeTransition(
+          opacity: _animation,
+          child: screenList.elementAt(activeContainerIndex),
+        ),
           bottomNavigationBar: Container(
             color: Colors.white,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                
                 InkWell(
                   onTap: () {
                     setState(() {
-                      
+                    _onItemTapped(index) ;
+                                 
                       activeContainerIndex = 0;
                       //here i am starting the use of animation
-                     Navigator.push(
-              context,
-              PageRouteBuilder(
-                transitionDuration: Duration(milliseconds: 500),
-                pageBuilder: (context, animation, secondaryAnimation) => olaWebView(),
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                  var begin = Offset(0.0, 1.0);
-                  var end = Offset.zero;
-                  var curve = Curves.ease;
-
-                  var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                  var offsetAnimation = animation.drive(tween);
-
-                  return SlideTransition(
-                    position: offsetAnimation,
-                    child: child,
-                  );
-                },
-              ),);
-                      
+          
+        
                     });
                   },
                   child: Padding(
@@ -157,8 +170,9 @@ onWillPop: ()async{
                 InkWell(
                   onTap: () {
                     setState(() {
-                    
+                    _onItemTapped(index) ;
                       activeContainerIndex = 1;
+                    
                       
                     });
                   },
@@ -206,7 +220,7 @@ onWillPop: ()async{
                 InkWell(
                   onTap: () {
                     setState(() {
-                     
+                     _onItemTapped(index) ;
                     activeContainerIndex = 2;
                      
                     });
