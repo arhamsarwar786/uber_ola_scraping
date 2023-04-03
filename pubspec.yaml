@@ -51,6 +51,7 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   html: ^0.15.2
   flutter_html:
+  html_unescape: ^2.0.0
   
 
 dev_dependencies:
