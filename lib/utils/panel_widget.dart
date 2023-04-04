@@ -54,14 +54,14 @@ class _PanelWidgetState extends State<PanelWidget> {
   // final String data3 = "assets/images/small_car_icon.png";
   // final String data4 = "assets/images/big_car_icon.png";
 
-    List<String> listItems = [];
+  List<String> listItems = [];
 
   @override
   void initState() {
     super.initState();
     String? htmlContent = GlobalState.uberHTML;
     dom.Document document = parse(htmlContent!);
-    List<dom.Element> listElements = document.querySelectorAll('div > ul > li p');
+    List<dom.Element> listElements = document.querySelectorAll('div > ul > li');
     listItems = listElements.map((e) => e.text).toList();
   }
 
@@ -682,60 +682,38 @@ class _PanelWidgetState extends State<PanelWidget> {
         ),  
         Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text("Uber Rides", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                  const SizedBox(
-                    height: 10,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text("Uber Rides", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                const SizedBox(height: 10,),
+                for (String item in listItems.skip(1))
+                  Row(
+                    children: [
+                      const CircleAvatar(
+                        backgroundImage: AssetImage(
+                          'assets/images/uber_icon_full.png',
+                        ),
+                        radius: 15,
+                      ),
+                      const SizedBox(width: 10 , height: 10,),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item,
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  for (String item in listItems) Text(item),
-                ],
-              ),
+              ],
             ),
           ),
-        // ListView.builder(
-        //   shrinkWrap: true,
-        //   physics: const NeverScrollableScrollPhysics(),
-        //   primary: false,
-        //   padding: EdgeInsets.zero,
-        //   itemCount: person.length,
-        //   itemBuilder: (context, index) {
-        //     return Padding(
-        //       padding: const EdgeInsets.only(left: 10, top: 2),
-        //       child: ListTile(
-        //         contentPadding: EdgeInsets.zero,
-        //         leading: CircleAvatar(
-        //           backgroundImage: AssetImage(image[index]),
-        //           radius: 20,
-        //         ),
-        //         // Icon(Icons.person),
-        //         trailing: Padding(
-        //           padding: const EdgeInsets.only(top: 5, right: 12),
-        //           child: Column(
-        //             mainAxisAlignment: MainAxisAlignment.center,
-        //             // ignore: prefer_const_literals_to_create_immutables
-        //             children: [
-        //               const Text(
-        //                 "PKR216.00",
-        //                 style: TextStyle(
-        //                   color: Colors.black,
-        //                 ),
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        //         title: Text(
-        //           person[index],
-        //         ),
-
-        //         subtitle: Text(sub[index]),
-        //       ),
-        //     );
-        //   },
-        // )
       ]),
     );
   }

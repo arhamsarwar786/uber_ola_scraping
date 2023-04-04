@@ -25,21 +25,13 @@ List cars = [
   {'id': 3, 'name': 'Uber XL', 'price': 500.0},
   {'id': 4, 'name': 'Uber Auto', 'price': 140.0},
 ];
-// List<LatLng> polygonLatLngs = [  LatLng(37.785419, -122.404164),  LatLng(37.787810, -122.403866),  LatLng(37.789327, -122.408751),  LatLng(37.787080, -122.410427),  LatLng(37.785419, -122.404164)];
-// Polygon polygon = Polygon(
-//   polygonId: PolygonId('myPolygon'),
-//   points: polygonLatLngs,
-//   strokeWidth: 2,
-//   strokeColor: Colors.red,
-//   fillColor: Colors.transparent,
-// );
-// Set<Polygon> myPolygons = Set<Polygon>();
- //Polygons.add(polygon);
-// GoogleMap(
-//   polygons: myPolygons,
-//   initialCameraPosition: CameraPosition(target: LatLng(37.78825, -122.4324), zoom: 12),
-// );
 
+List<LatLng> polylineCoordinates = [
+    const LatLng(31.567450936169315, 74.3251400258807),
+    const LatLng(31.53237971497983, 74.35280689295801),
+    const LatLng(31.567450936169315, 74.3251400258807),
+    const LatLng(31.53237971497983, 74.35280689295801),
+  ];
 
 // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
@@ -212,7 +204,7 @@ class _MapView extends State<MapView> {
   }
 
 // Below function initiates all previous functions on the page. This happens when the user navigates to the page.
-  Set<Polygon> _polygons = {};
+  // Set<Polygon> _polygons = {};
 
   @override
   void initState() {
@@ -247,25 +239,6 @@ class _MapView extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-      final LatLngBounds bounds = LatLngBounds(
-      southwest: const LatLng(37.785419, -122.404164),
-      northeast: const LatLng(37.789327, -122.403866),
-    );
-    const Polygon polygon = Polygon(
-      polygonId: PolygonId('myPolygon'),
-      points: <LatLng>[
-        LatLng(37.785419, -122.404164),
-        LatLng(37.787810, -122.403866),
-        LatLng(37.789327, -122.408751),
-        LatLng(37.787080, -122.410427),
-        LatLng(37.785419, -122.404164),
-      ],
-      strokeWidth: 2,
-      strokeColor: Colors.blue,
-      fillColor: Colors.red,
-    );
-
-    _polygons.add(polygon);
 
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.225;
     final panelHeightOpen = MediaQuery.of(context).size.height;
@@ -283,14 +256,32 @@ class _MapView extends State<MapView> {
                 child: GoogleMap(
   rotateGesturesEnabled:true,
      minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                 polygons: _polygons,
                 initialCameraPosition: const CameraPosition(
               
           target: LatLng(37.785419, -122.404164),
           zoom: 14,
                 ),
-                  onMapCreated: onMapCreated, 
-                  markers: Set<Marker>.of(markers.values),
+                  onMapCreated: onMapCreated,
+                  polylines: {
+          // Define the polyline properties
+          Polyline(
+            polylineId: const PolylineId('polyline'),
+            color: Colors.blue,
+            width: 5,
+            points: polylineCoordinates,
+          ),
+        }, 
+                  // ignore: prefer_collection_literals
+              //     markers: Set<Marker>.from([
+              //   Marker(
+              //     markerId: MarkerId('pickup'),
+              //     position: pickUpController,
+              //   ),
+              //   Marker(
+              //     markerId: MarkerId('destination'),
+              //     position: destinationController,
+              //   ),
+              // ]),
                   // ignore: prefer_collection_literals
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
                     Factory<OneSequenceGestureRecognizer>(
