@@ -359,7 +359,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                                   backgroundImage: AssetImage(
                                     'assets/images/ola_icon_full.png',
                                   ),
-                                  radius: 15,
+                                  radius: 17,
                                 ),
                               ),
                               const Padding(
