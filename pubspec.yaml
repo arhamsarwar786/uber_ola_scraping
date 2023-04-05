@@ -52,6 +52,7 @@ dependencies:
   html: ^0.15.2
   flutter_html:
   html_unescape: ^2.0.0
+  flutter_polyline_points: ^1.0.0
   
 
 dev_dependencies:

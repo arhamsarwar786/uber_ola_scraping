@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, avoid_print, camel_case_types, library_private_types_in_public_api, deprecated_member_use, prefer_collection_literals
 
 
+
 // import 'package:flutter/material.dart';
 // import 'package:html/parser.dart' show parse;
 // import 'package:uber_scrape/utils/gloablState.dart';
