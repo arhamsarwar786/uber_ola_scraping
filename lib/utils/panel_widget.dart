@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter/gestures.dart';
@@ -18,6 +20,14 @@ import '../map_screen.dart';
 // import 'package:uber_scrape/widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html_unescape/html_unescape.dart';
+// import 'package:flutter/material.dart';
+import 'package:html/parser.dart' show parse;
+// import 'package:uber_scrape/map_screen.dart';
+// import 'package:uber_scrape/utils/gloablState.dart';
+import 'package:html/dom.dart' as dom;
+import 'package:uber_scrape/utils/root_screen.dart';
 
 // void togglePanel() => PanelController.isPanelOpen ? panelController.close() : panelController.open();
 
@@ -45,6 +55,17 @@ class _PanelWidgetState extends State<PanelWidget> {
   // final String data3 = "assets/images/small_car_icon.png";
   // final String data4 = "assets/images/big_car_icon.png";
 
+  List<String> listItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    String? htmlContent = GlobalState.uberHTML;
+    dom.Document document = parse(htmlContent!);
+    List<dom.Element> listElements = document.querySelectorAll('div > ul > li');
+    listItems = listElements.map((e) => e.text).toList();
+  }
+
   var imagesList = [
     "assets/images/bike_icon.png",
     "assets/images/autorikshaw_icon.png",
@@ -53,7 +74,7 @@ class _PanelWidgetState extends State<PanelWidget> {
   ];
  final person = [
     "Mini","Mini",
-    "uber go","uber go"
+    "Uber Go","Uber Go"
 
   ];
   final sub = [
@@ -65,7 +86,8 @@ class _PanelWidgetState extends State<PanelWidget> {
   final image = [
     "assets/images/uber_icon_full.png",
     "assets/images/uber_icon_full.png",
-    "assets/images/uber_icon_full.png","assets/images/uber_icon_full.png"
+    "assets/images/uber_icon_full.png",
+    "assets/images/uber_icon_full.png"
   ];
   // ignore: unused_field
   late final WebViewController _controller;
@@ -372,26 +394,55 @@ class _PanelWidgetState extends State<PanelWidget> {
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return const AlertDialog(
-                                          contentPadding: EdgeInsets.zero,
-                                          content: SizedBox(
-                                            width: double.maxFinite,
-                                            height: double.maxFinite,
-                                            child: WebviewScaffold(
-                                              url:
-                                                  'https://book.olacabs.com/?serviceType=p2p&utm_source=widget_on_olacabs&drop_lat=25.8498572&drop_lng=85.6666046&drop_name=Tajpur%2C%20Bihar%2C%20India&lat=18.9224864&lng=72.8340377&pickup_name=WRCM%20XPX%2C%20Apollo%20Bandar%2C%20Colaba%2C%20Mumbai%2C%20Maharashtra%20400001%2C%20India&pickup=',
-                                              withZoom: false,
-                                              withLocalStorage: true,
-                                            ),
-                                          ),
+                                        return Dialog(
+                                          // contentPadding: EdgeInsets.all(4),
+                                          shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Ola Rides',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.close , size: 20,),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                        ),
+                        const Expanded(
+                        child: WebView(
+                          initialUrl: 'https://drive.olacabs.com/login',
+                          javascriptMode: JavascriptMode.unrestricted,
+                        ),
+                      ),
+                      ],
+                     ),
                                         );
                                       });
-
-                                  //                 Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => const olaWebView()),
-                                  // );
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -471,7 +522,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return const AlertDialog(
-                                          contentPadding: EdgeInsets.zero,
+                                          contentPadding: EdgeInsets.all(4),
                                           content: SizedBox(
                                             width: double.maxFinite,
                                             height: double.maxFinite,
@@ -484,12 +535,98 @@ class _PanelWidgetState extends State<PanelWidget> {
                                           ),
                                         );
                                       });
-
-                                  //               Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => const uberWebView()),
-                                  // );
+                                }),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  // ignore: prefer_const_literals_to_create_immutables
+                                  children: [
+                                    const Text(
+                                      "Login to see prices ",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: Color.fromARGB(
+                                              255, 137, 92, 146)),
+                                    ),
+                                    const Icon(
+                                      Icons.logout_rounded,
+                                      size: 18,
+                                      color: Color.fromARGB(255, 137, 92, 146),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(15, 15, 0, 7.5),
+                                child: CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                    'assets/images/cream_icon.png',
+                                  ),
+                                  radius: 17,
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(11, 10, 0, 0),
+                                child: Text(
+                                  "Careem",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 190,
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 218, 210, 231),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13)),
+                              ),
+                              child: InkWell(
+                                onTap: (() {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const AlertDialog(
+                                          contentPadding: EdgeInsets.all(4),
+                                          content: SizedBox(
+                                            width: double.maxFinite,
+                                            height: double.maxFinite,
+                                            child: WebviewScaffold(
+                                              url:
+                                                  'https://app.careem.com/rides',
+                                              withZoom: false,
+                                              withLocalStorage: true,
+                                            ),
+                                          ),
+                                        );
+                                      });
                                 }),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -543,50 +680,41 @@ class _PanelWidgetState extends State<PanelWidget> {
               ),
             ],
           ),
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          primary: false,
-          padding: EdgeInsets.zero,
-          itemCount: person.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 10, top: 2),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage(image[index]),
-                  radius: 30,
-                ),
-                // Icon(Icons.person),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(top: 5, right: 12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    // ignore: prefer_const_literals_to_create_immutables
+        ),  
+        Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text("Uber Rides", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                const SizedBox(height: 10,),
+                for (String item in listItems.skip(1))
+                  Row(
                     children: [
-                      const Text(
-                        "PKR216.00",
-                        style: TextStyle(
-                          color: Colors.black,
+                      const CircleAvatar(
+                        backgroundImage: AssetImage(
+                          'assets/images/uber_icon_full.png',
+                        ),
+                        radius: 15,
+                      ),
+                      const SizedBox(width: 10 , height: 10,),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item,
+                              softWrap: true,
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-                title: Text(
-                  person[index],
-                ),
-
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Text(sub[index]),
-                ),
-              ),
-            );
-          },
-        )
+              ],
+            ),
+          ),
       ]),
     );
   }
@@ -605,11 +733,3 @@ class _PanelWidgetState extends State<PanelWidget> {
         ),
       );
 }
-
-
-
-
-// Deeplink Uber and Ola (redirect)
-// Bottom Sheet Slide issue
-// webview html find 
-// alert box inside webview

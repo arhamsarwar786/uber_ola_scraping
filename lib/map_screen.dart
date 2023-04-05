@@ -1,43 +1,37 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/gestures.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
+// ignore_for_file: unused_local_variable, unused_field
+
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:uber_scrape/polygon.dart';
-// // import 'package:uber_scrape/fare_screen.dart';
-// // import 'package:uber_scrape/ola_webview.dart';
-// // import 'package:uber_scrape/search_handler.dart';
-// // import 'package:uber_scrape/uber_webview.dart';
-// // import 'package:uber_scrape/utils/gloablState.dart';
-// import 'package:uber_scrape/utils/panel_widget.dart';
-// import 'package:uber_scrape/utils/utils.dart';
-// // import 'package:uber_scrape/widgets.dart';
-// import 'package:sliding_up_panel/sliding_up_panel.dart';
+// import 'package:uber_scrape/fare_screen.dart';
+// import 'package:uber_scrape/ola_webview.dart';
+// import 'package:uber_scrape/search_handler.dart';
+// import 'package:uber_scrape/uber_webview.dart';
+// import 'package:uber_scrape/utils/gloablState.dart';
+import 'package:uber_scrape/utils/panel_widget.dart';
+import 'package:uber_scrape/utils/utils.dart';
+// import 'package:uber_scrape/widgets.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // final pickUpController = TextEditingController();
 // final destinationController = TextEditingController();
 
-// List cars = [
-//   {'id': 0, 'name': 'Select a Ride', 'price': 0.0},
-//   {'id': 1, 'name': 'Uber Go', 'price': 230.0},
-//   {'id': 2, 'name': 'Go Sedan', 'price': 300.0},
-//   {'id': 3, 'name': 'Uber XL', 'price': 500.0},
-//   {'id': 4, 'name': 'Uber Auto', 'price': 140.0},
-// ];
-// // List<LatLng> polygonLatLngs = [  LatLng(37.785419, -122.404164),  LatLng(37.787810, -122.403866),  LatLng(37.789327, -122.408751),  LatLng(37.787080, -122.410427),  LatLng(37.785419, -122.404164)];
-// // Polygon polygon = Polygon(
-// //   polygonId: PolygonId('myPolygon'),
-// //   points: polygonLatLngs,
-// //   strokeWidth: 2,
-// //   strokeColor: Colors.red,
-// //   fillColor: Colors.transparent,
-// // );
-// // Set<Polygon> myPolygons = Set<Polygon>();
-//  //Polygons.add(polygon);
-// // GoogleMap(
-// //   polygons: myPolygons,
-// //   initialCameraPosition: CameraPosition(target: LatLng(37.78825, -122.4324), zoom: 12),
-// // );
+List cars = [
+  {'id': 0, 'name': 'Select a Ride', 'price': 0.0},
+  {'id': 1, 'name': 'Uber Go', 'price': 230.0},
+  {'id': 2, 'name': 'Go Sedan', 'price': 300.0},
+  {'id': 3, 'name': 'Uber XL', 'price': 500.0},
+  {'id': 4, 'name': 'Uber Auto', 'price': 140.0},
+];
 
+List<LatLng> polylineCoordinates = [
+    const LatLng(31.567450936169315, 74.3251400258807),
+    const LatLng(31.53237971497983, 74.35280689295801),
+    const LatLng(31.567450936169315, 74.3251400258807),
+    const LatLng(31.53237971497983, 74.35280689295801),
+  ];
 
 // // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
@@ -209,8 +203,8 @@
 //     });
 //   }
 
-// // Below function initiates all previous functions on the page. This happens when the user navigates to the page.
-//   Set<Polygon> _polygons = {};
+// Below function initiates all previous functions on the page. This happens when the user navigates to the page.
+  // Set<Polygon> _polygons = {};
 
 //   @override
 //   void initState() {
@@ -243,27 +237,8 @@
 //       const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 12);
 //   final panelController = PanelController();
 
-//   @override
-//   Widget build(BuildContext context) {
-//       final LatLngBounds bounds = LatLngBounds(
-//       southwest: const LatLng(37.785419, -122.404164),
-//       northeast: const LatLng(37.789327, -122.403866),
-//     );
-//     final Polygon polygon = Polygon(
-//       polygonId: const PolygonId('myPolygon'),
-//       points: <LatLng>[
-//         const LatLng(37.785419, -122.404164),
-//         const LatLng(37.787810, -122.403866),
-//         const LatLng(37.789327, -122.408751),
-//         const LatLng(37.787080, -122.410427),
-//         const LatLng(37.785419, -122.404164),
-//       ],
-//       strokeWidth: 2,
-//       strokeColor: Colors.blue,
-//       fillColor: Colors.red,
-//     );
-
-//     _polygons.add(polygon);
+  @override
+  Widget build(BuildContext context) {
 
 //     final panelHeightClosed = MediaQuery.of(context).size.height * 0.225;
 //     final panelHeightOpen = MediaQuery.of(context).size.height;
@@ -277,28 +252,18 @@
 //           body: Column(
 //             children: [
              
-//               Expanded(
-//                 child: GoogleMap(
-// rotateGesturesEnabled:true,
-      
-               
-
-   
-//                    minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-//                  polygons: _polygons,
-//                 initialCameraPosition: CameraPosition(
-              
-//           target: LatLng(37.785419, -122.404164),
-//           zoom: 14,
-//                 ),
-//                   onMapCreated: onMapCreated, 
-//                   markers: Set<Marker>.of(markers.values),
-//                   // ignore: prefer_collection_literals
-//                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-//                     Factory<OneSequenceGestureRecognizer>(
-//                       () => EagerGestureRecognizer(),
-//                     ),
-//                   ].toSet(),
+              //   ),
+              //   Marker(
+              //     markerId: MarkerId('destination'),
+              //     position: destinationController,
+              //   ),
+              // ]),
+                  // ignore: prefer_collection_literals
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  ].toSet(),
                   
 //                   mapToolbarEnabled: true,
 //                   zoomGesturesEnabled: true,
@@ -322,7 +287,6 @@
 //                       _controller!.animateCamera(
 //                         CameraUpdate.zoomIn(),
 //                       );
-//                     }
 //                   },
 //                   child: const Icon(Icons.add),
 //                 ),

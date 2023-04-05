@@ -2,11 +2,12 @@ import 'dart:collection';
 import 'dart:io';
 
 import "package:flutter/material.dart";
+import 'package:uber_scrape/cream_webview.dart';
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/polyline.dart';
 import 'package:uber_scrape/uber_webview.dart';
-import 'package:store_redirect/store_redirect.dart';
+// import 'package:store_redirect/store_redirect.dart';
 
 import '../polygone+Map_screen.dart';
 import '../willPop.dart';
@@ -26,21 +27,16 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
    late AnimationController _animationController;
   late Animation<double> _animation;
   List screenList = [
- const PolylineScreen(),
-    const olaWebView(),
-    const uberWebView()
+    const MapView(),
+      olaWebView(),
+      const uberWebView(),
+        const creamWebView(),
   ];
 
   int activeContainerIndex = 0;
 
-  List selectedScreenIndex = [0,1,2];
- get index =>activeContainerIndex;
-
-  @override
-  void initState() {
-    super.initState();
+  List selectedScreenIndex = [0,1,2,3];
     _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds:3 ),value: 3);
     _animation =
         CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
   }
@@ -54,73 +50,205 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     }
   }
   Widget build(BuildContext context) {
-
-DateTime? currentBackPressTime;
- 
-
-    return WillPopScope(
-  //  onWillPop: showExitPopup(context),     
-onWillPop: ()async{
-
-   return await showDialog(
-  
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-        //  shape: BoxShape.rectangle,
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
-          content: Container(
-            height: 160,
-         
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment:CrossAxisAlignment.center,
+    return Scaffold(
+      
+      body: screenList[activeContainerIndex],
+        bottomNavigationBar: BottomSheet(
+          builder: (BuildContext context){
+              return Container(
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("Exit Cab Compare?"),
-                SizedBox(height: 20),
                 InkWell(
-                  onTap:(){
-                    print("Yes selected");
-                        exit(0);
-                        
-                    
-                  } ,
-                  child: Container(
-                    width: 70,
-                    height: 40,
-                    // color: Colors.green,
-                    decoration: BoxDecoration(color:Colors.purple[400],borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Center(child: Text("Exit"))),
+                  onTap: () {
+                    setState(() {
+                      
+                      activeContainerIndex = 0;
+                      
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Container(
+                        width: 40,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: selectedScreenIndex[0] == activeContainerIndex ? Colors.purple : Colors.white,
+                          borderRadius: BorderRadius.circular(0),
+                          border: Border.all(
+                            width: 1,
+                            color: activeContainerIndex == 0 ? Colors.purple : Colors.grey,
+                          ),
+                        ),
+        
+                        // color: Colors.purple[900],
+                        child: Icon(
+                          activeContainerIndex == 0 ? Icons.home_sharp : Icons.home_sharp,
+                          size: 35,
+                          color: activeContainerIndex == 0 ? Colors.white : Colors.black,
+                        )
+                        // child:  const Icon(
+                        //   Icons.home_sharp,
+                        //   size: 30.0,
+                        //   color: Colors.white,
+                        // ),
+                        ),
+                  ),
                 ),
-
-                SizedBox(height: 20),
                 InkWell(
-                  onTap: (){
-                    print("No selected");
-                    Navigator.of(context).pop();
+                  onTap: () {
+                    setState(() {
+                    
+                      activeContainerIndex = 1;
+                      
+                    });
+        
                   },
                   child: Container(
-                     width: 70,
-                    height: 40,
-                    // color: Colors.green,
-                    decoration: BoxDecoration(color:Colors.white12,borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Center(child: Text("Cancel",style:TextStyle(color:Colors.black))))),
-
-           
+                    width: 100,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: selectedScreenIndex[1] == activeContainerIndex ? Colors.purple : Colors.white,
+        
+                      borderRadius: BorderRadius.circular(3),
+                      border: Border.all(
+                        width: 1,
+                        color: activeContainerIndex == 1 ? Colors.purple : Colors.grey,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0.0),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage(
+                              'assets/images/ola_icon_full.png',
+                            ),
+                            radius: 15,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Ola",
+                            style: TextStyle(
+                                color: activeContainerIndex == 1
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                     
+                    activeContainerIndex = 2;
+                     
+                    });
+                  },
+                  child: Container(
+                    width: 105,
+                    height: 60,
+                    decoration: BoxDecoration(
+                                            color: selectedScreenIndex[2] == activeContainerIndex ? Colors.purple : Colors.white,
+        
+                      borderRadius: BorderRadius.circular(3),
+                      border: Border.all(
+                        width: 1,
+                        color: activeContainerIndex == 2 ? Colors.purple : Colors.grey,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0.0),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage(
+                              'assets/images/uber_icon_full.png',
+                            ),
+                            radius: 15,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Uber",
+                            style: TextStyle(
+                                color: activeContainerIndex == 2
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                     
+                    activeContainerIndex = 3;
+                     
+                    });
+                  },
+                  child: Container(
+                    width: 115,
+                    height: 60,
+                    decoration: BoxDecoration(
+                                            color: selectedScreenIndex[3] == activeContainerIndex ? Colors.purple : Colors.white,
+        
+                      borderRadius: BorderRadius.circular(3),
+                      border: Border.all(
+                        width: 1,
+                        color: activeContainerIndex == 3 ? Colors.purple : Colors.grey,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0.0),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage(
+                              'assets/images/cream_icon.png',
+                            ),
+                            radius: 15,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Careem",
+                            style: TextStyle(
+                                color: activeContainerIndex == 3
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
-        );
-      }); 
-  
-},
-
-      child: Scaffold(
-        
-        body:   FadeTransition(
-          opacity: _animation,
-          child: screenList.elementAt(activeContainerIndex),
+          );
+          }, onClosing: () {  },
+           
         ),
           bottomNavigationBar: Container(
             color: Colors.white,

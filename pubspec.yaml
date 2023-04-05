@@ -48,10 +48,10 @@ dependencies:
   store_redirect: ^2.0.1
   flutter_webview_plugin: ^0.4.0
   url_launcher: ^6.1.10
-  flutter_map: ^3.1.0
-  latlong: ^0.6.1
-  flutter_polyline_points: ^1.0.0
-  geolocator:
+  flutter_inappwebview: ^5.7.2+3
+  html: ^0.15.2
+  flutter_html:
+  html_unescape: ^2.0.0
   
 
 dev_dependencies:

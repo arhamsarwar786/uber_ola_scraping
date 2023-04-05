@@ -13,7 +13,6 @@ import 'package:uber_scrape/uber_webview.dart';
 // import 'package:uber_scrape/webView.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/root_screen.dart';
-
 import 'html_view.dart';
 
 

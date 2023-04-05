@@ -7,4 +7,5 @@ class GlobalState {
   static String? pickUpAddress;
   static LatLng? destinationLatLng;
   static String? destinationAddress;
+  static String? uberHTML = "";
 }
