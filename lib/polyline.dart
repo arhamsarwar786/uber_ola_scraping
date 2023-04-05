@@ -99,6 +99,7 @@ class _PolylineScreenState extends State<PolylineScreen> {
   @override
   void initState() {
     super.initState();
+    getCurrentLocation();
     drawPolyline();
     for (var i = 0; i < points.length; i++) {
     _marker.add(
