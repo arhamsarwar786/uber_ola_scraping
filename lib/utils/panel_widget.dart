@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter/gestures.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -27,6 +28,8 @@ import 'package:html/parser.dart' show parse;
 // import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:uber_scrape/utils/root_screen.dart';
+import 'package:geocoding/geocoding.dart';
+
 
 // void togglePanel() => PanelController.isPanelOpen ? panelController.close() : panelController.open();
 
@@ -49,10 +52,6 @@ class PanelWidget extends StatefulWidget {
 
 class _PanelWidgetState extends State<PanelWidget> {
   int _selectedContainer = 1;
-  // final String data1 = "assets/images/bike_icon.png";
-  // final String data2 = "assets/images/autorikshaw_icon.png";
-  // final String data3 = "assets/images/small_car_icon.png";
-  // final String data4 = "assets/images/big_car_icon.png";
 
   List<String> listItems = [];
 
@@ -71,33 +70,11 @@ class _PanelWidgetState extends State<PanelWidget> {
     "assets/images/small_car_icon.png",
     "assets/images/big_car_icon.png"
   ];
- final person = [
-    "Mini","Mini",
-    "Uber Go","Uber Go"
-
-  ];
-  final sub = [
-    "Affordable",
-    "Every day",
-    "Every day","Every day"
-
-  ];
-  final image = [
-    "assets/images/uber_icon_full.png",
-    "assets/images/uber_icon_full.png",
-    "assets/images/uber_icon_full.png",
-    "assets/images/uber_icon_full.png"
-  ];
   // ignore: unused_field
   late final WebViewController _controller;
 
   @override
   Widget build(BuildContext context) {
-    // if(
-    //   GlobalState.destinationAddress != null && GlobalState.pickUpAddress != null
-    // ){
-    //   widget.panelController.close();
-    // }
     return SingleChildScrollView(
       controller: ScrollController(
         initialScrollOffset: 0.0,
@@ -117,7 +94,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                   handlePressButton(context, 'pickUp');
                   if (GlobalState.destinationAddress != null &&
                       GlobalState.pickUpAddress != null) {
-                    widget.panelController.close();
+                    widget.panelController.open();
                   }
                   // Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen('Pick Up') ));
                 },
@@ -128,6 +105,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                     controller: pickUpController,
                     enabled: false,
                     decoration: const InputDecoration(
+                      
                         icon: Icon(
                           Icons.accessibility_new,
                           color: Colors.black,
@@ -169,7 +147,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                   handlePressButton(context, 'destination');
                   if (GlobalState.destinationAddress != null &&
                       GlobalState.pickUpAddress != null) {
-                    widget.panelController.close();
+                    widget.panelController.open();
                   }
                 },
                 child: Padding(

@@ -1,10 +1,11 @@
-// ignore_for_file: unused_local_variable, unused_field
+// ignore_for_file: unused_local_variable, unused_field, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:uber_scrape/utils/gloablState.dart';
 // import 'package:uber_scrape/polygon.dart';
 // import 'package:uber_scrape/fare_screen.dart';
 // import 'package:uber_scrape/ola_webview.dart';
@@ -15,6 +16,7 @@ import 'package:uber_scrape/utils/panel_widget.dart';
 import 'package:uber_scrape/utils/utils.dart';
 // import 'package:uber_scrape/widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:geocoding/geocoding.dart';
 
 final pickUpController = TextEditingController();
 final destinationController = TextEditingController();
@@ -37,7 +39,7 @@ List cars = [
 // This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
 class MapView extends StatefulWidget {
-  const MapView({super.key});
+  const MapView({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -240,62 +242,62 @@ class _MapView extends State<MapView> {
   final CameraPosition _initialCameraPosition =
       const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 12);
   final panelController = PanelController();
-  Set<Marker> markers = Set(); //markers for google map
+  // Set<Marker> markers = Set(); //markers for google map
   Map<PolylineId, Polyline> polylines = {}; //polylines to show direction
 
-  LatLng startLocation = const LatLng(31.567565948234733, 74.32517348348192);  
-  LatLng endLocation = const LatLng(31.539356089917025, 74.33581876733875); 
-                            
+  // LatLng startLocation = LatLng(31.567565948234733, 74.32517348348192);
+  // LatLng endLocation = LatLng(31.539356089917025, 74.33581876733875);
 
-  @override
-  void initState() {
+  // @override
+  // void initState() {
 
-     markers.add(Marker( //add start location marker
-        markerId: MarkerId(startLocation.toString()),
-        position: startLocation, //position of marker
-        infoWindow: const InfoWindow( //popup info 
-          title: 'Starting Point ',
-          snippet: 'Start Marker',
-        ),
-        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-      ));
+  //    markers.add(Marker( //add start location marker
+  //       markerId: MarkerId(startLocation.toString()),
+  //       position: startLocation, //position of marker
+  //       infoWindow: const InfoWindow( //popup info 
+  //         title: 'Starting Point ',
+  //         snippet: 'Start Marker',
+  //       ),
+  //       icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+  //     ));
 
-      markers.add(Marker( //add distination location marker
-        markerId: MarkerId(endLocation.toString()),
-        position: endLocation, //position of marker
-        infoWindow: const InfoWindow( //popup info 
-          title: 'Destination Point ',
-          snippet: 'Destination Marker',
-        ),
-        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-      ));
+  //     markers.add(Marker( //add distination location marker
+  //       markerId: MarkerId(endLocation.toString()),
+  //       position: endLocation, //position of marker
+  //       infoWindow: const InfoWindow( //popup info 
+  //         title: 'Destination Point ',
+  //         snippet: 'Destination Marker',
+  //       ),
+  //       icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+  //     ));
       
-      getDirections(); //fetch direction polylines from Google API
-      getCurrentLocation();
-    super.initState();
-  }
+  //     getDirections(); //fetch direction polylines from Google API
+  //     getCurrentLocation();
+  //   super.initState();
+  // }
 
-  getDirections() async {
-      List<LatLng> polylineCoordinates = [];
+  // getDirections() async {
+  //     List<LatLng> polylineCoordinates = [];
      
-      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-          googleAPiKey,
-          PointLatLng(startLocation.latitude, startLocation.longitude),
-          PointLatLng(endLocation.latitude, endLocation.longitude),
-          travelMode: TravelMode.driving,
-      );
+  //     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+  //         googleAPiKey,
+  //         PointLatLng(startLocation.latitude, startLocation.longitude),
+  //         PointLatLng(endLocation.latitude, endLocation.longitude),
+  //         travelMode: TravelMode.driving,
+  //     );
 
-      if (result.points.isNotEmpty) {
-            result.points.forEach((PointLatLng point) {
-                polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-            });
-      } else {
-         print(result.errorMessage);
-      }
-      addPolyLine(polylineCoordinates);
-  }
+  //     if (result.points.isNotEmpty) {
+  //           result.points.forEach((PointLatLng point) {
+  //               polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+  //           });
+  //     } else {
+  //        print(result.errorMessage);
+  //     }
+  //     addPolyLine(polylineCoordinates);
+  // }
 
-  addPolyLine(List<LatLng> polylineCoordinates) {
+addPolyLine(List<LatLng> polylineCoordinates) {
+    // String polylineIdVal = "${GlobalState.pickUpLatLng!.latitude},${GlobalState.pickUpLatLng!.longitude}-${GlobalState.destinationLatLng!.latitude},${GlobalState.destinationLatLng!.longitude}";
     PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
@@ -307,8 +309,65 @@ class _MapView extends State<MapView> {
     setState(() {});
   }
 
+      List<Marker> markers = [];
+
+  LatLng? startLocation = GlobalState.pickUpLatLng;
+  LatLng? endLocation = GlobalState.destinationLatLng;
+
+  //   getDirections() async {
+  //     List<LatLng> polylineCoordinates = [];
+     
+  //     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+  //         googleAPiKey,
+  //         PointLatLng(startLocation.latitude, startLocation.longitude),
+  //         PointLatLng(endLocation.latitude, endLocation.longitude),
+  //         travelMode: TravelMode.driving,
+  //     );
+
+  //     if (result.points.isNotEmpty) {
+  //           result.points.forEach((PointLatLng point) {
+  //               polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+  //           });
+  //     } else {
+  //        print(result.errorMessage);
+  //     }
+  //     addPolyLine(polylineCoordinates);
+  // }
+
+    @override
+  void initState() {
+
+    markers.add(Marker(
+      markerId: const MarkerId('start'),
+      position: startLocation ?? const LatLng(0, 0),
+      infoWindow: const InfoWindow(
+        title: 'Starting Point',
+        snippet: 'Start Marker',
+      ),
+      icon: BitmapDescriptor.defaultMarker,
+    ));
+
+    markers.add(Marker(
+      markerId: const MarkerId('end'),
+      position: endLocation ?? const LatLng(0, 0),
+      infoWindow: const InfoWindow(
+        title: 'Destination Point',
+        snippet: 'Destination Marker',
+      ),
+      icon: BitmapDescriptor.defaultMarker,
+    ));
+
+    // getDirections();
+    getCurrentLocation();
+    super.initState();
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
+
 
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.225;
     final panelHeightOpen = MediaQuery.of(context).size.height;
@@ -332,7 +391,7 @@ class _MapView extends State<MapView> {
           zoom: 14,
                 ),
                   onMapCreated: onMapCreated,
-                  markers: markers, //markers to show on map
+                  markers: markers.toSet(), //markers to show on map
                     polylines: Set<Polyline>.of(polylines.values), //polylines
                     mapType: MapType.normal, 
                   
@@ -351,35 +410,16 @@ class _MapView extends State<MapView> {
                   myLocationButtonEnabled: true,
                   //initialCameraPosition: _initialCameraPosition,
                 ),
+                
               ),
               Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 
-                ElevatedButton(
-                  onPressed: () {
-                    if (_controller != null) {
-                      _controller!.animateCamera(
-                        CameraUpdate.zoomIn(),
-                      );
-                    }
-                  },
-                  child: const Icon(Icons.add),
+                Container(
+                  height: MediaQuery.of(context).size.height * 1/3.4,
                 ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_controller != null) {
-                      _controller!.animateCamera(
-                        CameraUpdate.zoomOut(),
-                      );
-                    }
-                  },
-                  child: const Icon(Icons.remove),
-                ),//map3333
               
               ],
             ),
