@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-    
+    debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'TiltNeon', primarySwatch: Colors.purple),
       // home: SearchScreen("demox"),
       // ignore: prefer_const_constructors
