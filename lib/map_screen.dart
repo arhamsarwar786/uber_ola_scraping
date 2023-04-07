@@ -59,7 +59,7 @@ class _MapView extends State<MapView> {
   }
 
   final CameraPosition _initialCameraPosition =
-      const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 12);
+      const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 10);
   final panelController = PanelController();
 
   
@@ -72,6 +72,16 @@ class _MapView extends State<MapView> {
 
     super.initState();
   }
+
+  MapType _currentMapType = MapType.normal;
+
+void _onMapTypeButtonPressed() {
+  setState(() {
+    _currentMapType = _currentMapType == MapType.normal
+        ? MapType.satellite
+        : MapType.normal;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -89,32 +99,53 @@ class _MapView extends State<MapView> {
               Expanded(
                 child: Consumer<MyProvider>(
                   builder: (context,provider,child) {
-                    return GoogleMap(
-                      rotateGesturesEnabled: true,
-                      minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                      initialCameraPosition: const CameraPosition(
-                        target: LatLng(37.785419, -122.404164),
-                        zoom: 14,
-                      ),
-                      onMapCreated: onMapCreated,
-                      markers: provider.markers.toSet(), //markers to show on map
-                      polylines: Set<Polyline>.of(provider.polylines.values), //polylines
-                      mapType: MapType.normal,
-
-                      // ignore: prefer_collection_literals
-                      gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                        Factory<OneSequenceGestureRecognizer>(
-                          () => EagerGestureRecognizer(),
+                    return Stack(
+                      children: <Widget> [
+                          GoogleMap(
+                        rotateGesturesEnabled: true,
+                        minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                        initialCameraPosition: const CameraPosition(
+                          target: LatLng(37.785419, -122.404164),
+                          zoom: 13,
                         ),
-                      ].toSet(),
-
-                      mapToolbarEnabled: true,
-                      zoomGesturesEnabled: true,
-                      zoomControlsEnabled: true,
-                      scrollGesturesEnabled: true,
-                      myLocationEnabled: _isLocationGranted,
-                      myLocationButtonEnabled: true,
-                      //initialCameraPosition: _initialCameraPosition,
+                        onMapCreated: onMapCreated,
+                        markers: provider.markers.toSet(), //markers to show on map
+                        polylines: Set<Polyline>.of(provider.polylines.values), //polylines
+                        mapType: _currentMapType,
+                    
+                        // ignore: prefer_collection_literals
+                        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                          Factory<OneSequenceGestureRecognizer>(
+                            () => EagerGestureRecognizer(),
+                          ),
+                        ].toSet(),
+                    
+                        mapToolbarEnabled: true,
+                        zoomGesturesEnabled: true,
+                        zoomControlsEnabled: true,
+                        scrollGesturesEnabled: true,
+                        myLocationEnabled: _isLocationGranted,
+                        myLocationButtonEnabled: true,
+                        //initialCameraPosition: _initialCameraPosition,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8,60,8,0),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: SizedBox(
+                            width: 45,
+                            height: 45,
+                            child: FloatingActionButton(
+                              onPressed: _onMapTypeButtonPressed,
+                              materialTapTargetSize: MaterialTapTargetSize.padded,
+                              backgroundColor: Colors.green,
+                              child: const Icon(Icons.map, size: 30.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      ],
+                       
                     );
                   }
                 ),
@@ -147,3 +178,5 @@ class _MapView extends State<MapView> {
     mapController = controller;
   }
 }
+
+

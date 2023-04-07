@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'TiltNeon', primarySwatch: Colors.purple),
-        home:  const RootScreen(),
+        home:  const SplashScreen(),
       ),
     );
   }

@@ -1,12 +1,10 @@
-import 'dart:developer';
+// ignore_for_file: avoid_print, prefer_interpolation_to_compose_strings, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/utils.dart';
-
-import 'package:flutter/material.dart';
 
 class MyProvider extends ChangeNotifier {
   PolylinePoints polylinePoints = PolylinePoints();

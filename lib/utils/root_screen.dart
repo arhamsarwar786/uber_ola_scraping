@@ -205,7 +205,7 @@ class _RootScreenState extends State<RootScreen> {
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             const Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0.0),
+                              padding: EdgeInsets.all(6.0),
                               child: CircleAvatar(
                                 backgroundImage: AssetImage(
                                   'assets/images/cream_icon.png',
@@ -213,17 +213,14 @@ class _RootScreenState extends State<RootScreen> {
                                 radius: 15,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Careem",
-                                style: TextStyle(
-                                    color: activeContainerIndex == 3
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                            Text(
+                              "Careem",
+                              style: TextStyle(
+                                  color: activeContainerIndex == 3
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
