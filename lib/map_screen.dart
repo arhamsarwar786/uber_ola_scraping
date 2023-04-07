@@ -344,7 +344,15 @@ class _MapView extends State<MapView> {
                           () => EagerGestureRecognizer(),
                         ),
                       ].toSet(),
-
+ compassEnabled: true,
+ liteModeEnabled: true,
+ indoorViewEnabled: true,
+ trafficEnabled: true,
+ buildingsEnabled: true,
+ 
+ cameraTargetBounds: CameraTargetBounds.unbounded,
+ tiltGesturesEnabled: true,
+ 
                       mapToolbarEnabled: true,
                       zoomGesturesEnabled: true,
                       zoomControlsEnabled: true,
