@@ -16,11 +16,17 @@ import 'package:html/dom.dart' as dom;
 
 // void togglePanel() => PanelController.isPanelOpen ? panelController.close() : panelController.open();
 
+
+
+ 
 class PanelWidget extends StatefulWidget {
+
+  
   final ScrollController controller;
   final PanelController panelController;
 
   const PanelWidget({
+    
     Key? key,
     required this.controller,
     required this.panelController,
@@ -32,6 +38,7 @@ class PanelWidget extends StatefulWidget {
 }
 
 class _PanelWidgetState extends State<PanelWidget> {
+  
   int _selectedContainer = 1;
 
     bool get isFormFilled =>
@@ -119,7 +126,7 @@ Future<bool> _onWillPop() async {
             InkWell(
               onTap: () async {
                 await handlePressButton(context, 'pickUp');
-                if (GlobalState.pickUpAddress != null) {
+                if (GlobalState.pickUpAddress != null  ) {
                   widget.panelController.open();
                 }
               },
@@ -167,6 +174,8 @@ Future<bool> _onWillPop() async {
             ),
             InkWell(
               onTap: () async {
+
+         
                 await handlePressButton(context, 'destination');
     
                 if (GlobalState.destinationAddress != null &&
@@ -174,7 +183,11 @@ Future<bool> _onWillPop() async {
                   widget.panelController.close();
                   // ignore: use_build_context_synchronously
                   var provider = Provider.of<MyProvider>(context, listen: false);
-    
+               
+               
+               
+
+                
                   provider.getDirections();
                 }
               },
