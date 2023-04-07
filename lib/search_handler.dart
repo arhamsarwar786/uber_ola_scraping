@@ -1,14 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/utils.dart';
-// ignore: depend_on_referenced_packages
 import 'package:google_api_headers/google_api_headers.dart';
-// ignore: depend_on_referenced_packages
 import 'package:google_maps_webservice/places.dart';
 
 Future<void> handlePressButton(context, source) async {
@@ -26,8 +22,7 @@ Future<void> handlePressButton(context, source) async {
     apiKey: kGoogleApiKey,
     onError: onError,
     mode: Mode.fullscreen,
-    // language: 'pk',
-    // components: [Component(Component.country, 'pk')],
+    
   );
 
   await displayPrediction(p, ScaffoldMessenger.of(context), source);

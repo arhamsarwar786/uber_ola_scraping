@@ -106,11 +106,6 @@ class _FareScreenState extends State<FareScreen> {
         title: const Text("Fare Details"),
         centerTitle: true,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     fetchFare();
-      //   },
-      // ),
       body: isFound
           ? const Center(child: CircularProgressIndicator.adaptive())
           : SingleChildScrollView(
@@ -150,8 +145,6 @@ class _FareScreenState extends State<FareScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Row(
-                                  // mainAxisAlignment: MainAxisAlignment.start,
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
                                       crossAxisAlignment:
@@ -173,8 +166,6 @@ class _FareScreenState extends State<FareScreen> {
                                             image: DecorationImage(
                                               image: NetworkImage(
                                                   tier.productImageUrl!),
-                                              // image: SvgPicture.asset(
-                                              //     'assets/images/olacars.svg'),
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -269,44 +260,6 @@ class _FareScreenState extends State<FareScreen> {
                                 ),
                               ),
                             );
-                            //   return Card(
-                            //       child: ListTile(
-                            //     trailing: Text("${tier.etaStringShort}"),
-                            //     leading: Stack(
-                            //       children: [
-                            //         CircleAvatar(
-                            //           backgroundImage:
-                            //               NetworkImage(tier.productImageUrl!),
-                            //           radius: 30,
-                            //         ),
-                            //         const Positioned(
-                            //           bottom: 0,
-                            //           right: 0,
-                            //           child: CircleAvatar(
-                            //             backgroundColor: Colors.purple,
-                            //             backgroundImage: AssetImage(
-                            //                 "assets/images/uberLogo.png"),
-                            //             radius: 10,
-                            //           ),
-                            //         )
-                            //       ],
-                            //     ),
-                            //     subtitle: Text(
-                            //         "${tier.currencyCode} ${fareSpliter(tier.fare)}"),
-                            //     title: Row(
-                            //       children: [
-                            //         Text("${tier.displayName}"),
-                            //         const SizedBox(
-                            //           width: 20,
-                            //         ),
-                            //         const Icon(
-                            //           Icons.person,
-                            //           size: 20,
-                            //         ),
-                            //         Text("${tier.capacity}"),
-                            //       ],
-                            //     ),
-                            //   ));
                           }),
                   const SizedBox(
                     height: 30,
@@ -341,8 +294,6 @@ class _FareScreenState extends State<FareScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Row(
-                                  // mainAxisAlignment: MainAxisAlignment.start,
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
                                       crossAxisAlignment:
@@ -364,8 +315,6 @@ class _FareScreenState extends State<FareScreen> {
                                             image: DecorationImage(
                                               image: AssetImage(
                                                   "assets/images/olaLogo.png"),
-                                              // image: SvgPicture.asset(
-                                              //     'assets/images/olacars.svg'),
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -393,24 +342,6 @@ class _FareScreenState extends State<FareScreen> {
                                                           FontWeight.w600),
                                                 ),
                                               ),
-                                              // Container(
-                                              //   alignment: Alignment.topLeft,
-                                              //   decoration:
-                                              //       const BoxDecoration(),
-                                              //   child: const Icon(
-                                              //       Icons.accessible),
-                                              // ),
-                                              // Container(
-                                              //   decoration:
-                                              //       const BoxDecoration(),
-                                              //   child: Text(
-                                              //     "${tier.capacity}",
-                                              //     style: const TextStyle(
-                                              //         fontSize: 15,
-                                              //         fontWeight:
-                                              //             FontWeight.w600),
-                                              //   ),
-                                              // ),
                                             ],
                                           ),
                                           Row(
@@ -460,19 +391,6 @@ class _FareScreenState extends State<FareScreen> {
                                 ),
                               ),
                             );
-
-                            // return Card(
-                            //     child: ListTile(
-                            //   trailing:
-                            //       Text("${tier.eta!.value} ${tier.eta!.unit}"),
-                            //   leading: const CircleAvatar(
-                            //     backgroundImage:
-                            //         AssetImage("assets/images/olaLogo.png"),
-                            //     radius: 30,
-                            //   ),
-                            //   subtitle: Text("${olaFareCalculator(tier.id)}"),
-                            //   title: Text("${tier.displayName}"),
-                            // ));
                           }),
                 ],
               ),

@@ -3,7 +3,6 @@ import 'package:uber_scrape/cream_webview.dart';
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/uber_webview.dart';
-// import 'package:store_redirect/store_redirect.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -15,7 +14,7 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   List screenList = [
     const MapView(),
-    olaWebView(),
+    const olaWebView(),
     const uberWebView(),
     const creamWebView(),
   ];

@@ -1,42 +1,17 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/gestures.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:uber_scrape/provider/my_provider.dart';
-// import 'package:uber_scrape/fare_screen.dart';
-// import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/search_handler.dart';
-// import 'package:uber_scrape/uber_webview.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
-
-// import '../bottom_sheet_dynamic.dart';
-import '../get_direction_polyline.dart';
 import '../map_screen.dart';
-// import 'package:uber_scrape/utils/gloablState.dart';
-// import 'package:uber_scrape/utils/utils.dart';
-// import 'package:uber_scrape/widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:html_unescape/html_unescape.dart';
-// import 'package:flutter/material.dart';
 import 'package:html/parser.dart' show parse;
-// import 'package:uber_scrape/map_screen.dart';
-// import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:html/dom.dart' as dom;
-import 'package:uber_scrape/utils/root_screen.dart';
-import 'package:geocoding/geocoding.dart';
 
 // void togglePanel() => PanelController.isPanelOpen ? panelController.close() : panelController.open();
-
-// This page shows a Google Map plugin with all stations (HvD and Total). The markers are pulled from a Firebase database.
 
 class PanelWidget extends StatefulWidget {
   final ScrollController controller;
@@ -700,40 +675,6 @@ class _PanelWidgetState extends State<PanelWidget> {
               ),
             ),
           ),
-          //       Padding(
-          //   padding: const EdgeInsets.all(12.0),
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     crossAxisAlignment: CrossAxisAlignment.stretch,
-          //     children: [
-          //       const Text("Uber Rides", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-          //       const SizedBox(height: 10,),
-          //       for (String item in listItems.skip(1))
-          //         Row(
-          //           children: [
-          //             const CircleAvatar(
-          //               backgroundImage: AssetImage(
-          //                 'assets/images/uber_icon_full.png',
-          //               ),
-          //               radius: 15,
-          //             ),
-          //             const SizedBox(width: 10 , height: 10,),
-          //             Flexible(
-          //               child: Column(
-          //                 crossAxisAlignment: CrossAxisAlignment.start,
-          //                 children: [
-          //                   Text(
-          //                     item,
-          //                     softWrap: true,
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );
