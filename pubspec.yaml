@@ -54,6 +54,7 @@ dependencies:
   html_unescape: ^2.0.0
   flutter_polyline_points: ^1.0.0
   geocoding:
+  provider: ^6.0.5
   
 
 dev_dependencies:
