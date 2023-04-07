@@ -2,6 +2,7 @@
 
 
 
+
 // import 'package:flutter/material.dart';
 // import 'package:html/parser.dart' show parse;
 // import 'package:uber_scrape/utils/gloablState.dart';
