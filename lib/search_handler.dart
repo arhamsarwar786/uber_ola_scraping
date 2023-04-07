@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -61,6 +63,7 @@ Future<void> displayPrediction(
 
   // ignore: avoid_print
   print('${p.description} - $lat/$lng ');
+
   // messengerState.showSnackBar(
   //   SnackBar(
   //     content: Text('${p.description} - $lat/$lng'),
