@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 
 
-class indicator extends StatefulWidget {
+class ShowIndicatorDemo extends StatefulWidget {
   @override
-  indicatorState createState() => new indicatorState();
+  ShowIndicatorDemoState createState() => new ShowIndicatorDemoState();
 }
 
-class indicatorState extends State<indicator> {
+class ShowIndicatorDemoState extends State<ShowIndicatorDemo> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
