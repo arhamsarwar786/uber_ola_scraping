@@ -7,19 +7,19 @@ import 'package:uber_scrape/provider/my_provider.dart';
 import 'package:uber_scrape/search_handler.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
+import 'package:uber_scrape/utils/spinner_loader.dart';
 import '../map_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
 
-// void togglePanel() => PanelController.isPanelOpen ? panelController.close() : panelController.open();
-
 class PanelWidget extends StatefulWidget {
   final ScrollController controller;
   final PanelController panelController;
+  
 
-  const PanelWidget({
+   PanelWidget({
     Key? key,
     required this.controller,
     required this.panelController,
@@ -119,7 +119,10 @@ Future<bool> _onWillPop() async {
               onTap: () async {
                 await handlePressButton(context, 'pickUp');
                 if (GlobalState.pickUpAddress != null) {
-                  widget.panelController.open();
+                  widget.panelController.close();
+                  // ignore: use_build_context_synchronously
+                  var provider = Provider.of<MyProvider>(context, listen: false);
+                  provider.getDirections();
                 }
               },
               child: Padding(
@@ -173,7 +176,6 @@ Future<bool> _onWillPop() async {
                   widget.panelController.close();
                   // ignore: use_build_context_synchronously
                   var provider = Provider.of<MyProvider>(context, listen: false);
-    
                   provider.getDirections();
                 }
               },
@@ -477,7 +479,9 @@ Future<bool> _onWillPop() async {
                     ),
                   ],
                 ),
-                Row(
+          listItems.length > 1 ?
+          Container():
+           Row(
                   children: [
                     InkWell(
                       onTap: () {},
@@ -663,72 +667,58 @@ Future<bool> _onWillPop() async {
               endIndent: 0,
               color: Colors.black,
             ),
-    
+
             Expanded(
-              child: SizedBox(
-                width: double.infinity,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        height: 75,
-                        child: Image.asset(imagesList[_selectedContainer - 1]),
-                      ),
-                      // ignore: avoid_unnecessary_containers
-                      Container(
-                        child: const Text("No options available for now..."),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 75,
-                        child: Image.asset(imagesList[_selectedContainer - 1]),
-                      ),
-                      // ignore: avoid_unnecessary_containers
-                      Container(
-                        child: const Text("No options available for now..."),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 75,
-                        child: Image.asset(imagesList[_selectedContainer - 1]),
-                      ),
-                      // ignore: avoid_unnecessary_containers
-                      Container(
-                        child: const Text("No options available for now..."),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 75,
-                        child: Image.asset(imagesList[_selectedContainer - 1]),
-                      ),
-                      // ignore: avoid_unnecessary_containers
-                      Container(
-                        child: const Text("No options available for now..."),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 75,
-                        child: Image.asset(imagesList[_selectedContainer - 1]),
-                      ),
-                      // ignore: avoid_unnecessary_containers
-                      Container(
-                        child: const Text("No options available for now..."),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 75,
-                        child: Image.asset(imagesList[_selectedContainer - 1]),
-                      ),
-                      // ignore: avoid_unnecessary_containers
-                      Container(
-                        child: const Text("No options available for now..."),
-                      ),
-                    ],
-                  ),
-                ),
+  child: SizedBox(
+    width: double.infinity,
+    child: SingleChildScrollView(
+      child: listItems.length > 1
+          ? Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var i = 1; i < listItems.length; i++)
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/images/uber_icon_full.png',
+                          ),
+                          radius: 15,
+                        ),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                listItems[i],
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
               ),
+            )
+          : Column(
+              children: [
+                SizedBox(
+                  width: 100,
+                  height: 75,
+                  child: Image.asset(imagesList[_selectedContainer - 1]),
+                ),
+                const Text("No options available for now..."),
+              ],
             ),
+    ),
+  ),
+),
+
           ],
         ),
       ),

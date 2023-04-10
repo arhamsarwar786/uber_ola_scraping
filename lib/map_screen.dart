@@ -59,7 +59,7 @@ class _MapView extends State<MapView> {
   }
 
   final CameraPosition _initialCameraPosition =
-      const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 10);
+      const CameraPosition(target: LatLng(51.9244201, 4.4777325), zoom: 12);
   final panelController = PanelController();
 
   
@@ -119,14 +119,16 @@ void _onMapTypeButtonPressed() {
                             () => EagerGestureRecognizer(),
                           ),
                         ].toSet(),
-                    
+                        buildingsEnabled: true,
                         mapToolbarEnabled: true,
                         zoomGesturesEnabled: true,
                         zoomControlsEnabled: true,
                         scrollGesturesEnabled: true,
                         myLocationEnabled: _isLocationGranted,
                         myLocationButtonEnabled: true,
-                        //initialCameraPosition: _initialCameraPosition,
+                        compassEnabled: true,
+                        indoorViewEnabled: true,
+                        // trafficEnabled: true,
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8,60,8,0),
@@ -144,6 +146,27 @@ void _onMapTypeButtonPressed() {
                           ),
                         ),
                       ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            color: Colors.white,
+                            child: Positioned(
+                                top: 16,
+                                left: 16,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(
+                                      'Lat: ${currentLocation.latitude ?? ''} Lng: ${currentLocation.longitude ?? ''}',
+                                      style: const TextStyle(fontSize: 18),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ),
+                        ),
                       ],
                        
                     );
