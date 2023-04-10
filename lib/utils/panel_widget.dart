@@ -192,11 +192,11 @@ Future<bool> _onWillPop() async {
                   controller: destinationController,
                   enabled: false,
                   decoration: const InputDecoration(
-                      icon: Icon(
+                    icon: Icon(
                         Icons.fmd_good_sharp,
                         color: Colors.red,
                       ),
-                      hintText: "Destination",
+                       hintText: "Destination",
                       border: InputBorder.none),
                 ),
               ),
