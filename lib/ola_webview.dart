@@ -16,14 +16,20 @@ class olaWebView extends StatefulWidget {
 class _olaWebViewState extends State<olaWebView> {
   List<String> listItems = [];
 
-  @override
-  void initState() {
-    super.initState();
-    String? htmlContent = GlobalState.uberHTML;
-    dom.Document document = parse(htmlContent!);
-    List<dom.Element> listElements = document.querySelectorAll('div > ul > li');
-    listItems = listElements.map((e) => e.text).toList();
-  }
+@override
+void initState() {
+  super.initState();
+  String? htmlContent = GlobalState.uberHTML;
+  dom.Document document = parse(htmlContent!);
+  List<dom.Element> listElements = document.querySelectorAll('div > ul > li');
+  listItems = listElements
+      .where((element) => !element.querySelectorAll('li > p').isNotEmpty)
+      .map((e) => e.text)
+      .toList();
+}
+
+
+
 
   @override
   Widget build(BuildContext context) {

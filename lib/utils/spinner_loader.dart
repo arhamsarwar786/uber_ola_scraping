@@ -28,7 +28,6 @@ class _ProgressIndicatorDemoState extends State<ProgressIndicatorDemo>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animation;
-  bool _isLoading = true;
 
   @override
   void initState() {
@@ -36,9 +35,9 @@ class _ProgressIndicatorDemoState extends State<ProgressIndicatorDemo>
     controller = AnimationController(
         duration: const Duration(seconds: 30), vsync: this);
     animation = Tween(begin: 0.0, end: 1.0).animate(controller)
-      ..addListener(({isLoading}) {
+      ..addListener(() {
         setState(() {
-          _isLoading = false;
+          // the state that has changed here is the animation object’s value
         });
       });
     controller.repeat();

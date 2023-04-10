@@ -1,5 +1,8 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:developer';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -7,7 +10,6 @@ import 'package:uber_scrape/provider/my_provider.dart';
 import 'package:uber_scrape/search_handler.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
-import 'package:uber_scrape/utils/spinner_loader.dart';
 import '../map_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -19,7 +21,7 @@ class PanelWidget extends StatefulWidget {
   final PanelController panelController;
   
 
-   PanelWidget({
+   const PanelWidget({
     Key? key,
     required this.controller,
     required this.panelController,
@@ -83,14 +85,14 @@ Future<bool> _onWillPop() async {
 
   List<String> listItems = [];
 
-  @override
-  void initState() {
-    super.initState();
-    String? htmlContent = GlobalState.uberHTML;
-    dom.Document document = parse(htmlContent!);
-    List<dom.Element> listElements = document.querySelectorAll('div > ul > li');
-    listItems = listElements.map((e) => e.text).toList();
-  }
+@override
+void initState() {
+  super.initState();
+  String? htmlContent = GlobalState.uberHTML;
+  dom.Document document = parse(htmlContent!);
+  List<dom.Element> listElements = document.querySelectorAll('div > ul > li');
+  listItems = listElements.map((e) => e.querySelector('span')!.text).toList();
+}
 
   var imagesList = [
     "assets/images/bike_icon.png",
@@ -173,7 +175,7 @@ Future<bool> _onWillPop() async {
     
                 if (GlobalState.destinationAddress != null &&
                     GlobalState.pickUpAddress != null) {
-                  widget.panelController.close();
+                  widget.panelController.open();
                   // ignore: use_build_context_synchronously
                   var provider = Provider.of<MyProvider>(context, listen: false);
                   provider.getDirections();
