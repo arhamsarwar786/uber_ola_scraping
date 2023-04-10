@@ -9,9 +9,12 @@ import 'package:uber_scrape/splash_screen.dart';
 import 'package:uber_scrape/uber_webview.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/root_screen.dart';
-
+import 'package:admob_flutter/admob_flutter.dart';
 
 void main() {
+   WidgetsFlutterBinding.ensureInitialized();
+  // Initialize without device test ids.
+  Admob.initialize();
   runApp(const MyApp());
 }
 
