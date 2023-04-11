@@ -8,4 +8,5 @@ class GlobalState {
   static LatLng? destinationLatLng;
   static String? destinationAddress;
   static String? uberHTML = "";
+  static String? careemHTML = "";
 }

@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable
 
-import 'dart:developer';
-import 'dart:html';
+// import 'dart:developer';
+// import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,6 @@ import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import '../map_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
 
@@ -529,25 +528,67 @@ void initState() {
                               borderRadius: BorderRadius.all(Radius.circular(13)),
                             ),
                             child: InkWell(
-                              onTap: (() {
+                              onTap: () {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return const AlertDialog(
-                                        contentPadding: EdgeInsets.all(4),
-                                        content: SizedBox(
-                                          width: double.maxFinite,
-                                          height: double.maxFinite,
-                                          child: WebviewScaffold(
-                                            url:
-                                                'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
-                                            withZoom: false,
-                                            withLocalStorage: true,
-                                          ),
+                                      return Dialog(
+                                        // contentPadding: EdgeInsets.all(4),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Padding(
+                                                    padding: EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Uber Rides',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20),
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    icon: const Icon(
+                                                      Icons.close,
+                                                      size: 20,
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const Expanded(
+                                              child: WebView(
+                                                initialUrl:
+                                                    'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D',
+                                                javascriptMode:
+                                                    JavascriptMode.unrestricted,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       );
                                     });
-                              }),
+                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 // ignore: prefer_const_literals_to_create_immutables
@@ -618,24 +659,67 @@ void initState() {
                               borderRadius: BorderRadius.all(Radius.circular(13)),
                             ),
                             child: InkWell(
-                              onTap: (() {
+                              onTap: () {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return const AlertDialog(
-                                        contentPadding: EdgeInsets.all(4),
-                                        content: SizedBox(
-                                          width: double.maxFinite,
-                                          height: double.maxFinite,
-                                          child: WebviewScaffold(
-                                            url: 'https://app.careem.com/rides',
-                                            withZoom: false,
-                                            withLocalStorage: true,
-                                          ),
+                                      return Dialog(
+                                        // contentPadding: EdgeInsets.all(4),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Padding(
+                                                    padding: EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Careem Rides',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20),
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    icon: const Icon(
+                                                      Icons.close,
+                                                      size: 20,
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const Expanded(
+                                              child: WebView(
+                                                initialUrl:
+                                                    'https://app.careem.com/',
+                                                javascriptMode:
+                                                    JavascriptMode.unrestricted,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       );
                                     });
-                              }),
+                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 // ignore: prefer_const_literals_to_create_immutables

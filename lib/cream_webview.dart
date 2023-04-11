@@ -17,7 +17,7 @@ class creamWebView extends StatefulWidget {
 
 class _creamWebViewState extends State<creamWebView> {
   final String initialUrl =
-      'https://app.careem.com/';
+      'https://app.careem.com/rides';
   late WebViewController _webViewController;
   String _htmlContent = '';
 
@@ -28,7 +28,7 @@ class _creamWebViewState extends State<creamWebView> {
       _htmlContent = newHtmlContent;
       _htmlContent = _htmlContent.replaceAll("\\u003C", "<");
       if (_htmlContent != "" || _htmlContent != null) {
-        GlobalState.uberHTML = _htmlContent;
+        GlobalState.careemHTML = _htmlContent;
       }
     });
     log('Updated HTML content: $_htmlContent'.toString());
