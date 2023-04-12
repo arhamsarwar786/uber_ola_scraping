@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_print, unnecessary_null_comparison
+
 import "package:flutter/material.dart";
 import 'package:uber_scrape/cream_webview.dart';
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/uber_webview.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -14,7 +17,7 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   List screenList = [
     const MapView(),
-     olaWebView(),
+    const olaWebView(),
     const uberWebView(),
     const creamWebView(),
   ];
@@ -22,6 +25,68 @@ class _RootScreenState extends State<RootScreen> {
   int activeContainerIndex = 0;
 
   List selectedScreenIndex = [0, 1, 2, 3];
+
+  // final RewardedAd rewardedAd;
+  final String rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+
+late RewardedAd rewardedAd; // remove final keyword and initialize as null
+
+@override
+void initState(){
+  super.initState();
+  MobileAds.instance.initialize();
+  WidgetsFlutterBinding.ensureInitialized();
+  _loadRewardedAd();
+}
+
+void _loadRewardedAd(){
+  RewardedAd.load(
+    adUnitId: rewardedAdUnitId,
+    request: const AdRequest(),
+    rewardedAdLoadCallback: RewardedAdLoadCallback(
+      onAdFailedToLoad: (LoadAdError error){
+        print("Failed to load rewarded ad, Error: $error");
+      },
+      onAdLoaded: (RewardedAd ad){
+        print("$ad loaded");
+        rewardedAd = ad;
+
+        _setFullScreenContentCallback();
+      }
+    ),
+  );
+}
+
+void _setFullScreenContentCallback(){
+  if(rewardedAd == null) return;
+  rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
+    onAdShowedFullScreenContent: (RewardedAd ad) => print("$ad onAdShowedFullScreenContent"),
+    onAdDismissedFullScreenContent: (RewardedAd ad){
+      print("$ad onAdDismissedFullScreenContent");
+
+      ad.dispose();
+    },
+    onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error){
+      print("$ad onAdFailedToShowFullScreenContent: $error");
+      ad.dispose();
+    },
+    onAdImpression: (RewardedAd ad) => print("$ad Impression occurred"),
+  );
+}
+
+void _showRewardedAd(){
+  if(rewardedAd != null){
+    rewardedAd.show(
+      onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem){
+        num amount = rewardItem.amount;
+        print("You earned: $amount");
+      }
+    );
+  } else {
+    print("Rewarded ad not loaded yet");
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +104,9 @@ class _RootScreenState extends State<RootScreen> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
+                        _showRewardedAd();
                         activeContainerIndex = 0;
+                        
                       });
                     },
                     child: Padding(
@@ -76,7 +143,9 @@ class _RootScreenState extends State<RootScreen> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
+                        _showRewardedAd();
                         activeContainerIndex = 1;
+                        
                       });
                     },
                     child: Container(
@@ -129,7 +198,9 @@ class _RootScreenState extends State<RootScreen> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
+                        _showRewardedAd();
                         activeContainerIndex = 2;
+                        
                       });
                     },
                     child: Container(
@@ -183,7 +254,9 @@ class _RootScreenState extends State<RootScreen> {
                     child: InkWell(
                       onTap: () {
                         setState(() {
+                          _showRewardedAd();
                           activeContainerIndex = 3;
+                          
                         });
                       },
                       child: Container(

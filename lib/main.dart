@@ -9,9 +9,12 @@ import 'package:uber_scrape/splash_screen.dart';
 import 'package:uber_scrape/uber_webview.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/root_screen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 
