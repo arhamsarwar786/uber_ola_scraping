@@ -148,7 +148,7 @@ class olaWebViewState extends State<olaWebView> {
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
-        await Navigator.push(context, MaterialPageRoute(builder: (context) => const RootScreen()));
+        // await Navigator.push(context, MaterialPageRoute(builder: (context) => const RootScreen()));
         return false;
       },
         child: Scaffold(

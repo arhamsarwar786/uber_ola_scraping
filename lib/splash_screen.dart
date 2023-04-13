@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/utils/root_screen.dart';
 
 class SplashScreen extends StatefulWidget {
