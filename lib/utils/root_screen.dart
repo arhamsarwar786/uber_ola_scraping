@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:uber_scrape/cream_webview.dart';
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/uber_webview.dart';
@@ -14,14 +13,13 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   List screenList = [
     const MapView(),
-     olaWebView(),
+    const olaWebView(),
     const uberWebView(),
-    const creamWebView(),
   ];
 
   int activeContainerIndex = 0;
 
-  List selectedScreenIndex = [0, 1, 2, 3];
+  List selectedScreenIndex = [0, 1, 2];
 
   @override
   Widget build(BuildContext context) {
@@ -177,57 +175,7 @@ class _RootScreenState extends State<RootScreen> {
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: FittedBox(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          activeContainerIndex = 3;
-                        });
-                      },
-                      child: Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: selectedScreenIndex[3] == activeContainerIndex
-                              ? Colors.purple
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(3),
-                          border: Border.all(
-                            width: 1,
-                            color: activeContainerIndex == 3
-                                ? Colors.purple
-                                : Colors.grey,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(6.0),
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage(
-                                  'assets/images/cream_icon.png',
-                                ),
-                                radius: 15,
-                              ),
-                            ),
-                            Text(
-                              "Careem",
-                              style: TextStyle(
-                                  color: activeContainerIndex == 3
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+
               ],
             ),
           );

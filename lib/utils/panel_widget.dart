@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:uber_scrape/provider/my_provider.dart';
 import 'package:uber_scrape/search_handler.dart';
+import 'package:uber_scrape/uber_webview.dart';
 import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import '../map_screen.dart';
@@ -90,8 +91,13 @@ void initState() {
   String? htmlContent = GlobalState.uberHTML;
   dom.Document document = parse(htmlContent!);
   List<dom.Element> listElements = document.querySelectorAll('div > ul > li');
-  listItems = listElements.map((e) => e.querySelector('span')!.text).toList();
+  listItems = listElements
+      .where((element) => !element.querySelectorAll('li > p').isNotEmpty)
+      .map((e) => e.text)
+      .toList();
 }
+
+
 
   var imagesList = [
     "assets/images/bike_icon.png",
@@ -613,137 +619,7 @@ void initState() {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(15, 15, 0, 7.5),
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage(
-                                  'assets/images/cream_icon.png',
-                                ),
-                                radius: 17,
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(11, 10, 0, 0),
-                              child: Text(
-                                "Careem",
-                                style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 190,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 218, 210, 231),
-                              borderRadius: BorderRadius.all(Radius.circular(13)),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        // contentPadding: EdgeInsets.all(4),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(10),
-                                                  topRight: Radius.circular(10),
-                                                ),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  const Padding(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      'Careem Rides',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 20),
-                                                    ),
-                                                  ),
-                                                  IconButton(
-                                                    icon: const Icon(
-                                                      Icons.close,
-                                                      size: 20,
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              child: WebView(
-                                                initialUrl:
-                                                    'https://app.careem.com/',
-                                                javascriptMode:
-                                                    JavascriptMode.unrestricted,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    });
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  const Text(
-                                    "Login to see prices ",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        color: Color.fromARGB(255, 137, 92, 146)),
-                                  ),
-                                  const Icon(
-                                    Icons.logout_rounded,
-                                    size: 18,
-                                    color: Color.fromARGB(255, 137, 92, 146),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+
               ],
             ),
             const Divider(
@@ -779,10 +655,16 @@ void initState() {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                listItems[i],
-                                softWrap: true,
+                              InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const uberWebView()));
+                                },
+                                child: Text(
+                                  listItems[i],
+                                  softWrap: true,
+                                ),
                               ),
+                              const SizedBox(height: 10,),
                             ],
                           ),
                         ),

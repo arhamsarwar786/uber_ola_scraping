@@ -9,4 +9,5 @@ class GlobalState {
   static String? destinationAddress;
   static String? uberHTML = "";
   static String? careemHTML = "";
+  static String? olaHTML = "";
 }

@@ -69,19 +69,8 @@ class _MapView extends State<MapView> {
     var provider = Provider.of<MyProvider>(context,listen: false);
       provider.getDirections();
   
-
     super.initState();
   }
-
-  MapType _currentMapType = MapType.normal;
-
-void _onMapTypeButtonPressed() {
-  setState(() {
-    _currentMapType = _currentMapType == MapType.normal
-        ? MapType.satellite
-        : MapType.normal;
-  });
-}
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +88,7 @@ void _onMapTypeButtonPressed() {
               Expanded(
                 child: Consumer<MyProvider>(
                   builder: (context,provider,child) {
-                    return Stack(
-                      children: <Widget> [
-                          GoogleMap(
+                    return  GoogleMap(
                         rotateGesturesEnabled: true,
                         minMaxZoomPreference: MinMaxZoomPreference.unbounded,
                         initialCameraPosition: const CameraPosition(
@@ -111,7 +98,7 @@ void _onMapTypeButtonPressed() {
                         onMapCreated: onMapCreated,
                         markers: provider.markers.toSet(), //markers to show on map
                         polylines: Set<Polyline>.of(provider.polylines.values), //polylines
-                        mapType: _currentMapType,
+                        mapType: MapType.normal,
                     
                         // ignore: prefer_collection_literals
                         gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
@@ -129,47 +116,7 @@ void _onMapTypeButtonPressed() {
                         compassEnabled: true,
                         indoorViewEnabled: true,
                         // trafficEnabled: true,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8,60,8,0),
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: SizedBox(
-                            width: 45,
-                            height: 45,
-                            child: FloatingActionButton(
-                              onPressed: _onMapTypeButtonPressed,
-                              materialTapTargetSize: MaterialTapTargetSize.padded,
-                              backgroundColor: Colors.green,
-                              child: const Icon(Icons.map, size: 30.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            color: Colors.white,
-                            child: Positioned(
-                                top: 16,
-                                left: 16,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: Text(
-                                      'Lat: ${currentLocation.latitude ?? ''} Lng: ${currentLocation.longitude ?? ''}',
-                                      style: const TextStyle(fontSize: 18),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ),
-                        ),
-                      ],
-                       
-                    );
+                      );
                   }
                 ),
               ),
