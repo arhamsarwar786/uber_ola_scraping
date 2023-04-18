@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types, deprecated_member_use, unused_field, avoid_print, prefer_collection_literals, library_private_types_in_public_api, unnecessary_null_comparison
 
+
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
@@ -16,9 +17,21 @@ class uberWebView extends StatefulWidget {
 }
 
 class _uberWebViewState extends State<uberWebView> {
-  final String initialUrl =
-      'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';
-  late WebViewController _webViewController;
+ late String _initialUrl;
+
+  final String _pickupAddressLine1 = 'Jail Road';
+  final String? _pickupAddressLine2 = GlobalState.pickUpAddress;
+  final double? _pickupLat = GlobalState.pickUpLat;
+  final double? _pickupLng = GlobalState.pickUpLng;
+
+  final String _dropAddressLine1 = 'Kinnaird College For Women University';
+  final String? _dropAddressLine2 = GlobalState.destinationAddress;
+  final double? _dropLat = GlobalState.destinationLat;
+  final double? _dropLng = GlobalState.destinationLng;
+
+  
+ 
+ late WebViewController _webViewController;
   String _htmlContent = '';
 
   Timer? _timer;
@@ -43,7 +56,31 @@ class _uberWebViewState extends State<uberWebView> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
+
+    if(_pickupLat != null && _pickupLng != null && _dropLat != null && _dropLng != null){
+        _initialUrl =
+              'https://m.uber.com/looking?drop[0]={'
+              '"latitude":$_dropLat,'
+              '"longitude":$_dropLng,'
+              '"addressLine2":"$_dropAddressLine2",'
+              '"id":"ChIJv8cYzOsEGTkRj6u33S0bMRw",'
+              '"provider":"google_places",'
+              '"index":0'
+              '}&pickup={'
+              '"latitude":$_pickupLat,'
+              '"longitude":$_pickupLng,'
+              '"addressLine2":"$_pickupAddressLine2",'
+              '"id":"EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6",'
+              '"provider":"google_places",'
+              '"index":0'
+              '}&vehicle=10285';
+    }
+    else {
+      _initialUrl = 'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';
+    }
+
+      
+        _timer = Timer.periodic(const Duration(seconds: 5), (Timer t) async {
       final String content = await _getHtmlContent();
       _updateHtmlContent(content);
     });
@@ -65,7 +102,7 @@ class _uberWebViewState extends State<uberWebView> {
       },
         child: Scaffold(
           body: WebView(
-            initialUrl: initialUrl,
+            initialUrl: _initialUrl,
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) {
               _webViewController = webViewController;

@@ -2,7 +2,10 @@
 
 // import 'dart:developer';
 // import 'dart:html';
+import 'dart:convert';
+import 'dart:developer';
 
+import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -98,7 +101,6 @@ void initState() {
 }
 
 
-
   var imagesList = [
     "assets/images/bike_icon.png",
     "assets/images/autorikshaw_icon.png",
@@ -107,6 +109,18 @@ void initState() {
   ];
   // ignore: unused_field
   late final WebViewController _controller;
+
+   late String _initialUrl;
+
+  // final String _pickupAddressLine1 = 'Jail Road';
+  final String? _pickupAddressLine2 = GlobalState.pickUpAddress;
+  final double? _pickupLat = GlobalState.pickUpLat;
+  final double? _pickupLng = GlobalState.pickUpLng;
+
+  // final String _dropAddressLine1 = 'Kinnaird College For Women University';
+  final String? _dropAddressLine2 = GlobalState.destinationAddress;
+  final double? _dropLat = GlobalState.destinationLat;
+  final double? _dropLng = GlobalState.destinationLng;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +198,19 @@ void initState() {
                   // ignore: use_build_context_synchronously
                   var provider = Provider.of<MyProvider>(context, listen: false);
                   provider.getDirections();
+
+                  _initialUrl = 'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';
+
+              http.get(Uri.parse(_initialUrl)).then((response) {
+      if (response.statusCode == 200) {
+        print(response.body);
+      } else {
+        print('Failed to load HTML content: ${response.statusCode}');
+      }
+    }).catchError((error) {
+      print('Failed to load HTML content: $error');
+    });
+                 
                 }
               },
               child: Padding(

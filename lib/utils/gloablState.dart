@@ -4,8 +4,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GlobalState {
   static LatLng? pickUpLatLng;
+  static double? pickUpLat;
+  static double? pickUpLng;
   static String? pickUpAddress;
   static LatLng? destinationLatLng;
+  static double? destinationLat;
+  static double? destinationLng;
   static String? destinationAddress;
   static String? uberHTML = "";
   static String? careemHTML = "";
