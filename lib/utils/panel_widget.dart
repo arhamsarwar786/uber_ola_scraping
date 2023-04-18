@@ -5,7 +5,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import "package:http/http.dart" as http;
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' show parse;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -16,7 +17,6 @@ import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import '../map_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
 
 class PanelWidget extends StatefulWidget {
@@ -199,17 +199,30 @@ void initState() {
                   var provider = Provider.of<MyProvider>(context, listen: false);
                   provider.getDirections();
 
-                  _initialUrl = 'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';
+                  _initialUrl = 'https://m.uber.com/looking?drop[0]={'
+              '"latitude":$_dropLat,'
+              '"longitude":$_dropLng,'
+              '"addressLine2":"$_dropAddressLine2",'
+              '"id":"ChIJv8cYzOsEGTkRj6u33S0bMRw",'
+              '"provider":"google_places",'
+              '"index":0'
+              '}&pickup={'
+              '"latitude":$_pickupLat,'
+              '"longitude":$_pickupLng,'
+              '"addressLine2":"$_pickupAddressLine2",'
+              '"id":"EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6",'
+              '"provider":"google_places",'
+              '"index":0'
+              '}&vehicle=10285';
 
               http.get(Uri.parse(_initialUrl)).then((response) {
-      if (response.statusCode == 200) {
-        print(response.body);
-      } else {
-        print('Failed to load HTML content: ${response.statusCode}');
-      }
-    }).catchError((error) {
-      print('Failed to load HTML content: $error');
-    });
+    if (response.statusCode == 200) {
+      final document = parse(response.body);
+      print(document.outerHtml);
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+  });
                  
                 }
               },

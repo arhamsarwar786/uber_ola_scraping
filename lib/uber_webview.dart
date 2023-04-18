@@ -62,15 +62,17 @@ class _uberWebViewState extends State<uberWebView> {
               'https://m.uber.com/looking?drop[0]={'
               '"latitude":$_dropLat,'
               '"longitude":$_dropLng,'
+              // '"addressLine1":"$_dropAddressLine1",'
               '"addressLine2":"$_dropAddressLine2",'
-              '"id":"ChIJv8cYzOsEGTkRj6u33S0bMRw",'
+              // '"id":"ChIJv8cYzOsEGTkRj6u33S0bMRw",'
               '"provider":"google_places",'
               '"index":0'
               '}&pickup={'
               '"latitude":$_pickupLat,'
               '"longitude":$_pickupLng,'
+              // '"addressLine1":"$_pickupAddressLine1",'
               '"addressLine2":"$_pickupAddressLine2",'
-              '"id":"EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6",'
+              // '"id":"EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6",'
               '"provider":"google_places",'
               '"index":0'
               '}&vehicle=10285';
@@ -80,7 +82,7 @@ class _uberWebViewState extends State<uberWebView> {
     }
 
       
-        _timer = Timer.periodic(const Duration(seconds: 5), (Timer t) async {
+        _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
       final String content = await _getHtmlContent();
       _updateHtmlContent(content);
     });
