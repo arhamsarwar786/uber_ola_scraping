@@ -59,23 +59,7 @@ class _uberWebViewState extends State<uberWebView> {
 
     if(_pickupLat != null && _pickupLng != null && _dropLat != null && _dropLng != null){
         _initialUrl =
-              'https://m.uber.com/looking?drop[0]={'
-              '"latitude":$_dropLat,'
-              '"longitude":$_dropLng,'
-              // '"addressLine1":"$_dropAddressLine1",'
-              '"addressLine2":"$_dropAddressLine2",'
-              // '"id":"ChIJv8cYzOsEGTkRj6u33S0bMRw",'
-              '"provider":"google_places",'
-              '"index":0'
-              '}&pickup={'
-              '"latitude":$_pickupLat,'
-              '"longitude":$_pickupLng,'
-              // '"addressLine1":"$_pickupAddressLine1",'
-              '"addressLine2":"$_pickupAddressLine2",'
-              // '"id":"EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6",'
-              '"provider":"google_places",'
-              '"index":0'
-              '}&vehicle=10285';
+              'https://m.uber.com/looking?drop%5B0%5D=%7B%22latitude%22%3A$_dropLat%2C%22longitude%22%3A$_dropLng%2C%22addressLine1%22%3A%22Lakshmi%20Chowk%20Lahore%22%2C%22addressLine2%22%3A%22$_dropAddressLine2%22%2C%22id%22%3A%22ChIJ4a_MbE4bGTkR-zNVBLJbROU%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&pickup=%7B%22latitude%22%3A$_pickupLat%2C%22longitude%22%3A$_pickupLng%2C%22addressLine1%22%3A%22Jail%20Road%22%2C%22addressLine2%22%3A%22$_pickupAddressLine2%22%2C%22id%22%3A%22EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&vehicle=10285';
     }
     else {
       _initialUrl = 'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';

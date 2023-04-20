@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, avoid_print, camel_case_types, library_private_types_in_public_api, deprecated_member_use, prefer_collection_literals
+// ignore_for_file: unused_local_variable, avoid_print, camel_case_types, library_private_types_in_public_api, deprecated_member_use, prefer_collection_literals, unnecessary_null_comparison
 
 
 import 'dart:async';
@@ -40,7 +40,7 @@ class _olaWebViewState extends State<olaWebView> {
   void _updateHtmlContent(String newHtmlContent) {
     setState(() {
       _htmlContent = newHtmlContent;
-      _htmlContent = _htmlContent.replaceAll("\\u003C", "<");
+      // _htmlContent = _htmlContent.replaceAll("\\u003C", "<");
       if (_htmlContent != "" || _htmlContent != null) {
         GlobalState.olaHTML = _htmlContent;
       }
@@ -51,6 +51,7 @@ class _olaWebViewState extends State<olaWebView> {
   Future<String> _getHtmlContent() async {
     final String content =
         await _webViewController.evaluateJavascript('document.body.innerHTML');
+        log(content);
     return content;
   }
 
@@ -60,7 +61,7 @@ class _olaWebViewState extends State<olaWebView> {
 
         if(_pickupLat != null && _pickupLng != null && _dropLat != null && _dropLng != null){
         _initialUrl =
-              'https://book.olacabs.com/?serviceType=p2p&utm_source=widget_on_olacabs&drop_lat=${_dropLat}&drop_lng=${_dropLng}&drop_name=${_dropAddressLine2}India&lat=${_pickupLat}&lng=${_pickupLng}&pickup_name=${_pickupAddressLine2}&pickup=';
+              'https://book.olacabs.com/?serviceType=p2p&utm_source=widget_on_olacabs&drop_lat=$_dropLat&drop_lng=$_dropLng&drop_name=$_dropAddressLine2&lat=$_pickupLat&lng=$_pickupLng&pickup_name=$_pickupAddressLine2&pickup=';
     }
     else {
       _initialUrl = 'https://book.olacabs.com/?serviceType=p2p&utm_source=widget_on_olacabs&drop_lat=25.8498572&drop_lng=85.6666046&drop_name=Tajpur%2C%20Bihar%2C%20India&lat=18.9224864&lng=72.8340377&pickup_name=WRCM%20XPX%2C%20Apollo%20Bandar%2C%20Colaba%2C%20Mumbai%2C%20Maharashtra%20400001%2C%20India&pickup=';
