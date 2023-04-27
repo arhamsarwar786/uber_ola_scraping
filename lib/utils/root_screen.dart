@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:uber_scrape/map_screen.dart';
 import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/uber_webview.dart';
+import 'package:uber_scrape/utils/color_constants.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -13,7 +14,7 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   List screenList = [
     const MapView(),
-     olaWebView(),
+     const olaWebView(),
     const uberWebView(),
   ];
 
@@ -26,49 +27,25 @@ class _RootScreenState extends State<RootScreen> {
     return Scaffold(
       body: screenList[activeContainerIndex],
       bottomNavigationBar: BottomSheet(
+        // backgroundColor: Colors.grey,
         builder: (BuildContext context) {
           return Container(
-            color: Colors.white,
+            decoration:  BoxDecoration(
+              border: Border(
+            top: BorderSide(
+              color: MyColors.primary,
+              width: 1.0,
+            ),
+            bottom: BorderSide(
+              color: MyColors.primary,
+              width: 1.0,
+            ),
+          ),
+            ),
+            // color: Colors.white,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        activeContainerIndex = 0;
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(0.0),
-                      child: Container(
-                          width: 40,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: selectedScreenIndex[0] == activeContainerIndex
-                                ? Colors.purple
-                                : Colors.white,
-                            borderRadius: BorderRadius.circular(0),
-                            border: Border.all(
-                              width: 1,
-                              color: activeContainerIndex == 0
-                                  ? Colors.purple
-                                  : Colors.grey,
-                            ),
-                          ),
-                          child: Icon(
-                            activeContainerIndex == 0
-                                ? Icons.home_sharp
-                                : Icons.home_sharp,
-                            size: 35,
-                            color: activeContainerIndex == 0
-                                ? Colors.white
-                                : Colors.black,
-                          )),
-                    ),
-                  ),
-                ),
                 Expanded(
                   flex: 2,
                   child: InkWell(
@@ -82,14 +59,12 @@ class _RootScreenState extends State<RootScreen> {
                       height: 60,
                       decoration: BoxDecoration(
                         color: selectedScreenIndex[1] == activeContainerIndex
-                            ? Colors.purple
+                            ? MyColors.selectedColor
                             : Colors.white,
                         borderRadius: BorderRadius.circular(3),
                         border: Border.all(
                           width: 1,
-                          color: activeContainerIndex == 1
-                              ? Colors.purple
-                              : Colors.grey,
+                          color:Colors.transparent
                         ),
                       ),
                       child: Row(
@@ -123,6 +98,44 @@ class _RootScreenState extends State<RootScreen> {
                   ),
                 ),
                 Expanded(
+                  flex: 1,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        activeContainerIndex = 0;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            // color: selectedScreenIndex[0] == activeContainerIndex
+                            //     ? MyColors.primary
+                            //     : Colors.white,
+                            color: MyColors.primary,
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              width: 1,
+                              color:Colors.transparent
+                            ),
+                          ),
+                          child: Icon(
+                            activeContainerIndex == 0
+                                ? Icons.home_sharp
+                                : Icons.home_sharp,
+                            size: 35,
+                            // color: activeContainerIndex == 0
+                            //     ? Colors.white
+                            //     : Colors.black,
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
+                ),
+                
+                Expanded(
                   flex: 2,
                   child: InkWell(
                     onTap: () {
@@ -135,14 +148,12 @@ class _RootScreenState extends State<RootScreen> {
                       height: 60,
                       decoration: BoxDecoration(
                         color: selectedScreenIndex[2] == activeContainerIndex
-                            ? Colors.purple
+                            ? MyColors.selectedColor
                             : Colors.white,
                         borderRadius: BorderRadius.circular(3),
                         border: Border.all(
                           width: 1,
-                          color: activeContainerIndex == 2
-                              ? Colors.purple
-                              : Colors.grey,
+                          color:Colors.transparent
                         ),
                       ),
                       child: Row(

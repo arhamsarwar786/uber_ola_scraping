@@ -16,5 +16,7 @@ class MyColors {
   static Color secondaryAppColor = Colors.white;
   static Color secondaryDarkAppColor = Colors.white;
   static Color fareIconsColor = const  Color.fromARGB(255, 218, 210, 231);
+  static Color primary = Color.fromARGB(255, 0, 33, 90);
+  static Color selectedColor = Color.fromARGB(255, 199, 199, 199);
   
 }

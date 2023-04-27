@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uber_scrape/mytest.dart';
 import 'package:uber_scrape/provider/my_provider.dart';
 import 'package:uber_scrape/splash_screen.dart';
 
@@ -21,8 +22,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'TiltNeon', primarySwatch: Colors.purple),
+        theme: ThemeData(fontFamily: 'TiltNeon', primarySwatch: Colors.amber),
         home:  const SplashScreen(),
+        // home: DemoTest(),
       ),
     );
   }

@@ -74,7 +74,7 @@ class _MapView extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.225;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.2;
     final panelHeightOpen = MediaQuery.of(context).size.height;
     // Size size = MediaQuery.of(context).size;
     return SafeArea(
@@ -121,7 +121,7 @@ class _MapView extends State<MapView> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
