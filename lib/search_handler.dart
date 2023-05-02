@@ -75,4 +75,3 @@ Future<void> displayPrediction(
   print('${'DestinationLat'} - ${GlobalState.destinationLat}');
   print('${'DestinationLng'} - ${GlobalState.destinationLng}');
 }
-

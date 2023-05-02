@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uber_scrape/utils/color_constants.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/utils.dart';
 
@@ -74,7 +75,7 @@ class MyProvider extends ChangeNotifier {
     PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
-      color: Colors.deepPurpleAccent,
+      color: Colors.deepPurple,
       points: polylineCoordinates,
       width: 4,
     );
