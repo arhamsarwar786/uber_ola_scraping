@@ -796,11 +796,11 @@ class _PanelWidgetState extends State<PanelWidget> {
     );
   }
 
-  
+
 bool isLoading = false;
   uberDataFetcher(){
     isLoading = true;
-      _timer = Timer.periodic(const Duration(seconds: 5), (Timer t) async {
+      _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
       final String content = await _getHtmlContent();
       _updateHtmlContent(content);
     setState(() {

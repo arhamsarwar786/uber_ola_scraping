@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/root_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:html/parser.dart' show parse;
-import 'package:html/dom.dart' as dom;
+import 'package:url_launcher/url_launcher.dart';
 
 class olaWebView extends StatefulWidget {
   const olaWebView({Key? key}) : super(key: key);
@@ -19,18 +18,16 @@ class olaWebView extends StatefulWidget {
 class _olaWebViewState extends State<olaWebView> {
  late String _initialUrl;
 
-  final String _pickupAddressLine1 = 'Jail Road';
+  // final String _pickupAddressLine1 = 'Jail Road';
   final String? _pickupAddressLine2 = GlobalState.pickUpAddress;
   final double? _pickupLat = GlobalState.pickUpLat;
   final double? _pickupLng = GlobalState.pickUpLng;
 
-  final String _dropAddressLine1 = 'Kinnaird College For Women University';
+  // final String _dropAddressLine1 = 'Kinnaird College For Women University';
   final String? _dropAddressLine2 = GlobalState.destinationAddress;
   final double? _dropLat = GlobalState.destinationLat;
   final double? _dropLng = GlobalState.destinationLng;
 
-  
-  bool _showProgressIndicator = true;
  late WebViewController _webViewController;
   String _htmlContent = '';
 
@@ -41,7 +38,7 @@ class _olaWebViewState extends State<olaWebView> {
       _htmlContent = newHtmlContent;
       _htmlContent = _htmlContent.replaceAll("\\u003C", "<");
       if (_htmlContent != "" || _htmlContent != null) {
-        GlobalState.uberHTML = _htmlContent;
+        GlobalState.olaHTML = _htmlContent;
       }
     });
     log('Updated HTML content: $_htmlContent'.toString());
@@ -61,34 +58,16 @@ class _olaWebViewState extends State<olaWebView> {
 
   if(_pickupLat != null && _pickupLng != null && _dropLat != null && _dropLng != null){
         _initialUrl =
-              'https://book.olacabs.com/?serviceType=p2p&utm_source=widget_on_olacabs&drop_lat=$_dropLat&drop_lng=$_dropLng&drop_name=$_dropAddressLine2&lat=$_pickupLat&lng=$_pickupLng&pickup_name=$_pickupAddressLine2&pickup=';
+              'https://book.olacabs.com/?utm_source=partner_header&pickup_name=$_pickupAddressLine2&lat=$_pickupLat&lng=$_pickupLng&drop_lat=$_dropLat&drop_lng=$_dropLng&drop_name=$_dropAddressLine2';
     }
     else {
       _initialUrl = 'https://book.olacabs.com/?utm_source=partner_header&pickup_name=Mumbai%20Central%20railway%20station%20building%2C%20Mumbai%20Central%20Mumbai%20Maharashtra%20India&lat=18.969539&lng=72.819329&drop_lat=19.0972728&drop_lng=72.8747333&drop_name=Mumbai%20Airport%20Lounge%20-%20Adani%20Lounge%2C%20%E0%A4%9B%E0%A4%A4%E0%A5%8D%E0%A4%B0%E0%A4%AA%E0%A4%A4%E0%A4%BF%20%E0%A4%B6%E0%A4%BF%E0%A4%B5%E0%A4%BE%E0%A4%9C%E0%A5%80%20%E0%A4%85%E0%A4%82%E0%A4%A4%E0%A4%B0%E0%A5%8D%E0%A4%B0%E0%A4%BE%E0%A4%B7%E0%A5%8D%E0%A4%9F%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%AF%20%E0%A4%B9%E0%A4%B5%E0%A4%BE%E0%A4%88%E0%A4%85%E0%A4%A1%E0%A5%8D%E0%A4%A1%E0%A4%BE%20%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A5%87%E0%A4%A4%E0%A5%8D%E0%A4%B0%20%E0%A4%AC%E0%A4%BE%E0%A4%82%E0%A4%A6%E0%A5%8D%E0%A4%B0%E0%A4%BE%20%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%AE%E0%A4%BF%E0%A4%A8%E0%A4%B8%20Vile%20Parle%20East%20Vile%20Parle%20Mumbai%20Maharashtra%20India';
     }
 
 
-        _timer = Timer.periodic(const Duration(seconds: 2), (Timer t) async {
+        _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
       final String content = await _getHtmlContent();
       _updateHtmlContent(content);
-    setState(() {
-      String? htmlContent = GlobalState.uberHTML;
-  dom.Document document = parse(htmlContent!);
-  List<dom.Element> listElements = document.querySelectorAll('div > ul > li');
-  listItems = listElements
-      .where((element) => !element.querySelectorAll('li > p').isNotEmpty)
-      .map((e) => e.text)
-      .toList();
-    });
-    if (listItems.length > 2) {
-      debugger();
-      _timer!.cancel();
-    }
-    Future.delayed(const Duration(seconds: 1), () {
-        setState(() {
-          _showProgressIndicator = false;
-        });
-      });
     });
   }
 
@@ -125,6 +104,38 @@ class _olaWebViewState extends State<olaWebView> {
                  }),
            ]),
             ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+          floatingActionButton: SizedBox(
+            height: 45,
+            width: 45,
+            child: FittedBox(
+              child: FloatingActionButton(
+                backgroundColor: Colors.white,
+                focusColor: Colors.white,
+                onPressed: () async {
+                  const deepLink = 'https://olawebcdn.com/assets/ola-universal-link.html?';
+                  if(await canLaunch(deepLink)){
+                    await launch(deepLink);
+                  }
+                  else{
+                    const fallbackUrl = 'https://olawebcdn.com/assets/ola-universal-link.html?';
+                    if(await canLaunch(fallbackUrl)){
+                      await launch(fallbackUrl);
+                    }
+                    else{
+                      throw 'Could not launch $deepLink';
+                    }
+                  }
+                },
+                child: const CircleAvatar(
+                  backgroundImage: AssetImage(
+                    'assets/images/ola_icon_full.png',
+                  ),
+                  radius: 26,
+                ),
+              ),
+        ),
+          )
           ),
       )
     );
