@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_collection_literals, deprecated_member_use
+
 import 'dart:async';
 import 'dart:developer';
 import 'package:html/parser.dart' show parse;
@@ -112,16 +114,6 @@ class _PanelWidgetState extends State<PanelWidget> {
   // ignore: unused_field
 
   late String _initialUrl;
-
-  // final String _pickupAddressLine1 = 'Jail Road';
-  final String? _pickupAddressLine2 = GlobalState.pickUpAddress;
-  final double? _pickupLat = GlobalState.pickUpLat;
-  final double? _pickupLng = GlobalState.pickUpLng;
-
-  // final String _dropAddressLine1 = 'Kinnaird College For Women University';
-  final String? _dropAddressLine2 = GlobalState.destinationAddress;
-  final double? _dropLat = GlobalState.destinationLat;
-  final double? _dropLng = GlobalState.destinationLng;
 
    WebViewController? webViewController;
 
@@ -803,6 +795,8 @@ class _PanelWidgetState extends State<PanelWidget> {
       ),
     );
   }
+
+  
 bool isLoading = false;
   uberDataFetcher(){
     isLoading = true;
@@ -827,7 +821,7 @@ bool isLoading = false;
                   _webViewController.reload();
 
     }
-    Future.delayed(const Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 8), () {
         setState(() {
           isLoading = false;
         });
@@ -836,10 +830,21 @@ bool isLoading = false;
   }
 
   uberHandler() {
-    // debugger(); 
+
+      // final String _pickupAddressLine1 = 'Jail Road';
+  final String? _pickupAddressLine2 = GlobalState.pickUpAddress;
+  final double? _pickupLat = GlobalState.pickUpLat;
+  final double? _pickupLng = GlobalState.pickUpLng;
+
+  // final String _dropAddressLine1 = 'Kinnaird College For Women University';
+  final String? _dropAddressLine2 = GlobalState.destinationAddress;
+  final double? _dropLat = GlobalState.destinationLat;
+  final double? _dropLng = GlobalState.destinationLng;
+
+
     if (pickUpController.text.isNotEmpty && destinationController.text.isNotEmpty) {
       _initialUrl =
-          'https://m.uber.com/looking?drop%5B0%5D=%7B%22latitude%22%3A31.4661753%2C%22longitude%22%3A74.2657503%2C%22addressLine1%22%3A%22Emporium%20Mall%22%2C%22addressLine2%22%3A%2216M%20Abdul%20Haque%20Rd%2C%20Trade%20Centre%20Commercial%20Area%20Phase%202%20Johar%20Town%2C%20Lahore%2C%20Punjab%22%2C%22id%22%3A%22ChIJK_FA2dQDGTkRJlKdafaDjNs%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&pickup=%7B%22latitude%22%3A31.53229169999999%2C%22longitude%22%3A74.3528196%2C%22addressLine1%22%3A%22Jail%20Road%22%2C%22addressLine2%22%3A%22Jail%20Rd%2C%20Block%20H%20Gulberg%202%2C%20Lahore%2C%20Punjab%22%2C%22id%22%3A%22EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&vehicle=10285';
+          'https://m.uber.com/looking?drop%5B0%5D=%7B%22latitude%22%3A$_dropLat%2C%22longitude%22%3A$_dropLng%2C%22addressLine1%22%3A%22Lakshmi%20Chowk%20Lahore%22%2C%22addressLine2%22%3A%22$_dropAddressLine2%22%2C%22id%22%3A%22ChIJ4a_MbE4bGTkR-zNVBLJbROU%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&pickup=%7B%22latitude%22%3A$_pickupLat%2C%22longitude%22%3A$_pickupLng%2C%22addressLine1%22%3A%22Jail%20Road%22%2C%22addressLine2%22%3A%22$_pickupAddressLine2%22%2C%22id%22%3A%22EjRKYWlsIFJkLCBCbG9jayBIIEd1bGJlcmcgMiwgTGFob3JlLCBQdW5qYWIsIFBha2lzdGFuIi4qLAoUChIJSS1TpeoEGTkR5jAiNXi0VFgSFAoSCc8qSr38BBk5EWk44xfJjxc6%22%2C%22provider%22%3A%22google_places%22%2C%22index%22%3A0%7D&vehicle=10285';
     return  SizedBox(
       height: 1,
       width: 1,
@@ -848,16 +853,10 @@ bool isLoading = false;
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 _webViewController = webViewController;
-                // _reloadWebView();                 
+                _reloadWebView();                 
               },
-        // onPageStarted:  (String url) async {
-        //   debugger();
-        //   final String content = await _getHtmlContent();
-        //   _updateHtmlContent(content);
-        // },
-        // onProgress: (progress) {
-        //   log(progress.toString());
-        // },
+
+    
         onPageFinished: (String url) async {
           final String content = await _getHtmlContent();
           _updateHtmlContent(content);
@@ -886,9 +885,9 @@ bool isLoading = false;
         await _webViewController.evaluateJavascript('document.body.innerHTML');
     return content;
   }
-  //  void _reloadWebView() {
-  //   webViewController?.reload();
-  // }
+   void _reloadWebView() {
+    webViewController?.reload();
+  }
 
   void _updateHtmlContent(String newHtmlContent) {
     setState(() {
@@ -911,8 +910,6 @@ bool isLoading = false;
     log('Updated HTML content: $_htmlContent'.toString());
    
   }
-
-    // List<String> listItems = [];
 
 
   Widget buildDragHandle() => GestureDetector(
