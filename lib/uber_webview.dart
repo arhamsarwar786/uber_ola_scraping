@@ -64,7 +64,6 @@ class _uberWebViewState extends State<uberWebView> {
     else {
       _initialUrl = 'https://auth.uber.com/v2/?breeze_local_zone=dca11&next_url=https%3A%2F%2Fm.uber.com%2F&state=lSiz3gpn8PSJM6ZYM3A_UkG24kwaH8AtQ54vYuGaf4s%3D';
     }
-
       
         _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
       final String content = await _getHtmlContent();

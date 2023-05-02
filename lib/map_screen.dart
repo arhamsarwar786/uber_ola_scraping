@@ -65,9 +65,9 @@ class _MapView extends State<MapView> {
   
   @override
   void initState() {
-    // getCurrentLocation();
-    // var provider = Provider.of<MyProvider>(context,listen: false);
-    //   provider.getDirections();
+    getCurrentLocation();
+    var provider = Provider.of<MyProvider>(context,listen: false);
+      provider.getDirections();
   
     super.initState();
   }

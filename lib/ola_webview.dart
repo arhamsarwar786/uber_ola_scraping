@@ -1,15 +1,10 @@
 // ignore_for_file: unused_local_variable, avoid_print, camel_case_types, library_private_types_in_public_api, deprecated_member_use, prefer_collection_literals, unnecessary_null_comparison
 
-
-// ignore_for_file: camel_case_types, deprecated_member_use, unused_field, avoid_print, prefer_collection_literals, library_private_types_in_public_api, unnecessary_null_comparison
-
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:uber_scrape/uber_webview.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/root_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
