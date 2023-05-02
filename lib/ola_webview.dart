@@ -47,6 +47,11 @@ class _olaWebViewState extends State<olaWebView> {
   Future<String> _getHtmlContent() async {
     final String content =
         await _webViewController.evaluateJavascript('document.body.innerHTML');
+        // _webViewController.loadFile();
+        debugger();
+        print(_webViewController.toString());
+        debugger();
+        log(content);
     return content;
   }
 
