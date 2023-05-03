@@ -45,14 +45,14 @@ class _olaWebViewState extends State<olaWebView> {
   }
 
   Future<String> _getHtmlContent() async {
-    final String content =
-        await _webViewController.evaluateJavascript('document.body.innerHTML');
+    var content =
+        await _webViewController.evaluateJavascript("window.document.getElementsByTagName('html')[0].outerHTML;");
         // _webViewController.loadFile();
-        debugger();
-        print(_webViewController.toString());
-        debugger();
-        log(content);
-    return content;
+        // debugger();
+        // print(_webViewController.loadHtmlString("document.body.innerHTML"));
+        // debugger();
+        log(content.toString());
+    return "content";
   }
 
   List<String> listItems = [];
@@ -62,8 +62,10 @@ class _olaWebViewState extends State<olaWebView> {
     super.initState();
 
   if(_pickupLat != null && _pickupLng != null && _dropLat != null && _dropLng != null){
-        _initialUrl =
-              'https://book.olacabs.com/?utm_source=partner_header&pickup_name=$_pickupAddressLine2&lat=$_pickupLat&lng=$_pickupLng&drop_lat=$_dropLat&drop_lng=$_dropLng&drop_name=$_dropAddressLine2';
+        // _initialUrl =
+              // 'https://book.olacabs.com/?utm_source=partner_header&pickup_name=$_pickupAddressLine2&lat=$_pickupLat&lng=$_pickupLng&drop_lat=$_dropLat&drop_lng=$_dropLng&drop_name=$_dropAddressLine2';
+      _initialUrl = 'https://book.olacabs.com/?utm_source=partner_header&pickup_name=Mumbai%20Central%20railway%20station%20building%2C%20Mumbai%20Central%20Mumbai%20Maharashtra%20India&lat=18.969539&lng=72.819329&drop_lat=19.0972728&drop_lng=72.8747333&drop_name=Mumbai%20Airport%20Lounge%20-%20Adani%20Lounge%2C%20%E0%A4%9B%E0%A4%A4%E0%A5%8D%E0%A4%B0%E0%A4%AA%E0%A4%A4%E0%A4%BF%20%E0%A4%B6%E0%A4%BF%E0%A4%B5%E0%A4%BE%E0%A4%9C%E0%A5%80%20%E0%A4%85%E0%A4%82%E0%A4%A4%E0%A4%B0%E0%A5%8D%E0%A4%B0%E0%A4%BE%E0%A4%B7%E0%A5%8D%E0%A4%9F%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%AF%20%E0%A4%B9%E0%A4%B5%E0%A4%BE%E0%A4%88%E0%A4%85%E0%A4%A1%E0%A5%8D%E0%A4%A1%E0%A4%BE%20%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A5%87%E0%A4%A4%E0%A5%8D%E0%A4%B0%20%E0%A4%AC%E0%A4%BE%E0%A4%82%E0%A4%A6%E0%A5%8D%E0%A4%B0%E0%A4%BE%20%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%AE%E0%A4%BF%E0%A4%A8%E0%A4%B8%20Vile%20Parle%20East%20Vile%20Parle%20Mumbai%20Maharashtra%20India';
+
     }
     else {
       _initialUrl = 'https://book.olacabs.com/?utm_source=partner_header&pickup_name=Mumbai%20Central%20railway%20station%20building%2C%20Mumbai%20Central%20Mumbai%20Maharashtra%20India&lat=18.969539&lng=72.819329&drop_lat=19.0972728&drop_lng=72.8747333&drop_name=Mumbai%20Airport%20Lounge%20-%20Adani%20Lounge%2C%20%E0%A4%9B%E0%A4%A4%E0%A5%8D%E0%A4%B0%E0%A4%AA%E0%A4%A4%E0%A4%BF%20%E0%A4%B6%E0%A4%BF%E0%A4%B5%E0%A4%BE%E0%A4%9C%E0%A5%80%20%E0%A4%85%E0%A4%82%E0%A4%A4%E0%A4%B0%E0%A5%8D%E0%A4%B0%E0%A4%BE%E0%A4%B7%E0%A5%8D%E0%A4%9F%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%AF%20%E0%A4%B9%E0%A4%B5%E0%A4%BE%E0%A4%88%E0%A4%85%E0%A4%A1%E0%A5%8D%E0%A4%A1%E0%A4%BE%20%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A5%87%E0%A4%A4%E0%A5%8D%E0%A4%B0%20%E0%A4%AC%E0%A4%BE%E0%A4%82%E0%A4%A6%E0%A5%8D%E0%A4%B0%E0%A4%BE%20%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%AE%E0%A4%BF%E0%A4%A8%E0%A4%B8%20Vile%20Parle%20East%20Vile%20Parle%20Mumbai%20Maharashtra%20India';
@@ -73,6 +75,10 @@ class _olaWebViewState extends State<olaWebView> {
         _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
       final String content = await _getHtmlContent();
       _updateHtmlContent(content);
+    });
+
+    setState(() {
+      
     });
   }
 
@@ -91,7 +97,8 @@ class _olaWebViewState extends State<olaWebView> {
         return false;
       },
         child: Scaffold(
-          body: WebView(
+          body: _initialUrl == null ? CircularProgressIndicator.adaptive() : WebView(
+             userAgent: "random",
            initialUrl: _initialUrl,
            javascriptMode: JavascriptMode.unrestricted,
            onWebViewCreated: (WebViewController webViewController) {
