@@ -49,7 +49,7 @@ class _MapView extends State<MapView> {
           as CameraPosition;
     } else {
       setState(() {
-        currentLocation = location;
+        currentLocation ??= location;
         _isLocationGranted = true;
       });
       mapController!.moveCamera(CameraUpdate.newLatLng(

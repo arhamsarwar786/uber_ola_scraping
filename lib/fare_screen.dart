@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+import 'dart:developer';
 import "package:flutter/material.dart";
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +36,7 @@ class _FareScreenState extends State<FareScreen> {
       isFound = true;
     });
     try {
+      debugger();
       var res = await http.post(Uri.parse(UBER_URL),
           body: jsonEncode(uberPayload(
               pickUp: widget.pickUp, destination: widget.destination)),

@@ -1,11 +1,15 @@
 // ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_collection_literals, deprecated_member_use
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:html/parser.dart' show parse;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:uber_scrape/fare_screen.dart';
+import 'package:uber_scrape/ola_webview.dart';
 import 'package:uber_scrape/provider/my_provider.dart';
 import 'package:uber_scrape/search_handler.dart';
 import 'package:uber_scrape/uber_webview.dart';
@@ -14,6 +18,9 @@ import 'package:uber_scrape/utils/gloablState.dart';
 import '../map_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:html/dom.dart' as dom;
+
+import '../model.dart/ola_model.dart';
+import 'credentails.dart';
 
 class PanelWidget extends StatefulWidget {
   final ScrollController controller;
@@ -90,7 +97,7 @@ class _PanelWidgetState extends State<PanelWidget> {
   @override
   void dispose() {    
     super.dispose();
-    _timer!.cancel();
+    // _timer!.cancel();
   }
 
   @override
@@ -204,7 +211,9 @@ class _PanelWidgetState extends State<PanelWidget> {
 
                     if (GlobalState.destinationAddress != null &&
                         GlobalState.pickUpAddress != null) {
+                          // Navigator.push(context, MaterialPageRoute(builder: (_)=> FareScreen(destination: GlobalState.destinationLatLng,pickUp: GlobalState.pickUpLatLng,) ));
                       widget.panelController.open();
+                          await fetchFare();
 
                       var provider =
                           Provider.of<MyProvider>(context, listen: false);
@@ -723,71 +732,253 @@ class _PanelWidgetState extends State<PanelWidget> {
                   endIndent: 0,
                   color: Colors.black,
                 ),
-                Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: SingleChildScrollView(
-                      child: listItems.length > 1
-                          ? Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  for (var i = 1; i < listItems.length; i++)
-                                    Row(
-                                      children: [
-                                        const CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                            'assets/images/uber_icon_full.png',
-                                          ),
-                                          radius: 15,
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Flexible(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              const uberWebView()));
-                                                },
-                                                child: Text(
-                                                  listItems[i],
-                                                  softWrap: true,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                ],
-                              ),
-                            )
-                          : Column(
+                 SizedBox(
+                  width: double.infinity,
+                  child: SingleChildScrollView(
+                    child: listItems.length > 1
+                        ? Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                SizedBox(
-                                  width: 100,
-                                  height: 75,
-                                  child: Image.asset(
-                                      imagesList[_selectedContainer - 1]),
-                                ),
-                                const Text("No options available for now..."),
+                                for (var i = 1; i < listItems.length; i++)
+                                  Row(
+                                    children: [
+                                      const CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                          'assets/images/uber_icon_full.png',
+                                        ),
+                                        radius: 15,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Flexible(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const uberWebView()));
+                                              },
+                                              child: Text(
+                                                listItems[i],
+                                                softWrap: true,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                               ],
                             ),
-                    ),
+                          )
+                        : Column(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                height: 75,
+                                child: Image.asset(
+                                    imagesList[_selectedContainer - 1]),
+                              ),
+                              const Text("No options available for now..."),
+                            ],
+                          ),
                   ),
                 ),
+
+                  isFound ? Center(child: CircularProgressIndicator.adaptive() ) :    data1 == null
+                      ? const Center(
+                          child: Text("No Ride Found for OLA"),
+                        )
+                      : ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: data1!.data!.p2P!.categories!.length,
+                          itemBuilder: (context, index) {
+                            Category tier =
+                                data1!.data!.p2P!.categories![index];
+                    return     Row(
+                                    children: [
+                                      const CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                          'assets/images/olaLogo.png',
+                                        ),
+                                        radius: 15,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Flexible(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const olaWebView()));
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                     "${tier.displayName}",
+                                                    softWrap: true,
+                                                  ),
+
+                                                    Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          "${olaFareCalculator(tier.id)}",
+                                                        softWrap: true,
+                                                  ),
+                                                   Text(
+                                                  "in ${tier.eta!.value} ${tier.eta!.unit}",
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.grey),
+                                                ),
+                                                      ],
+                                                    ),
+
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                            // return Padding(
+                            //   padding: const EdgeInsets.fromLTRB(5, 10, 10, 0),
+                            //   child: Container(
+                            //     width: MediaQuery.of(context).size.width,
+                            //     height:
+                            //         MediaQuery.of(context).size.height * 0.20,
+                            //     decoration: BoxDecoration(
+                            //       border: Border.all(
+                            //         color: Colors.grey,
+                            //         width: 3,
+                            //       ),
+                            //       borderRadius: BorderRadius.circular(12),
+                            //     ),
+                            //     child: Row(
+                            //       children: [
+                            //         Column(
+                            //           crossAxisAlignment:
+                            //               CrossAxisAlignment.start,
+                            //           mainAxisAlignment:
+                            //               MainAxisAlignment.spaceAround,
+                            //           children: [
+                            //             Container(
+                            //               width: MediaQuery.of(context)
+                            //                       .size
+                            //                       .width /
+                            //                   4,
+                            //               height: MediaQuery.of(context)
+                            //                       .size
+                            //                       .height /
+                            //                   7,
+                            //               alignment: Alignment.center,
+                            //               decoration: const BoxDecoration(
+                            //                 image: DecorationImage(
+                            //                   image: AssetImage(
+                            //                       "assets/images/olaLogo.png"),
+                            //                   fit: BoxFit.cover,
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //           ],
+                            //         ),
+                            //         Padding(
+                            //           padding: const EdgeInsets.all(10.0),
+                            //           child: Column(
+                            //             crossAxisAlignment:
+                            //                 CrossAxisAlignment.start,
+                            //             mainAxisAlignment:
+                            //                 MainAxisAlignment.center,
+                            //             children: [
+                            //               Row(
+                            //                 children: [
+                            //                   Container(
+                            //                     decoration:
+                            //                         const BoxDecoration(),
+                            //                     child: Text(
+                            //                       "${tier.displayName}",
+                            //                       style: const TextStyle(
+                            //                           fontSize: 17,
+                            //                           fontWeight:
+                            //                               FontWeight.w600),
+                            //                     ),
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //               Row(
+                            //                 children: [
+                            //                   Container(
+                            //                     decoration:
+                            //                         const BoxDecoration(),
+                            //                     child: const Text(
+                            //                       "Affordable rides",
+                            //                       style:
+                            //                           TextStyle(fontSize: 14),
+                            //                     ),
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //               Row(
+                            //                 children: [
+                            //                   Container(
+                            //                     decoration:
+                            //                         const BoxDecoration(),
+                                                // child: Text(
+                                                //   "in ${tier.eta!.value} ${tier.eta!.unit}",
+                                                //   style: const TextStyle(
+                                                //       fontSize: 14,
+                                                //       color: Colors.grey),
+                                                // ),
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //             ],
+                            //           ),
+                            //         ),
+                            //         Padding(
+                            //           padding: const EdgeInsets.fromLTRB(
+                            //               0, 25, 0, 0),
+                            //           child: Container(
+                            //             alignment: Alignment.topLeft,
+                            //             child: Text(
+                            //               "${olaFareCalculator(tier.id)}",
+                            //               style: const TextStyle(
+                            //                   fontWeight: FontWeight.bold,
+                            //                   fontSize: 15),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // );
+                        
+                          }),
+               
               ],
             ),
           ),
@@ -796,11 +987,84 @@ class _PanelWidgetState extends State<PanelWidget> {
     );
   }
 
+bool isFound = false;
+var data1, data2;
+    fetchFare() async {
+    setState(() {
+      isFound = true;
+    });
+    try {
+      debugger();
+      // var res = await http.post(Uri.parse(UBER_URL),
+      //     body: jsonEncode(uberPayload(
+      //         pickUp: GlobalState.pickUpLatLng, destination: GlobalState.destinationLatLng)),
+      //     headers: uberHeader());
+      var res1 = await http.get(
+          Uri.parse(
+              olaURL( pickUp: GlobalState.pickUpLatLng, destination: GlobalState.destinationLatLng)),
+          headers: olaHeader());
+      // print(res1.body);
+      var res2 = await http.get(
+          Uri.parse(olaURLFare(
+               pickUp: GlobalState.pickUpLatLng, destination: GlobalState.destinationLatLng)),
+          headers: olaHeader());
+      // ignore: prefer_interpolation_to_compose_strings
+      print(res2.body.toString() + "teishjadkas");
+      // var uberData = jsonDecode(res.body);
+      var olaData = jsonDecode(res1.body);
+      var olaDataFare = jsonDecode(res2.body);
+      // if (uberData['data'] != null) {
+      //   data = FareModel.fromJson(uberData);
+      // }
+
+      if (olaData['error'] == null) {
+        print(olaData);
+        data1 = OlaModel.fromJson(olaData);
+        // print(data1);
+      }
+      if (olaDataFare['error'] == null) {
+        data2 = olaDataFare;
+      }
+
+      print(olaData);
+      print(olaDataFare);
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      isFound = false;
+    });
+  }
+
+  olaFareCalculator(id) {
+    var fare = "";
+    // ignore: prefer_interpolation_to_compose_strings
+    print(data2.toString() + "testing");
+    if (data2['data']['p2p']['categories'][id] != null) {
+      fare = data2['data']['p2p']['categories'][id]['price'];
+    }
+    return fare;
+  }
+
+  fareSpliter(fare) {
+    var farePrice = fare.toString().split("â¹");
+    print(farePrice);
+    if (farePrice.length > 1) {
+      // ignore: prefer_interpolation_to_compose_strings
+      print(farePrice[1].toString() + "arham here");
+      return farePrice[1];
+    } else {
+      farePrice = farePrice[0].split('PKRÂ');
+      return (farePrice.length > 1) ? farePrice[1] : farePrice[0];
+    }
+  }
+
+
 
 bool isLoading = false;
   uberDataFetcher(){
     isLoading = true;
-      _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
+      _timer = Timer.periodic(const Duration(minutes: 1), (Timer t) async {
       final String content = await _getHtmlContent();
       _updateHtmlContent(content);
     setState(() {

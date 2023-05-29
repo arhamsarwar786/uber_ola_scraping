@@ -1,8 +1,11 @@
 // ignore_for_file: unused_local_variable, avoid_print, camel_case_types, library_private_types_in_public_api, deprecated_member_use, prefer_collection_literals, unnecessary_null_comparison
-
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart' as flutterWebView;
+import 'package:html/dom.dart';
+import 'package:html/parser.dart' show parse;
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:uber_scrape/const.dart';
 import 'package:uber_scrape/utils/gloablState.dart';
 import 'package:uber_scrape/utils/root_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -41,18 +44,30 @@ class _olaWebViewState extends State<olaWebView> {
         GlobalState.olaHTML = _htmlContent;
       }
     });
-    log('Updated HTML content: $_htmlContent'.toString());
+      Document document = parse(_htmlContent);
+
+    log('Updated HTML content: ${document.querySelector("html")}'.toString());
   }
 
   Future<String> _getHtmlContent() async {
-    var content =
+    // var content =
+    //     await _webViewController.evaluateJavascript("window.document.getElementsByTagName('html')[0].outerHTML;");
+        var content =
         await _webViewController.evaluateJavascript("window.document.getElementsByTagName('html')[0].outerHTML;");
+
+        final String script = """
+      const token = localStorage.getItem('token');
+      token;
+    """;
+
+       var token =
+        await _webViewController.evaluateJavascript(script);
         // _webViewController.loadFile();
         // debugger();
         // print(_webViewController.loadHtmlString("document.body.innerHTML"));
         // debugger();
         log(content.toString());
-    return "content";
+    return content;
   }
 
   List<String> listItems = [];
@@ -71,11 +86,12 @@ class _olaWebViewState extends State<olaWebView> {
       _initialUrl = 'https://book.olacabs.com/?utm_source=partner_header&pickup_name=Mumbai%20Central%20railway%20station%20building%2C%20Mumbai%20Central%20Mumbai%20Maharashtra%20India&lat=18.969539&lng=72.819329&drop_lat=19.0972728&drop_lng=72.8747333&drop_name=Mumbai%20Airport%20Lounge%20-%20Adani%20Lounge%2C%20%E0%A4%9B%E0%A4%A4%E0%A5%8D%E0%A4%B0%E0%A4%AA%E0%A4%A4%E0%A4%BF%20%E0%A4%B6%E0%A4%BF%E0%A4%B5%E0%A4%BE%E0%A4%9C%E0%A5%80%20%E0%A4%85%E0%A4%82%E0%A4%A4%E0%A4%B0%E0%A5%8D%E0%A4%B0%E0%A4%BE%E0%A4%B7%E0%A5%8D%E0%A4%9F%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%AF%20%E0%A4%B9%E0%A4%B5%E0%A4%BE%E0%A4%88%E0%A4%85%E0%A4%A1%E0%A5%8D%E0%A4%A1%E0%A4%BE%20%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A5%87%E0%A4%A4%E0%A5%8D%E0%A4%B0%20%E0%A4%AC%E0%A4%BE%E0%A4%82%E0%A4%A6%E0%A5%8D%E0%A4%B0%E0%A4%BE%20%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%AE%E0%A4%BF%E0%A4%A8%E0%A4%B8%20Vile%20Parle%20East%20Vile%20Parle%20Mumbai%20Maharashtra%20India';
     }
 
-
-        _timer = Timer.periodic(const Duration(seconds: 10), (Timer t) async {
+  // debugger();
+        _timer = Timer.periodic(const Duration(seconds: 1000), (Timer t) async {
       final String content = await _getHtmlContent();
       _updateHtmlContent(content);
     });
+
 
     setState(() {
       
@@ -88,6 +104,34 @@ class _olaWebViewState extends State<olaWebView> {
     super.dispose();
   }
 
+  getOLACookie()async{
+//     debugger();
+//     final flutterWebviewPlugin = flutterWebView.FlutterWebviewPlugin();
+
+// // // Get the current URL of the WebView
+// final data = await flutterWebviewPlugin.getCookies();
+
+var data =await _webViewController.evaluateJavascript("document.token");
+//  final cookies = <String, String>{};
+
+//     if (data.isNotEmpty == true) {
+//       data.split(';').forEach((String cookie) {
+//         final split = cookie.split('=');
+//         cookies[split[0]] = split[1];
+//       });
+//     }
+
+  print(data.toString());
+  // print(cookies);
+  debugger();
+// Get the cookies for the current URL
+// var cookies = await flutterWebviewPlugin.getCookies(url: currentUrl);
+
+// Loop through the cookies and print their values
+// for (final cookie in cookies.entries) {
+//   print('${cookie.key}: ${cookie.value}');
+     }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -97,6 +141,7 @@ class _olaWebViewState extends State<olaWebView> {
         return false;
       },
         child: Scaffold(
+          
           body: _initialUrl == null ? CircularProgressIndicator.adaptive() : WebView(
              userAgent: "random",
            initialUrl: _initialUrl,
@@ -104,6 +149,7 @@ class _olaWebViewState extends State<olaWebView> {
            onWebViewCreated: (WebViewController webViewController) {
              _webViewController = webViewController;
            },
+      
            onPageFinished: (String url) async {
              final String content = await _getHtmlContent();
              _updateHtmlContent(content);
@@ -125,19 +171,20 @@ class _olaWebViewState extends State<olaWebView> {
                 backgroundColor: Colors.white,
                 focusColor: Colors.white,
                 onPressed: () async {
-                  const deepLink = 'https://olawebcdn.com/assets/ola-universal-link.html?';
-                  if(await canLaunch(deepLink)){
-                    await launch(deepLink);
-                  }
-                  else{
-                    const fallbackUrl = 'https://olawebcdn.com/assets/ola-universal-link.html?';
-                    if(await canLaunch(fallbackUrl)){
-                      await launch(fallbackUrl);
-                    }
-                    else{
-                      throw 'Could not launch $deepLink';
-                    }
-                  }
+                  getOLACookie();
+                  // const deepLink = 'https://olawebcdn.com/assets/ola-universal-link.html?';
+                  // if(await canLaunch(deepLink)){
+                  //   await launch(deepLink);
+                  // }
+                  // else{
+                  //   const fallbackUrl = 'https://olawebcdn.com/assets/ola-universal-link.html?';
+                  //   if(await canLaunch(fallbackUrl)){
+                  //     await launch(fallbackUrl);
+                  //   }
+                  //   else{
+                  //     throw 'Could not launch $deepLink';
+                  //   }
+                  // }
                 },
                 child: const CircleAvatar(
                   backgroundImage: AssetImage(
